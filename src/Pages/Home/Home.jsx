@@ -1,13 +1,15 @@
-import "./App.css";
-import { Route, Routes } from "react-router-dom";
-import Home from "./Pages/Home/Home";
-import SignUp from "./Pages/Signup/SignUp";
-import About from "./Pages/About/About";
+import React, { useState } from "react";
+import { FaUserCircle } from "react-icons/fa"; // react-icons library required
 
-function App() {
+const Home = () => {
+  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
+
+  const toggleProfileMenu = () => {
+    setProfileMenuOpen(!profileMenuOpen);
+  };
   return (
     <>
-      {/* <div className="top-menu">
+      <div className="top-menu">
         <div className="logo">LOGO</div>
         <input type="text" className="search-bar" placeholder="Search..." />
         <nav className="nav-items">
@@ -28,17 +30,20 @@ function App() {
             </div>
           )}
         </div>
-      </div> */}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/signup" element={<SignUp />} />
-        {/* <Route path="/login" element={<Appointments />} /> */}
-        <Route path="/about" element={<About />} />
-      </Routes>
+      </div>
+      <div className="background-image">
+        <div className="search-section">
+          <input
+            type="text"
+            className="location-input"
+            placeholder="Enter location..."
+          />
+          <input type="date" className="appointment-date" />
+          <button className="search-button">Search</button>
+        </div>
+      </div>
     </>
   );
-}
+};
 
-export default App;
-
-// App.css
+export default Home;
