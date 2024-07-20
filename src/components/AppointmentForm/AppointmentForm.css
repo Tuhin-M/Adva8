@@ -1,0 +1,89 @@
+/* src/AppointmentForm.css */
+.appointment-form {
+    width: 80%;
+    height: 50%;
+    margin: auto;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 60vh;
+  }
+  
+  .appointment-form h2 {
+    text-align: center;
+    color: #009688;
+    margin-top: 20px;
+  }
+  
+  .tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .tabs button {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 5px;
+    font-size: 16px;
+    cursor: pointer;
+    color: #009688;
+  }
+  
+  .tabs button.active {
+    border-bottom: 2px solid #009688;
+    font-weight: bold;
+  }
+  
+  .form-content {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  
+  .input-group {
+    display: flex;
+    align-items: center;
+    background: #e5f2f1;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  
+  .input-group label {
+    display: flex;
+    align-items: center;
+  }
+  
+  .input-group .icon {
+    margin-right: 10px;
+    color: #009688;
+  }
+  
+  .input-group input {
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 16px;
+  }
+  
+  .search-button {
+    display: flex;
+    align-items: center;
+    background: #009688;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .search-button span {
+    margin-left: 10px;
+  }
+  
+  .search-button:focus {
+    outline: none;
+  }
+  

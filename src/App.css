@@ -3,19 +3,6 @@ body {
   font-family: Arial, sans-serif;
 }
 
-.top-menu {
-  position: fixed;
-  top: 0;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  background-color: #56BBB3;
-  padding: 10px 20px;
-  border-bottom: 1px solid #ddd;
-  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-}
-
 .logo {
   font-size: 1.5em;
   font-weight: bold;
@@ -24,7 +11,7 @@ body {
 
 .search-bar {
   flex: 1;
-  background-color: #f0f0f0;
+  background-color: #ffffff;
   padding: 5px 10px;
   margin-right: 20px;
   border: 1px solid #ccc;
@@ -35,7 +22,7 @@ body {
 .nav-items a {
   margin: 0 10px;
   text-decoration: none;
-  color: #333;
+  color: #191919;
 }
 
 .nav-items a:hover {
@@ -53,7 +40,7 @@ body {
   position: absolute;
   top: 35px;
   right: 0;
-  background-color: #fff;
+  background-color: #ffffff;
   border: 1px solid #ddd;
   border-radius: 4px;
   box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
@@ -64,19 +51,20 @@ body {
   display: block;
   padding: 10px;
   text-decoration: none;
-  color: #333;
+  color: #191919;
 }
 
 .profile-dropdown a:hover {
-  background-color: #f0f0f0;
+  background-color: #ffffff;
 }
 
 .background-image {
-  background-image: url("../src/assets/sebastopol_lagoon-2560x1600.jpg"); /* Add your background image path here */
+  background-image: url("../public/assets/pic3.jpg"); /* Add your background image path here */
   height: 500px;
   width: 100vw;
   background-size: cover;
   background-position: center;
+  padding: 20px;
   position: relative; /* Ensure the search-section can be centered correctly */
   display: flex;
   justify-content: center;

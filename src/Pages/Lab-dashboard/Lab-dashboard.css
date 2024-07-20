@@ -1,0 +1,224 @@
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .dashboard {
+    display: flex;
+  }
+  
+  /* Sidebar styles */
+  .sidebar {
+    width: 250px;
+    background-color: #f5f5f5;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    margin-top: 10vh;
+  }
+  
+  .logo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .logo img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+  }
+  
+  .logo span {
+    font-size: 18px;
+    margin-top: 10px;
+    font-weight: bold;
+  }
+  
+  .menu {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .menu-item {
+    padding: 10px 15px;
+    margin: 5px 0;
+    text-decoration: none;
+    color: #191919;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .menu-item:hover,
+  .menu-item.active {
+    background-color: #00bfa6;
+    color: white;
+  }
+  
+  /* Main content styles */
+  .main-content {
+    flex: 1;
+    padding: 20px;
+    margin-left: 20%;
+    margin-top: 8%;
+  }
+  
+  .stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .stat-card {
+    flex: 1 1 200px;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+  
+  .stat-icon {
+    font-size: 30px;
+    margin-right: 15px;
+  }
+  
+  .stat-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .stat-number {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  .stat-label {
+    font-size: 14px;
+    color: #777;
+  }
+  
+  /* Appointments styles */
+  .appointments {
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+  }
+  
+  .appointments h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+  
+  .appointment {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .appointment:last-child {
+    border-bottom: none;
+  }
+  
+  .appointment-info {
+    display: flex;
+    align-items: center;
+  }
+  
+  .appointment-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .patient-name {
+    font-weight: bold;
+  }
+  
+  .test-name {
+    color: #777;
+  }
+  
+  .appointment-status {
+    background-color: #00bfa6;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  
+  .appointment-time {
+    color: #191919;
+  }
+  
+  /* Navbar styles */
+  .navbar {
+    width: 100%;
+    height: 60px;
+    background-color: #00bfa6;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    justify-content: space-between;
+  }
+  
+  .navbar-logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-logo img {
+    width: 40px;
+    height: 40px;
+    margin-right: 10px;
+  }
+  
+  .navbar-search {
+    flex: 1;
+    margin-left: 20px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-search input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+  }
+  
+  .navbar-menu {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-menu a {
+    color: white;
+    margin: 0 10px;
+    text-decoration: none;
+  }
+  
+  .navbar-profile {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar-profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+  }
+  

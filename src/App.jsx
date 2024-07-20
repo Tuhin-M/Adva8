@@ -1,49 +1,41 @@
-import React, { useState } from "react";
 import "./App.css";
-import { FaUserCircle } from "react-icons/fa"; // react-icons library required
+import { Route, Routes } from "react-router-dom";
+import Navbar from "./components/Navbar/Navbar";
+import Home from "./Pages/Home/Home";
+import SignUp from "./Pages/Signup/SignUp";
+import SignUpOtp from "./Pages/Signup/SignUpOtp";
+import Login from "./Pages/Login/Login";
+import LoginOtp from "./Pages/Login/LoginOtp";
+import Listing from "./Pages/Listing/Listing";
+import About from "./Pages/About/About";
+import Details from "./Pages/Details/Details";
+import Dashboard from "./Pages/Lab-dashboard/Lab-dashboard";
+import Bookings from "./Pages/Lab-dashboard/Bookings";
+import OtpValidation from "./components/OtpValidation/OtpValidation";
+import Labs from "./Pages/Labs-onboarding/Labs-onboarding";
+import Blog from "./Pages/Blog/Blog";
+import MakeBooking from "./Pages/MakeBooking/MakeBooking";
 
 function App() {
-  const [profileMenuOpen, setProfileMenuOpen] = useState(false);
-
-  const toggleProfileMenu = () => {
-    setProfileMenuOpen(!profileMenuOpen);
-  };
-
   return (
     <>
-      <div className="top-menu">
-        <div className="logo">LOGO</div>
-        <input type="text" className="search-bar" placeholder="Search..." />
-        <nav className="nav-items">
-          <a href="#home">Home</a>
-          <a href="#about">About Us</a>
-          <a href="#services">Services</a>
-          <a href="#labs">Labs</a>
-          <a href="#news">News</a>
-          <a href="#contact">Contact</a>
-        </nav>
-        <div className="profile" onClick={toggleProfileMenu}>
-          <FaUserCircle size={28} />
-          {profileMenuOpen && (
-            <div className="profile-dropdown">
-              <a href="#login">Login</a>
-              <a href="#signup">Sign Up</a>
-              <a href="#edit-profile">Edit Profile</a>
-            </div>
-          )}
-        </div>
-      </div>
-      <div className="background-image">
-        <div className="search-section">
-          <input
-            type="text"
-            className="location-input"
-            placeholder="Enter location..."
-          />
-          <input type="date" className="appointment-date" />
-          <button className="search-button">Search</button>
-        </div>
-      </div>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/signupotp" element={<SignUpOtp />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/loginotp" element={<LoginOtp />} />
+        <Route path="/otp" element={<OtpValidation />} />
+        <Route path="/labs" element={<Labs />} />
+        <Route path="/listing" element={<Listing />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/details" element={<Details />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/bookings" element={<Bookings />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/make-booking" element={<MakeBooking />} />
+      </Routes>
     </>
   );
 }

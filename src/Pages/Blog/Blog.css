@@ -1,0 +1,28 @@
+/* MyPage.css */
+
+/* Header styles */
+.header {
+    background-color: #191919;
+    color: white;
+    padding: 20px;
+    /* Add more styles as needed */
+  }
+  
+  /* Hero section styles */
+  .hero {
+    display: flex;
+    align-items: center;
+    /* Add more styles as needed */
+  }
+  
+  .hero-text {
+    flex: 1;
+    padding: 20px;
+    /* Add more styles as needed */
+  }
+  
+  .hero-image {
+    flex: 1;
+    /* Add more styles as needed */
+  }
+  

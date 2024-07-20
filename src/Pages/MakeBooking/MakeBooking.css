@@ -1,0 +1,283 @@
+/* General Styles */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+
+.MakeBooking {
+  margin: 40px auto;
+  margin-top: 10vh;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.form-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.form-group {
+  flex: 1;
+  margin-right: 20px;
+}
+
+.form-group:last-child {
+  margin-right: 0;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.radio-group,
+.checkbox-group {
+  display: flex;
+  align-items: center;
+}
+
+.radio-group input[type="radio"],
+.checkbox-group input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+.radio-group label,
+.checkbox-group label {
+  margin-right: 20px;
+  font-weight: normal;
+}
+
+.primary-button {
+  background: #2ecc71;
+  color: #ffffff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.primary-button:hover {
+  background: #27ae60;
+}
+
+.test-cards {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.test-card {
+  flex: 1;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+  margin-right: 20px;
+  background-color: #f9f9f9;
+}
+
+.test-card:last-child {
+  margin-right: 0;
+}
+
+.test-card h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.test-card p {
+  margin: 5px 0;
+}
+
+.file-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.file-list li {
+  margin-bottom: 10px;
+}
+
+.file-list li a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+/* Specific Adjustments for User Details Section */
+.section {
+  margin-bottom: 40px;
+}
+
+.section form {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.section form .form-row {
+  margin-bottom: 10px;
+}
+
+.section form .form-group {
+  margin-bottom: 10px;
+}
+
+.section .radio-group input[type="radio"],
+.section .checkbox-group input[type="checkbox"] {
+  margin-right: 10px;
+  margin-left: 0;
+}
+
+.section .radio-group label,
+.section .checkbox-group label {
+  margin-right: 20px;
+}
+
+/* Medical Reports Section */
+.upload-button {
+  background: #3498db;
+  color: #ffffff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.upload-button:hover {
+  background: #2980b9;
+}
+
+/* Booking Summary Section */
+.booking-summary {
+  background-color: #f1f1f1;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+}
+
+.booking-summary .form-group {
+  margin-right: 20px;
+}
+
+.booking-summary .primary-button {
+  background: #e67e22;
+  color: #ffffff;
+}
+
+.booking-summary .primary-button:hover {
+  background: #d35400;
+}
+
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.popup-content {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 400px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.popup-content h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.tests-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.test-item {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.test-item.selected {
+  border-color: #007bff;
+}
+
+.test-item .test-image {
+  width: 50px;
+  height: 50px;
+  background: #e0e0e0;
+  margin-right: 10px;
+  border-radius: 8px;
+}
+
+.test-item .test-info {
+  flex-grow: 1;
+}
+
+.test-item .test-info h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.test-item .test-info p {
+  margin: 2px 0;
+}
+
+.test-price {
+  font-weight: bold;
+}
+
+/* .primary-button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background: #17a2b8;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 20px;
+  font-size: 16px;
+  text-align: center;
+}
+
+.primary-button:hover {
+  background: #138496;
+} */

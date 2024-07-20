@@ -1,0 +1,43 @@
+/* src/components/Testimonial.css */
+
+.testimonial-container {
+    background: rgba(171, 192, 214, 0.8);
+    color: white;
+    text-align: center;
+    padding: 50px 20px;
+    position: relative;
+  }
+  
+  .testimonial-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .testimonial-content p {
+    font-size: 20px;
+    margin-bottom: 30px;
+  }
+  
+  .testimonial-content h4 {
+    font-size: 24px;
+    margin-bottom: 0;
+  }
+  
+  .testimonial-nav {
+    margin-top: 20px;
+  }
+  
+  .nav-dot {
+    height: 12px;
+    width: 12px;
+    margin: 0 5px;
+    background-color: white;
+    border-radius: 50%;
+    display: inline-block;
+    cursor: pointer;
+  }
+  
+  .nav-dot.active {
+    background-color: #7a95b3;
+  }
+  

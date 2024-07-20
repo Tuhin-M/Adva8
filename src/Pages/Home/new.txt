@@ -1,0 +1,45 @@
+Sign Up
+email needed?
+payload
+google
+
+
+Login 
+email
+otp
+response cookie('access_token', token, { httpOnly: true }) _id
+
+
+Home Page
+Menu Search Bar
+Edit Profile api
+search api giving address & date?
+other than general search
+slider recent and preference?
+Testimonial response
+
+About Us
+static?
+
+Services
+Filters logic
+sorting logic
+
+Labs Details
+form needed?
+
+Make Booking
+payload mismatch
+Next button?
+image upload payload
+Add Test response
+payment gateway
+
+Blogs
+Api response
+
+Contact?
+
+Labs Listing
+payload mismatch
+save details button at the end

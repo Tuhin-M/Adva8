@@ -1,0 +1,35 @@
+/* Hide the default radio button */
+.sidebar-title {
+  margin-top: 0px;
+}
+.ml {
+  margin-left: 10px;
+}
+input[type="radio"] {
+    display: none;
+  }
+  
+  /* Style the label for the radio button */
+  label {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    user-select: none;
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 0,5rem;
+  }
+  
+  /* Style the stars */
+  .stars {
+    display: inline-block;
+    font-size: 1.5rem;
+    line-height: 1;
+    background-color: rgb(135, 171, 57);
+    transition: color 0.2s;
+  }
+  
+  /* Style the selected stars */
+  input[type="radio"]:checked + label .stars {
+    background-color: rgb(244, 12, 12);
+  }

@@ -1,0 +1,20 @@
+.sidebar-title {
+    margin-top: 20px;
+  }
+  
+  .ml {
+    margin-left: 20px;
+  }
+
+  .container {
+    display: flex;
+     flex-direction: row;
+     justify-content: center;
+     align-items: center;
+ 
+ }
+ .button {
+  color: rgb(29, 32, 31);
+  background-color: aqua;
+ }
+ 

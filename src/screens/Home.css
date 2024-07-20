@@ -1,0 +1,113 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+  }
+  
+  .top-menu {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    background-color: #56BBB3;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  
+  .logo {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-right: 20px;
+  }
+  
+  .search-bar {
+    flex: 1;
+    background-color: #f0f0f0;
+    padding: 5px 10px;
+    margin-right: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    width: 30%;
+  }
+  
+  .nav-items a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .nav-items a:hover {
+    color: #007BFF;
+  }
+  
+  .profile {
+    margin-left: auto;
+    position: relative;
+    cursor: pointer;
+    margin-right: 30px;
+  }
+  
+  .profile-dropdown {
+    position: absolute;
+    top: 35px;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+  }
+  
+  .profile-dropdown a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+  }
+  
+  .profile-dropdown a:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .background-image {
+    background-image: url("../src/assets/sebastopol_lagoon-2560x1600.jpg"); /* Add your background image path here */
+    height: 500px;
+    width: 100vw;
+    background-size: cover;
+    background-position: center;
+    position: relative; /* Ensure the search-section can be centered correctly */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .search-section {
+    display: flex;
+    flex-direction: column;
+    width: 80vw;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.8); /* Slightly transparent background */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .location-input, .appointment-date, .search-button {
+    margin: 5px 0;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .search-button {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .search-button:hover {
+    background-color: #0056b3;
+  }

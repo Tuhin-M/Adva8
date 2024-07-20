@@ -1,0 +1,58 @@
+/* for home stylising  *//* for home stylising  */
+.card-slider{
+  margin-top: 15vh;
+  color: #56BBB3;
+  font-size:larger ;
+}
+/* src/SearchBar.css */
+.search-bar {
+    display: flex;
+    align-items: center;
+    width: 150px;
+    margin: 10px ;
+    border-radius: 50px;
+    overflow: hidden;
+    background-color: #e5f2f1;
+    padding: 5px 10px;
+  }
+  
+  .search-bar input {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 10px;
+    border-radius: 40px;
+    font-size: 16px;
+    background-color: #e5f2f1;
+  }
+  
+  .search-bar input::placeholder {
+    color: #888;
+  }
+  
+  .search-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #888;
+    padding: 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .content {
+    align-items: center;
+    justify-content: center;
+
+  }
+  
+  .search-button:focus {
+    outline: none;
+  }
+  
+  .search-button svg {
+    width: 10px;
+    height: 10px;
+  }
+  
