@@ -1,16 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-const tests = [
-  { id: 1, name: "Test 1", description: "Lorem Ipsum", price: "$50" },
-  { id: 2, name: "Test 2", description: "Lorem Ipsum", price: "$50" },
-  { id: 3, name: "Test 3", description: "Lorem Ipsum", price: "$50" },
-  { id: 4, name: "Test 4", description: "Lorem Ipsum", price: "$50" },
-  { id: 5, name: "Test 5", description: "Lorem Ipsum", price: "$50" },
-  // Add more tests as needed
-];
-
-function Popup({ isOpen, onClose }) {
+function Popup({ isOpen, onClose, onTestsSelected }) {
+  const [availableTests, setAvailableTests] = useState([]);
   const [selectedTests, setSelectedTests] = useState([]);
+
+  useEffect(() => {
+    if (isOpen) {
+      fetchAvailableTests();
+    }
+  }, [isOpen]);
+
+  const fetchAvailableTests = async () => {
+    try {
+      const response = await axios.get("/api/available-tests");
+      setAvailableTests(response.data);
+    } catch (error) {
+      console.error("Error fetching available tests:", error);
+    }
+  };
 
   const handleTestSelect = (id) => {
     setSelectedTests((prevSelected) =>
@@ -20,10 +28,16 @@ function Popup({ isOpen, onClose }) {
     );
   };
 
-  const handleSubmit = () => {
-    // Handle submit action
-    console.log("Selected tests:", selectedTests);
-    onClose();
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.post("/api/selected-tests", {
+        testIds: selectedTests,
+      });
+      onTestsSelected(response.data);
+      onClose();
+    } catch (error) {
+      console.error("Error submitting selected tests:", error);
+    }
   };
 
   if (!isOpen) return null;
@@ -33,7 +47,7 @@ function Popup({ isOpen, onClose }) {
       <div className="popup-content">
         <h2>Choose from the below available tests</h2>
         <div className="tests-list">
-          {tests.map((test) => (
+          {availableTests.map((test) => (
             <div
               key={test.id}
               className={`test-item ${

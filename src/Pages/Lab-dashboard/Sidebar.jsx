@@ -24,6 +24,9 @@ const Sidebar = () => {
           <a href="/bookings" className="menu-item">
             Bookings
           </a>
+          <a href="/test" className="menu-item">
+            Test Offered
+          </a>
           {/* <a href="#" className="menu-item">
             Team
           </a>

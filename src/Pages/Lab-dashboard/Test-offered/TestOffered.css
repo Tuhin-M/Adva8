@@ -1,0 +1,22 @@
+.TestOffered{  padding: 20px;
+    margin-top: 10vh;
+    margin-left: 20vw;}
+
+.lab-details-container {
+    padding: 20px;
+    margin-top: 10vh;
+    margin-left: 20vw;
+  }
+  
+  .lab-details-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .lab-logo {
+    width: 100px;
+    height: 100px;
+    margin-right: 20px;
+    border-radius: 50%;
+  }

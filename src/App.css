@@ -59,7 +59,7 @@ body {
 }
 
 .background-image {
-  background-image: url("../public/assets/pic3.jpg"); /* Add your background image path here */
+  background-image: url("../assets/pic3.jpg"); /* Add your background image path here */
   height: 500px;
   width: 100vw;
   background-size: cover;

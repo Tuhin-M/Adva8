@@ -1,65 +1,98 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Bookings.css";
 import Sidebar from "./Sidebar";
 
-const bookings = [
-  {
-    name: "Patient Name",
-    testName: "Test name",
-    status: "Waiting",
-    time: "12:30",
-    imageUrl: "path_to_patient_image",
-  },
-  {
-    name: "Patient Name",
-    testName: "Test name",
-    status: "Waiting",
-    time: "12:30",
-    imageUrl: "path_to_patient_image",
-  },
-  {
-    name: "Patient Name",
-    testName: "Test name",
-    status: "Waiting",
-    time: "12:30",
-    imageUrl: "path_to_patient_image",
-  },
-  {
-    name: "Patient Name",
-    testName: "Test name",
-    status: "Declined",
-    time: "12:30",
-    imageUrl: "path_to_patient_image",
-  },
-  {
-    name: "Patient Name",
-    testName: "Test name",
-    status: "Confirmed",
-    time: "12:30",
-    imageUrl: "path_to_patient_image",
-  },
-];
-
 const Bookings = () => {
   const [activeTab, setActiveTab] = useState("bookings");
+  const [data, setData] = useState({
+    bookingsLog: [
+      {
+        image: "https://example.com/patient1.jpg",
+        patientName: "John Doe",
+        TestName: "Blood Test",
+        status: "Waiting",
+        time: "10:30 AM",
+      },
+      {
+        image: "https://example.com/patient2.jpg",
+        patientName: "Jane Smith",
+        TestName: "X-Ray",
+        status: "Confirmed",
+        time: "11:45 AM",
+      },
+      {
+        image: "https://example.com/patient3.jpg",
+        patientName: "Mike Johnson",
+        TestName: "MRI Scan",
+        status: "Declined",
+        time: "2:15 PM",
+      },
+    ],
+    inOutTrack: [
+      {
+        image: "https://example.com/patient4.jpg",
+        patientName: "Emily Brown",
+        TestName: "CT Scan",
+        time: "9:00 AM",
+      },
+      {
+        image: "https://example.com/patient5.jpg",
+        patientName: "David Wilson",
+        TestName: "Ultrasound",
+        time: "1:30 PM",
+      },
+    ],
+    missedOut: [
+      {
+        image: "https://example.com/patient6.jpg",
+        patientName: "Sarah Davis",
+        TestName: "ECG",
+        time: "3:45 PM",
+      },
+    ],
+    labDetails: {
+      name: "HealthCare Diagnostics",
+      image: "https://example.com/lab-logo.png",
+      doj: "15 Jan 2022",
+      owner: "Dr. Robert Anderson",
+      contact: "+1 (555) 123-4567",
+      emergencyContact: "+1 (555) 987-6543",
+      email: "info@healthcarediagnostics.com",
+    },
+  });
+
+  useEffect(() => {
+    // Simulating API call with dummy data
+    const fetchData = async () => {
+      try {
+        // const response = await fetch('your_api_endpoint');
+        // const apiData = await response.json();
+        // setData(apiData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const renderContent = () => {
     switch (activeTab) {
       case "bookings":
         return (
           <div className="bookings-log">
-            {bookings.map((booking, index) => (
+            {data.bookingsLog.map((booking, index) => (
               <div key={index} className="booking-entry">
                 <img
-                  src={booking.imageUrl}
+                  src={booking.image}
                   alt="Patient"
                   className="patient-image"
                 />
                 <div className="booking-info">
                   <p>
-                    <strong>{booking.name}</strong>
+                    <strong>{booking.patientName}</strong>
                   </p>
-                  <p>{booking.testName}</p>
+                  <p>{booking.TestName}</p>
                   <p>
                     <strong>Status:</strong> {booking.status}
                   </p>
@@ -87,22 +120,18 @@ const Bookings = () => {
       case "inout":
         return (
           <div className="in-out-track">
-            {" "}
-            {bookings.map((booking, index) => (
+            {data.inOutTrack.map((booking, index) => (
               <div key={index} className="booking-entry">
                 <img
-                  src={booking.imageUrl}
+                  src={booking.image}
                   alt="Patient"
                   className="patient-image"
                 />
                 <div className="booking-info">
                   <p>
-                    <strong>{booking.name}</strong>
+                    <strong>{booking.patientName}</strong>
                   </p>
-                  <p>{booking.testName}</p>
-                  <p>
-                    <strong>Status:</strong> {booking.status}
-                  </p>
+                  <p>{booking.TestName}</p>
                   <p>{booking.time}</p>
                 </div>
                 <div className="view-details">
@@ -113,7 +142,29 @@ const Bookings = () => {
           </div>
         );
       case "missed":
-        return <div className="missed-out">Missed Out content goes here</div>;
+        return (
+          <div className="missed-out">
+            {data.missedOut.map((booking, index) => (
+              <div key={index} className="booking-entry">
+                <img
+                  src={booking.image}
+                  alt="Patient"
+                  className="patient-image"
+                />
+                <div className="booking-info">
+                  <p>
+                    <strong>{booking.patientName}</strong>
+                  </p>
+                  <p>{booking.TestName}</p>
+                  <p>{booking.time}</p>
+                </div>
+                <div className="view-details">
+                  <button className="view-details-button">View Details</button>
+                </div>
+              </div>
+            ))}
+          </div>
+        );
       default:
         return null;
     }
@@ -124,26 +175,31 @@ const Bookings = () => {
       <Sidebar />
       <div className="lab-details-container">
         <div className="lab-details-header">
-          <img src="path_to_logo_image" alt="Lab Logo" className="lab-logo" />
+          <img
+            src={data.labDetails.image}
+            alt="Lab Logo"
+            className="lab-logo"
+          />
           <div>
             <h2>Lab Details</h2>
             <p>
-              <strong>Name:</strong> Lab Name Detailed
+              <strong>Name:</strong> {data.labDetails.name}
             </p>
             <p>
-              <strong>Date of Joining:</strong> 20 Apr 2023
+              <strong>Date of Joining:</strong> {data.labDetails.doj}
             </p>
             <p>
-              <strong>Lab Owner Name:</strong> Owner Name
+              <strong>Lab Owner Name:</strong> {data.labDetails.owner}
             </p>
             <p>
-              <strong>Contact Number:</strong> +91 99999 99999
+              <strong>Contact Number:</strong> {data.labDetails.contact}
             </p>
             <p>
-              <strong>Emergency Contact Number:</strong> +91 98765 98765
+              <strong>Emergency Contact Number:</strong>{" "}
+              {data.labDetails.emergencyContact}
             </p>
             <p>
-              <strong>Email Address:</strong> vishakha345@gmail.com
+              <strong>Email Address:</strong> {data.labDetails.email}
             </p>
           </div>
         </div>

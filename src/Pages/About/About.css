@@ -83,7 +83,7 @@ body {
       display: flex;
       justify-content: center;
       align-items: center;
-      background-image: url("../public/assets/pic4.jpeg"); 
+      background-image: url("../assets/pic4.jpeg"); 
       background-size: cover;
       background-position: center;
       padding: 30px;

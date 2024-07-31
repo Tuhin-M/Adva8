@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // import Navigation from "./Navigation/Nav";
 import Products from "../../Products/Products";
@@ -13,6 +13,8 @@ function Listing() {
 
   // ----------- Input Filter -----------
   const [query, setQuery] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [listingData, setListingData] = useState([]);
 
   const handleInputChange = (event) => {
     setQuery(event.target.value);
@@ -47,6 +49,7 @@ function Listing() {
       );
     }
 
+    console.log("filterred product - ", filteredProducts);
     return filteredProducts.map(
       ({ img, name, star, reviews, prevPrice, newPrice }) => (
         <Card
@@ -62,8 +65,24 @@ function Listing() {
     );
   }
 
-  const result = filteredData(products, selectedCategory, query);
+  const result = filteredData(listingData, selectedCategory, query);
 
+  useEffect(() => {
+    const fetchListings = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(`http://localhost:3000/api/listing/get`);
+        const data = await res.json();
+        console.log("data - ", data);
+        setListingData(data);
+      } catch {
+        setListingData([]);
+      }
+      setLoading(false);
+    };
+
+    fetchListings();
+  }, []);
   return (
     <>
       <Sidebar handleChange={handleChange} />

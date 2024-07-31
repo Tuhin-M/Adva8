@@ -1,0 +1,171 @@
+:root {
+    --primary-color: #4a90e2;
+    --secondary-color: #f5f5f5;
+    --text-color: #333;
+    --border-color: #e0e0e0;
+    --card-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--secondary-color);
+    margin: 0;
+    padding: 0;
+  }
+  
+  .user-profile {
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-top: 10vh;
+    padding: 20px;
+  }
+  
+  .profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: var(--card-shadow);
+    margin-bottom: 20px;
+  }
+  
+  .profile-picture {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  
+  .profile-header h1 {
+    font-size: 24px;
+    margin: 0;
+  }
+  
+  .logout-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .logout-button:hover {
+    background-color: #3a7bc8;
+  }
+  
+  .profile-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: var(--card-shadow);
+    padding: 20px;
+  }
+  
+  h2 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+  }
+  
+  .info-grid {
+    display: grid;
+    gap: 10px;
+  }
+  
+  .info-item {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .info-label {
+    font-weight: bold;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .info-value {
+    font-size: 16px;
+  }
+  
+  .prescription-list, .booking-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .prescription-item, .booking-item {
+    border-bottom: 1px solid var(--border-color);
+    padding: 15px 0;
+  }
+  
+  .prescription-item:last-child, .booking-item:last-child {
+    border-bottom: none;
+  }
+  
+  .prescription-header, .booking-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .prescription-date, .booking-date {
+    font-weight: bold;
+  }
+  
+  .view-button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 12px;
+  }
+  
+  .booking-status {
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 12px;
+  }
+  
+  .status-completed {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .prescription-doctor, .prescription-medicines, .booking-test, .booking-lab {
+    margin: 5px 0;
+    font-size: 14px;
+  }
+  
+  .no-data {
+    color: #666;
+    font-style: italic;
+  }
+  
+  @media (max-width: 768px) {
+    .profile-header {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .profile-picture {
+      margin-bottom: 15px;
+    }
+  
+    .logout-button {
+      margin-top: 15px;
+    }
+  }

@@ -1,13 +1,56 @@
-import React from "react";
-import "./signup.css";
+import React, { useState, useEffect } from "react";
+// import appleimage from "../../assets/apple-logo.png";
+import "./signup.css"; // Create a separate CSS file for styling
+import { Link, useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+  const [formData, setFormData] = useState({});
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const handleChange = (e) => {
+    console.log("change - ", e.target);
+    setFormData({
+      ...formData,
+      [e.target.id]: e.target.value,
+    });
+  };
+  useEffect(() => {
+    console.log("formdata - ", formData);
+  }, [formData]);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      const res = await fetch("http://localhost:3000/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      console.log(data);
+      if (data.success === false) {
+        setLoading(false);
+        setError(data.message);
+        return;
+      }
+      setLoading(false);
+      setError(null);
+      navigate("/login");
+    } catch (error) {
+      setLoading(false);
+      setError(error.message);
+    }
+  };
+
   return (
     <div className="auth-container">
       <div className="auth-form">
         <h1>Signup</h1>
         <p>Please login using account detail below.</p>
-        <form>
+        <form onSubmit={handleSubmit}>
           <input
             type="text"
             style={{
@@ -15,30 +58,32 @@ const SignUp = () => {
               borderColor: "rgb(35, 187, 184)",
               borderWidth: "2px",
             }}
+            id="username"
             placeholder="Full Name"
             required
+            onChange={handleChange}
           />
           <input
-            type="text"
+            type="email"
             style={{
               backgroundColor: "white",
               borderColor: "rgb(35, 187, 184)",
               borderWidth: "2px",
             }}
+            id="email"
             placeholder="Email Address"
             required
+            onChange={handleChange}
           />
           <input
             type="password"
-            style={{
-              backgroundColor: "white",
-              borderColor: "rgb(35, 187, 184)",
-              borderWidth: "2px",
-            }}
-            placeholder="Password"
+            placeholder="password"
+            className="border p-3 rounded-lg"
+            id="password"
+            onChange={handleChange}
             required
           />
-          <button
+          <input
             type="submit"
             style={{
               backgroundColor: "rgb(35, 187, 184)",
@@ -46,9 +91,8 @@ const SignUp = () => {
               borderWidth: "2px",
               fontWeight: "bold",
             }}
-          >
-            Sign Up
-          </button>
+            value="Sign Up"
+          />
         </form>
         <p>
           <a href="/signupotp">SignUp with Mobile number? Sign Up</a>

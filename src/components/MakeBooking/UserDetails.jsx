@@ -2,8 +2,9 @@ import React from "react";
 
 function UserDetails() {
   return (
-    <div className="section">
+    <div className="section user-details">
       <h2>User Details</h2>
+      <p>Please provide your information</p>
       <form>
         <div className="form-row">
           <div className="form-group">
@@ -25,6 +26,33 @@ function UserDetails() {
               <label htmlFor="female">Female</label>
               <input type="radio" id="other" name="gender" />
               <label htmlFor="other">Other</label>
+              {/* {["Male", "Female", "Other"].map((gender) => {
+                return (
+                  <div
+                    key={gender}
+                    className={
+                      "genderSelection " +
+                      (genderSelection.includes(gender) ? "active" : "")
+                    }
+                    // onClick={() =>
+                    //   handleCheckboxChange(
+                    //     {
+                    //       target: {
+                    //         name: "genderSelection",
+                    //         value: gender,
+                    //         checked:
+                    //           !newTest.genderSelection.includes(gender),
+                    //       },
+                    //     },
+                    //     setNewTest,
+                    //     newTest
+                    //   )
+                    // }
+                  >
+                    {gender}
+                  </div>
+                );
+              })} */}
             </div>
           </div>
           <div className="form-group">
@@ -35,16 +63,16 @@ function UserDetails() {
         <div className="form-row">
           <div className="form-group">
             <label>Email</label>
-            <input type="text" placeholder="Enter your email" />
+            <input type="email" placeholder="Enter your email" />
           </div>
           <div className="form-group">
             <label>Address</label>
             <input type="text" placeholder="Enter your address" />
           </div>
         </div>
-        <button type="button" className="primary-button">
+        {/* <button type="button" className="primary-button">
           Next
-        </button>
+        </button> */}
       </form>
     </div>
   );
