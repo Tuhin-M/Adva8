@@ -11,7 +11,7 @@
   
   .appointment-form h2 {
     text-align: center;
-    color: #009688;
+    color: #56BBB3;
     margin-top: 20px;
   }
   
@@ -28,11 +28,11 @@
     margin: 0 5px;
     font-size: 16px;
     cursor: pointer;
-    color: #009688;
+    color: #56BBB3;
   }
   
   .tabs button.active {
-    border-bottom: 2px solid #009688;
+    border-bottom: 2px solid #56BBB3;
     font-weight: bold;
   }
   
@@ -57,7 +57,7 @@
   
   .input-group .icon {
     margin-right: 10px;
-    color: #009688;
+    color: #56BBB3;
   }
   
   .input-group input {
@@ -70,7 +70,7 @@
   .search-button {
     display: flex;
     align-items: center;
-    background: #009688;
+    background: #56BBB3;
     border: none;
     color: white;
     padding: 10px 20px;

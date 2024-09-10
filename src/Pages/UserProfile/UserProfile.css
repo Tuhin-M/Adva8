@@ -1,171 +1,337 @@
-:root {
-    --primary-color: #4a90e2;
-    --secondary-color: #f5f5f5;
-    --text-color: #333;
-    --border-color: #e0e0e0;
-    --card-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
-    color: var(--text-color);
-    background-color: var(--secondary-color);
-    margin: 0;
-    padding: 0;
-  }
-  
-  .user-profile {
-    max-width: 1000px;
-    margin: 0 auto;
-    margin-top: 10vh;
-    padding: 20px;
-  }
-  
-  .profile-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: var(--card-shadow);
-    margin-bottom: 20px;
-  }
-  
-  .profile-picture {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
-  }
-  
-  .profile-header h1 {
-    font-size: 24px;
-    margin: 0;
-  }
-  
-  .logout-button {
-    background-color: var(--primary-color);
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-  }
-  
-  .logout-button:hover {
-    background-color: #3a7bc8;
-  }
-  
-  .profile-content {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-  }
-  
-  .card {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: var(--card-shadow);
-    padding: 20px;
-  }
-  
-  h2 {
-    font-size: 18px;
-    margin-top: 0;
-    margin-bottom: 15px;
-    color: var(--primary-color);
-  }
-  
-  .info-grid {
-    display: grid;
-    gap: 10px;
-  }
-  
-  .info-item {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .info-label {
-    font-weight: bold;
-    font-size: 14px;
-    color: #666;
-  }
-  
-  .info-value {
-    font-size: 16px;
-  }
-  
-  .prescription-list, .booking-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .prescription-item, .booking-item {
-    border-bottom: 1px solid var(--border-color);
-    padding: 15px 0;
-  }
-  
-  .prescription-item:last-child, .booking-item:last-child {
-    border-bottom: none;
-  }
-  
-  .prescription-header, .booking-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-  
-  .prescription-date, .booking-date {
-    font-weight: bold;
-  }
-  
-  .view-button {
-    background-color: var(--primary-color);
-    color: white;
-    padding: 5px 10px;
-    border-radius: 4px;
-    text-decoration: none;
-    font-size: 12px;
-  }
-  
-  .booking-status {
-    font-size: 12px;
-    padding: 3px 8px;
-    border-radius: 12px;
-  }
-  
-  .status-completed {
-    background-color: #4caf50;
-    color: white;
-  }
-  
-  .prescription-doctor, .prescription-medicines, .booking-test, .booking-lab {
-    margin: 5px 0;
-    font-size: 14px;
-  }
-  
-  .no-data {
-    color: #666;
-    font-style: italic;
-  }
-  
-  @media (max-width: 768px) {
-    .profile-header {
-      flex-direction: column;
-      text-align: center;
-    }
-  
-    .profile-picture {
-      margin-bottom: 15px;
-    }
-  
-    .logout-button {
-      margin-top: 15px;
-    }
-  }
+.user-profile {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.back-button,
+.logout-button {
+  color: #56BBB3;
+  background-color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profile-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.profile-info h2 {
+  margin: 0;
+}
+
+.edit-profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: #56BBB3;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.edit-profile-form input,
+.edit-profile-form button {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.profile-nav {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.tab-button {
+  background-color: #f1f1f1;
+  color: #333;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0 5px;
+}
+
+.tab-button.active {
+  background-color: #56BBB3;
+  color: white;
+}
+
+.general {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 20px;
+}
+
+.health-center-details,
+.center-contact {
+  background-color: #f1f1f1;
+  padding: 20px;
+  border-radius: 5px;
+  display: flex;
+  width: 40vw;
+}
+
+.health-reports {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 20px;
+}
+
+.report-card {
+  background-color: #f1f1f1;
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.report-card button {
+  background-color: #56BBB3;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.bookings-log,
+.records {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 20px;
+}
+
+.booking-entry,
+.records-entry {
+  background-color: #f1f1f1;
+  padding: 20px;
+  border-radius: 5px;
+  display: grid;
+  grid-template-columns: 80px 1fr 150px 100px;
+  align-items: center;
+  grid-gap: 20px;
+}
+
+.patient-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.booking-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.accept-button,
+.decline-button {
+  background-color: #56BBB3;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+
+.status-waiting {
+  color: #ffa500;
+}
+
+.status-completed {
+  color: #56BBB3;
+}
+
+.view-details-button {
+  background-color: #56BBB3;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+/* .user-profile {
+  font-family: Arial, sans-serif;
+  max-width: 1200px;
+  margin-top: 10vh;
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.back-button, .logout-button {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.logout-button {
+  color: #56BBB3;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profile-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.profile-info h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.profile-info p {
+  margin: 5px 0;
+  color: #666;
+}
+
+.bookings-log {
+  margin-top: 20px;
+}
+
+.booking-entry {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.patient-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 20px;
+}
+
+.booking-info {
+  flex-grow: 1;
+}
+
+.records {
+  margin-top: 20px;
+}
+
+.records-entry {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.records-details {
+  flex-grow: 1;
+}
+
+.booking-actions {
+  margin-right: 20px;
+}
+.health-statistics {
+  margin-left: auto;
+  text-align: right;
+}
+
+.stat-percentage {
+  font-size: 36px;
+  color: #56BBB3;
+  margin: 0;
+}
+
+.stat-fraction {
+  font-size: 18px;
+  color: #666;
+  margin: 0;
+}
+
+.profile-nav {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.profile-nav button {
+  background: none;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.profile-nav button.active {
+  border-bottom-color: #56BBB3;
+  color: #56BBB3;
+}
+
+.general-info, .health-center-details, .center-contact {
+  background-color: white;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.health-reports {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.report-card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.report-card h3 {
+  margin-top: 0;
+  color: #56BBB3;
+}
+
+.report-card button {
+  background-color: #56BBB3;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.report-card button:hover {
+  background-color: #45a049;
+} */

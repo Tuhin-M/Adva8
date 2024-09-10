@@ -1,22 +1,19 @@
 .homeSlider {
   width: 100%;
-  margin: 2;
   margin-top: 5px;
   padding: 0;
-  margin: 0;
   box-sizing: border-box;
 }
 
-.slick-slide>div {
-  margin: 2 2px;
+.slick-slide > div {
+  margin: 0 2px;
 }
 
 .slick-list {
-  margin: 1 0px;
+  margin: 0;
 }
 
 .slider-card {
-  /* border: 0px solid #ffffff; */
   margin: 20px;
   border: 2px solid #ededed;
   box-shadow: 0px 10px 8px #727f7e;
@@ -25,68 +22,61 @@
   max-height: 60%;
   overflow: hidden;
   color: #ffffff;
-  cursor: pointer;
 }
 
 .card {
-  /* border: 0px solid #ffffff; */
-  margin: 20px;
+  margin: 10px;
   border: 2px solid #ededed;
   box-shadow: 0px 10px 8px #727f7e;
   cursor: pointer;
-  max-width: 30%;
-  max-height: 20%;
+  width: calc(25% - 20px);
+  max-height: 100%;
   overflow: hidden;
   color: #ffffff;
-  cursor: pointer;
 }
 
 .card-top span {
   font-size: 0.8rem;
   margin-top: 15px;
-  /* width: 300px; */
-  color: #007777;
-  /* margin-left: 5vw; */
+  color: #56BBB3;
   padding: 0 15px;
   text-align: center;
+  display: block;
 }
 
-/* .card-top h2 {
-  font-size: 0.5rem;
-  margin-top: 1vh;
-  width: 300px;
-  color: #007777;
-  margin-left: 5vw;
-} */
-
-.card-top>img {
+.card-top > img {
   width: 100%;
-  object-fit: fill;
-  height: 50vh;
+  object-fit: cover;
+  height: 200px;
 }
 
 .card-bottom {
-  margin: 10px 0px 0;
+  margin: 10px 0;
+}
 
-  button {
-    font-size: 16px;
-  }
+.card-bottom button {
+  font-size: 16px;
 }
 
 .location {
   display: flex;
   justify-content: center !important;
+  align-items: center;
   gap: 10px;
   padding: 0 10px;
+  color: #56BBB3;
+}
 
-  p {
-    font-size: 12px;
-    color: #191919;
-    min-height: 40px;
+.location p {
+  font-size: 12px;
+  color: #191919;
+  min-height: 40px;
+  margin: 0;
+}
 
-    @media screen and (min-width: 1400px) {
-      min-height: 50px;
-    }
+@media screen and (min-width: 1400px) {
+  .location p {
+    min-height: 50px;
   }
 }
 
@@ -94,12 +84,10 @@
   font-size: 0.8rem;
 }
 
-
 .tests {
-  background-color: #17f0de;
+  background-color: #56BBB3;
   width: 100%;
   padding: 10px !important;
-  /* margin-top: 10vh; */
 }
 
 .category {
@@ -109,4 +97,13 @@
 .lab-info-listing {
   display: flex;
   justify-content: center;
+  color: #56BBB3;;
+}
+
+.lab-cards {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 20vw;
+  margin-top: 10vh;
+  justify-content: flex-start;
 }

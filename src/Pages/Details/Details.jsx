@@ -9,6 +9,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
 import "swiper/css/bundle";
 import { Navigation } from "swiper/modules";
+import TestOffered from "../Lab-dashboard/Test-offered/TestOffered";
 
 function Details() {
   SwiperCore.use([Navigation]);
@@ -18,13 +19,14 @@ function Details() {
   const [copied, setCopied] = useState(false);
   const [contact, setContact] = useState(false);
   const params = useParams();
+  const isLabOwner = localStorage.getItem("userRole");
 
   useEffect(() => {
     console.log("paraams - ", params);
     const fetchListing = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`/api/listing/get/${params?.listingId}`);
+        const res = await fetch(`/api/lab/get/${params?.listingId}`);
         const data = await res.json();
         if (data.success === false) {
           setError(true);
@@ -41,9 +43,9 @@ function Details() {
     };
     fetchListing();
   }, [params?.listingId]);
-
+  const currentLabId = params?.listingId;
   return (
-    <>
+    <div className="details">
       {loading && <p className="text-center my-7 text-2xl">Loading...</p>}
       {error && (
         <p className="text-center my-7 text-2xl">Something went wrong!</p>
@@ -51,7 +53,7 @@ function Details() {
       {listing && !loading && !error && (
         <div>
           <Swiper navigation>
-            {listing?.imageUrls.map((url) => (
+            {listing?.labImageUrls.map((url) => (
               <SwiperSlide key={url}>
                 <div
                   className="h-[550px]"
@@ -68,18 +70,21 @@ function Details() {
             <div className="flex justify-between items-center">
               <div>
                 <h2 className="text-3xl font-bold text-teal-600">
-                  {listing.name}
+                  {listing.labName}
                 </h2>
                 <p className="text-gray-600 flex items-center mt-2">
                   <FaMapMarkerAlt className="mr-2" />
-                  {listing.address}
+                  {listing.labAddress}, {listing.labCity}, {listing.labState},{" "}
+                  {listing.labPin}
                 </p>
               </div>
-              <a href="/make-booking">
-                <button className="px-6 py-2 bg-teal-500 text-white rounded-md">
-                  Make Booking
-                </button>
-              </a>
+              {isLabOwner == 0 && (
+                <a href="/make-booking">
+                  <button className="px-6 py-2 bg-teal-500 text-white rounded-md">
+                    Make Booking
+                  </button>
+                </a>
+              )}
             </div>
             <p className="mt-6 text-gray-700">{listing.description}</p>
             {/* <div className="max-w-md mx-auto mt-10 p-8 border border-blue-500 rounded-md">
@@ -121,15 +126,12 @@ function Details() {
           </form>
         </div> */}
           </div>
-          {/* <div className="card-slider">
-            <center>
-              <h1>Other Listed Lab</h1>
-            </center>
-            <Slider data={listingData} />
-          </div> */}
+          {isLabOwner == 1 && isLabOwner != undefined && (
+            <TestOffered labId={currentLabId} />
+          )}
         </div>
       )}
-    </>
+    </div>
   );
 }
 

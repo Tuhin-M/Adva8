@@ -2,17 +2,21 @@ import React, { useState, useEffect } from "react";
 // import appleimage from "../../assets/apple-logo.png";
 import "./signup.css"; // Create a separate CSS file for styling
 import { Link, useNavigate } from "react-router-dom";
+import OAuth from "../../components/OAuth";
 
 const SignUp = () => {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({ role: 0 });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const handleChange = (e) => {
     console.log("change - ", e.target);
-    setFormData({
-      ...formData,
-      [e.target.id]: e.target.value,
+    setFormData(() => {
+      if (e.target.id === "role") {
+        const val = e.target.checked ? 1 : 0;
+        return { ...formData, [e.target.id]: val };
+      }
+      return { ...formData, [e.target.id]: e.target.value };
     });
   };
   useEffect(() => {
@@ -22,7 +26,7 @@ const SignUp = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:3000/api/auth/signup", {
+      const res = await fetch("/api/auth/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -83,6 +87,11 @@ const SignUp = () => {
             onChange={handleChange}
             required
           />
+          <div className="role">
+            <input type="checkbox" id="role" onChange={handleChange} />
+            <p>SignUp as Lab Owner</p>
+          </div>
+
           <input
             type="submit"
             style={{
@@ -94,21 +103,22 @@ const SignUp = () => {
             value="Sign Up"
           />
         </form>
-        <p>
+        {/* <p>
           <a href="/signupotp">SignUp with Mobile number? Sign Up</a>
-        </p>
+        </p> */}
         <p>
           <a href="/login">Already have an account? Login</a>
         </p>
         <p>Or Login with</p>
         <div className="social-login">
-          <a href="#" className="google">
+          <OAuth />
+          {/* <div   className="google">
             <img
               style={{ width: "30px", height: "30px" }}
               src="https://img.icons8.com/color/48/000000/google-logo.png"
               alt=""
             />
-          </a>
+          </div> */}
           {/* <a href="#" className="facebook">
             <img
               style={{ width: "30px", height: "30px" }}

@@ -5,17 +5,21 @@ import "./Navbar.css";
 import { FaSearch } from "react-icons/fa";
 import { Link } from "react-router-dom"; // If using React Router for navigation
 import { useSelector } from "react-redux";
+import logo from "../../assets/ADVA8_SOLID_LOGO.png";
 
 const Navbar = () => {
   const [profileMenuOpen, setProfileMenuOpen] = useState(false);
   const { isLoggedIn, currentUser } = useSelector((state) => state.user);
+  const userRole = localStorage.getItem("userRole");
   const toggleProfileMenu = () => {
     setProfileMenuOpen(!profileMenuOpen);
   };
   return (
     <>
       <div className="top-menu">
-        <div className="logo">LOGO</div>
+        <div className="logo">
+          <img src={logo} alt="ADVA8" />
+        </div>
         <div className="search-bar">
           <input type="text" placeholder="Search" />
           <button className="search-button">
@@ -23,10 +27,13 @@ const Navbar = () => {
           </button>
         </div>
         <nav className="nav-items">
-          <a href="/">Home</a>
+          {(userRole == undefined || userRole == 0) && <a href="/">Home</a>}
+          {userRole == 1 && <a href="/labs-onboarding">Labs Onboarding</a>}
+          {userRole == 1 && <a href="/lab-dashboard">Labs Dashboard</a>}
+          {(userRole == undefined || userRole == 0) && (
+            <a href="/listing">Services</a>
+          )}
           <a href="/about">About Us</a>
-          <a href="/listing">Services</a>
-          <a href="/labs">Labs</a>
           <a href="/blog">Blogs</a>
           {/* <a href="contact">Contact</a> */}
         </nav>

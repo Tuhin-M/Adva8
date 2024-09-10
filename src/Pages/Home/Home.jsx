@@ -26,7 +26,8 @@ const Home = () => {
       // setShowMore(false);
       //const searchQuery = urlParams.toString();
       try {
-        const res = await fetch(`http://localhost:3000/api/listing/get`);
+        const res = await fetch(`/api/lab/get`);
+        //const res = await fetch(`/api/listing/get`);
         const data = await res.json();
         console.log("data - ", data);
         setListingData(data);

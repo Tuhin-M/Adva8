@@ -42,7 +42,7 @@ const Login = () => {
     try {
       // setLoading(true);
       dispatch(signInStart());
-      const res = await fetch("http://localhost:3000/api/auth/signin", {
+      const res = await fetch("/api/auth/signin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -53,14 +53,23 @@ const Login = () => {
       console.log(data);
       if (data.success === false) {
         dispatch(signInFailure(data.message));
+        alert(data.message);
         // setLoading(false);
         // setError(data.message);
         return;
       }
       dispatch(signInSuccess(data));
+      localStorage.setItem("userRole", data.role);
+      // if(data.userType === "patient"){
+      //   navigate("/home");
+      // }
       // setLoading(false);
       // setError(null);
+      // if (userRole === "1") {
+      //   navigate("/lab-dashboard");
+      // } else {
       navigate("/");
+      //}
     } catch (error) {
       // setLoading(false);
       // setError(error.message);
@@ -109,9 +118,9 @@ const Login = () => {
             value="Sign In"
           />
         </form>
-        <p>
+        {/* <p>
           <a href="/loginotp">Login with OTP? Login</a>
-        </p>
+        </p> */}
         <p>
           <a href="/signup">Don't have an account? Create Account</a>
         </p>

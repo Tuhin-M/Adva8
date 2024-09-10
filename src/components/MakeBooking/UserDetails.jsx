@@ -26,33 +26,6 @@ function UserDetails() {
               <label htmlFor="female">Female</label>
               <input type="radio" id="other" name="gender" />
               <label htmlFor="other">Other</label>
-              {/* {["Male", "Female", "Other"].map((gender) => {
-                return (
-                  <div
-                    key={gender}
-                    className={
-                      "genderSelection " +
-                      (genderSelection.includes(gender) ? "active" : "")
-                    }
-                    // onClick={() =>
-                    //   handleCheckboxChange(
-                    //     {
-                    //       target: {
-                    //         name: "genderSelection",
-                    //         value: gender,
-                    //         checked:
-                    //           !newTest.genderSelection.includes(gender),
-                    //       },
-                    //     },
-                    //     setNewTest,
-                    //     newTest
-                    //   )
-                    // }
-                  >
-                    {gender}
-                  </div>
-                );
-              })} */}
             </div>
           </div>
           <div className="form-group">
@@ -70,9 +43,6 @@ function UserDetails() {
             <input type="text" placeholder="Enter your address" />
           </div>
         </div>
-        {/* <button type="button" className="primary-button">
-          Next
-        </button> */}
       </form>
     </div>
   );

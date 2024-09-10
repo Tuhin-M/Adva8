@@ -9,25 +9,22 @@ const Sidebar = () => {
           <span>LAB 1 2 3</span>
         </div>
         <nav className="menu">
-          <a href="/dashboard" className="menu-item active">
+          <a href="/lab-dashboard" className="menu-item">
             Dashboard
           </a>
-          {/* <a href="#" className="menu-item">
-            Labs
+          <a href="/bookings" className="menu-item">
+            Bookings
           </a>
-          <a href="#" className="menu-item">
+          <a href="/labs" className="menu-item">
+            My Labs
+          </a>
+          {/* <a href="#" className="menu-item">
             Support
           </a>
           <a href="#" className="menu-item">
             Patients
-          </a> */}
-          <a href="/bookings" className="menu-item">
-            Bookings
           </a>
-          <a href="/test" className="menu-item">
-            Test Offered
-          </a>
-          {/* <a href="#" className="menu-item">
+          <a href="#" className="menu-item">
             Team
           </a>
           <a href="#" className="menu-item">

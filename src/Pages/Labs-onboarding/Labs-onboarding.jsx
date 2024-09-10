@@ -7,18 +7,17 @@ function LabsOnboarding() {
   const [labDetails, setLabDetails] = useState({
     labName: "",
     labAddress: "",
-    state: "",
-    city: "",
-    pin: "",
-    latlong: "",
-    phoneNumber: "",
-    email: "",
-    website: "",
-    operatingDays: [],
-    availableTimeSlots: [],
-    labImages: null,
-    openingTime: "HH:MM AM",
-    closingTime: "HH:MM AM",
+    labState: "",
+    labCity: "",
+    labPin: "",
+    labLatLong: "",
+    labPhoneNumber: "",
+    labEmail: "",
+    labWebsite: "",
+    labOperatingDays: [],
+    labImageUrls: [],
+    labOpeningTime: "",
+    labClosingTime: "",
   });
 
   const [days, setDays] = useState({
@@ -29,19 +28,6 @@ function LabsOnboarding() {
     Friday: false,
     Saturday: false,
     Sunday: false,
-  });
-
-  const [timeSlots, setTimeSlots] = useState({
-    "9AM - 10AM": false,
-    "10AM - 11AM": false,
-    "11AM - 12PM": false,
-    "12PM - 1PM": false,
-    "1PM - 2PM": false,
-    "2PM - 3PM": false,
-    "3PM - 4PM": false,
-    "4PM - 5PM": false,
-    "5PM - 6PM": false,
-    "6PM - 7PM": false,
   });
 
   const [imageUrl, setImageUrl] = useState(null);
@@ -55,31 +41,35 @@ function LabsOnboarding() {
   };
 
   const handleFileChange = async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
+    const files = e.target.files;
+    if (!files) return;
 
-    if (file.size > 1024 * 1024) {
-      alert("File size exceeds 1MB limit");
-      return;
+    const uploadedUrls = [...labDetails.labImageUrls];
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      if (file.size > 1024 * 1024) {
+        alert(`File size exceeds 1MB limit for file: ${file.name}`);
+        continue; // Skip the file if it's too large
+      }
+
+      try {
+        const storageRef = ref(storage, `lab-images/${file.name}`);
+        const snapshot = await uploadBytes(storageRef, file);
+        const url = await getDownloadURL(snapshot.ref);
+
+        uploadedUrls.push(url);
+      } catch (error) {
+        console.error(`Error uploading file ${file.name}:`, error);
+      }
     }
 
-    setLabDetails({ ...labDetails, labImages: file });
+    setLabDetails((prevDetails) => ({
+      ...prevDetails,
+      labImageUrls: uploadedUrls,
+    }));
 
-    try {
-      const storageRef = ref(storage, `lab-images/${file.name}`);
-      const snapshot = await uploadBytes(storageRef, file);
-      const url = await getDownloadURL(snapshot.ref);
-
-      setImageUrl(url);
-      setLabDetails((prevDetails) => ({
-        ...prevDetails,
-        labImages: url,
-      }));
-
-      console.log("File uploaded successfully");
-    } catch (error) {
-      console.error("Error uploading file:", error);
-    }
+    setImageUrl(uploadedUrls); // Set the uploaded URLs to display
   };
 
   const handleClickForDayChange = (day) => {
@@ -89,72 +79,37 @@ function LabsOnboarding() {
     });
   };
 
-  const handleClickForTimeChange = (slot) => {
-    setTimeSlots({
-      ...timeSlots,
-      [slot]: !timeSlots[slot],
-    });
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const payload = {
-      labDetails: {
-        ...labDetails,
-        operatingDays: Object.keys(days).filter((day) => days[day]),
-        availableTimeSlots: Object.keys(timeSlots).filter(
-          (slot) => timeSlots[slot]
-        ),
-        labImages: imageUrl,
-      },
+      ...labDetails,
+      labOperatingDays: Object.keys(days).filter((day) => days[day]),
     };
 
     console.log("Payload:", payload);
 
-    // Replace with your POST request logic
-    fetch("https://your-api-endpoint.com/save-lab-details", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Success:", data);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
+    try {
+      const response = await fetch(`/api/lab/create`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
       });
 
-    // try {
-    //   if (formData.imageUrls.length < 1)
-    //     return setError('You must upload at least one image');
-    //   if (+formData.regularPrice < +formData.discountPrice)
-    //     return setError('Discount price must be lower than regular price');
-    //   setLoading(true);
-    //   setError(false);
-    //   const res = await fetch('/api/listing/create', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({
-    //       ...formData,
-    //       userRef: currentUser._id,
-    //     }),
-    //   });
-    //   const data = await res.json();
-    //   setLoading(false);
-    //   if (data.success === false) {
-    //     setError(data.message);
-    //   }
-    //   navigate(`/listing/${data._id}`);
-    // } catch (error) {
-    //   setError(error.message);
-    //   setLoading(false);
-    // }
+      if (!response.ok) {
+        throw new Error("Failed to submit form");
+      }
+
+      const data = await response.json();
+      console.log("Success:", data);
+      alert("Lab created successfully");
+      // Redirect to the lab-dashboard page after successful submission
+      window.location.href = "/lab-dashboard";
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -171,17 +126,16 @@ function LabsOnboarding() {
                 value={labDetails.labName}
                 onChange={handleInputChange}
                 placeholder="Enter Lab Name"
+                required
               />
             </div>
             <div className="column">
               <label>Website</label>
               <input
                 type="text"
-                name="website"
-                value={labDetails.website}
-                onChange={(e) =>
-                  handleInputChange(e, setLabDetails, labDetails)
-                }
+                name="labWebsite"
+                value={labDetails.labWebsite}
+                onChange={handleInputChange}
                 placeholder="Enter Website URL"
               />
             </div>
@@ -190,21 +144,23 @@ function LabsOnboarding() {
             <div className="column">
               <label>Phone Number</label>
               <input
-                type="text"
-                name="phoneNumber"
-                value={labDetails.phoneNumber}
+                type="number"
+                name="labPhoneNumber"
+                value={labDetails.labPhoneNumber}
                 onChange={handleInputChange}
                 placeholder="Enter Phone Number"
+                required
               />
             </div>
             <div className="column">
               <label>Email</label>
               <input
                 type="email"
-                name="email"
-                value={labDetails.email}
+                name="labEmail"
+                value={labDetails.labEmail}
                 onChange={handleInputChange}
                 placeholder="Enter Email"
+                required
               />
             </div>
           </div>
@@ -215,22 +171,19 @@ function LabsOnboarding() {
                 type="text"
                 name="labAddress"
                 value={labDetails.labAddress}
-                onChange={(e) =>
-                  handleInputChange(e, setLabDetails, labDetails)
-                }
+                onChange={handleInputChange}
                 placeholder="Enter Lab Address"
+                required
               />
             </div>
             <div className="column">
               <label>State</label>
               <input
                 type="text"
-                name="state"
-                value={labDetails.state}
-                onChange={(e) =>
-                  handleInputChange(e, setLabDetails, labDetails)
-                }
-                placeholder="Select state"
+                name="labState"
+                value={labDetails.labState}
+                onChange={handleInputChange}
+                placeholder="Enter State"
               />
             </div>
           </div>
@@ -239,23 +192,19 @@ function LabsOnboarding() {
               <label>City</label>
               <input
                 type="text"
-                name="city"
-                value={labDetails.city}
-                onChange={(e) =>
-                  handleInputChange(e, setLabDetails, labDetails)
-                }
+                name="labCity"
+                value={labDetails.labCity}
+                onChange={handleInputChange}
                 placeholder="Enter City"
               />
             </div>
             <div className="column">
               <label>Pin Code</label>
               <input
-                type="text"
-                name="pin"
-                value={labDetails.pin}
-                onChange={(e) =>
-                  handleInputChange(e, setLabDetails, labDetails)
-                }
+                type="number"
+                name="labPin"
+                value={labDetails.labPin}
+                onChange={handleInputChange}
                 placeholder="Enter Pin Code"
               />
             </div>
@@ -263,11 +212,9 @@ function LabsOnboarding() {
               <label>Lat/Long</label>
               <input
                 type="text"
-                name="latlong"
-                value={labDetails.latlong}
-                onChange={(e) =>
-                  handleInputChange(e, setLabDetails, labDetails)
-                }
+                name="labLatLong"
+                value={labDetails.labLatLong}
+                onChange={handleInputChange}
                 placeholder="Enter Lab Lat/Long"
               />
             </div>
@@ -277,7 +224,8 @@ function LabsOnboarding() {
               <label>Opening Time</label>
               <div className="time-slots-container">
                 <TimePickerDropdown
-                  keyName="openingTime"
+                  keyName="labOpeningTime"
+                  labDetails={labDetails}
                   setLabDetails={setLabDetails}
                 />
               </div>
@@ -286,7 +234,8 @@ function LabsOnboarding() {
               <label>Closing Time</label>
               <div className="time-slots-container">
                 <TimePickerDropdown
-                  keyName="closingTime"
+                  keyName="labClosingTime"
+                  labDetails={labDetails}
                   setLabDetails={setLabDetails}
                 />
               </div>
@@ -295,18 +244,24 @@ function LabsOnboarding() {
           <div className="form-row">
             <div className="column">
               <label>Upload Lab Images</label>
-              <input type="file" onChange={handleFileChange} accept="image/*" />
+              <input
+                type="file"
+                onChange={handleFileChange}
+                accept="image/*"
+                multiple
+              />
               <p>Maximum file size: 1MB</p>
-              {imageUrl && (
-                <div>
-                  <p>Image uploaded successfully!</p>
-                  <img
-                    src={imageUrl}
-                    alt="Uploaded lab image"
-                    style={{ width: "200px" }}
-                  />
-                </div>
-              )}
+              {imageUrl &&
+                imageUrl.map((url, index) => (
+                  <div key={index}>
+                    <p>Image {index + 1} uploaded successfully!</p>
+                    <img
+                      src={url}
+                      alt={`Uploaded lab image ${index + 1}`}
+                      style={{ width: "200px" }}
+                    />
+                  </div>
+                ))}
             </div>
             <div className="column">
               <label>Operating Days</label>
@@ -323,6 +278,7 @@ function LabsOnboarding() {
               </div>
             </div>
           </div>
+
           <center>
             <button type="submit" className="submit-button">
               Save Details
@@ -334,80 +290,57 @@ function LabsOnboarding() {
   );
 }
 
-const TimePickerDropdown = (keyName, setLabDetails) => {
+const TimePickerDropdown = ({ keyName, labDetails, setLabDetails }) => {
   const [hour, setHour] = useState("12");
   const [minute, setMinute] = useState("00");
   const [timePeriod, setTimePeriod] = useState("AM");
-  const [totalTime, setTotalTime] = useState("HH:MM XX");
-  const handleHourChange = (event) => {
-    setHour(event.target.value);
-    let time = totalTime.split(":")[0];
-    time = totalTime.replace(time, event.target.value);
-    setTotalTime(time);
-    console.log("time - ", time);
-    //setLabDetails()
-  };
 
-  const handleMinuteChange = (event) => {
-    setMinute(event.target.value);
-
-    let time = totalTime.split(":")[1]?.split(" ")[0];
-    time = totalTime.replace(time, event.target.value);
-    setTotalTime(time);
-
-    console.log("time - ", time);
-  };
-
-  const handleTimePeriodChange = (event) => {
-    setTimePeriod(event.target.value);
-
-    let time = totalTime.split(" ")[1];
-    time = totalTime.replace(time, event.target.value);
-    setTotalTime(time);
-
-    console.log("time - ", time);
-  };
-
-  const renderOptions = (start, end) => {
-    const options = [];
-    for (let i = start; i <= end; i++) {
-      const value = i.toString().padStart(2, "0");
-      options.push(
-        <option key={value} value={value}>
-          {value}
-        </option>
-      );
-    }
-    return options;
-  };
+  useEffect(() => {
+    const formattedTime = `${hour}:${minute} ${timePeriod}`;
+    setLabDetails((prevDetails) => ({
+      ...prevDetails,
+      [keyName]: formattedTime,
+    }));
+  }, [hour, minute, timePeriod, keyName, setLabDetails]);
 
   return (
-    <div className="labTime">
-      <label htmlFor="hour-select">Hour: </label>
+    <div className="time-picker">
       <select
-        id="hour-select"
+        name="hour"
+        className="time-dropdown"
         value={hour}
-        onChange={handleHourChange}
-        name="HH"
+        onChange={(e) => setHour(e.target.value)}
       >
-        {renderOptions(1, 12)}
+        {Array.from({ length: 12 }, (_, i) => {
+          const hourValue = (i + 1).toString().padStart(2, "0");
+          return (
+            <option key={hourValue} value={hourValue}>
+              {hourValue}
+            </option>
+          );
+        })}
       </select>
-
-      <label htmlFor="minute-select">Minute: </label>
+      <span className="colon">:</span>
       <select
-        id="minute-select"
+        name="minute"
+        className="time-dropdown"
         value={minute}
-        onChange={handleMinuteChange}
-        name="MM"
+        onChange={(e) => setMinute(e.target.value)}
       >
-        {renderOptions(0, 59)}
+        {Array.from({ length: 60 }, (_, i) => {
+          const minuteValue = i.toString().padStart(2, "0");
+          return (
+            <option key={minuteValue} value={minuteValue}>
+              {minuteValue}
+            </option>
+          );
+        })}
       </select>
-      <label htmlFor="am-pm-select">AM/PM: </label>
       <select
-        id="am-pm-select"
+        name="timePeriod"
+        className="time-dropdown"
         value={timePeriod}
-        onChange={handleTimePeriodChange}
-        name="XX"
+        onChange={(e) => setTimePeriod(e.target.value)}
       >
         <option value="AM">AM</option>
         <option value="PM">PM</option>

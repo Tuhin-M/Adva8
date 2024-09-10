@@ -16,7 +16,7 @@ const AppointmentForm = () => {
       setLoading(true);
       // setShowMore(false);
       //const searchQuery = urlParams.toString();
-      const res = await fetch(`http://localhost:3000/api/booking/get`);
+      const res = await fetch(`/api/booking/get`);
       const data = await res.json();
       console.log("booking data - ", data);
       if (data.length > 8) {
@@ -64,10 +64,12 @@ const AppointmentForm = () => {
             <input type="text" placeholder="DD-Month, 20YY" />
           </label>
         </div>
-        <button className="search-button">
-          <FaSearch />
-          <span>Search</span>
-        </button>
+        <a href="/listing">
+          <button className="search-button">
+            <FaSearch />
+            <span>Search</span>
+          </button>
+        </a>
       </div>
     </div>
   );

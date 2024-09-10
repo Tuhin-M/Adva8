@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Lab-dashboard.css";
 import Sidebar from "./Sidebar.jsx";
 
-const Dashboard = () => {
+const LabDashboard = () => {
   const [dashboardData, setDashboardData] = useState({
     bookingToday: 10,
     patientIn: 10,
@@ -111,4 +111,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default LabDashboard;

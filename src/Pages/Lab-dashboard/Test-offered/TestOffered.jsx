@@ -1,13 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./TestOffered.css";
-import Sidebar from "../Sidebar";
 
-function TestOffered() {
-  const [tests, setTests] = useState([
-    { name: "Blood Test", description: "Complete blood count", price: "1300" },
-    { name: "Urine Analysis", description: "Urinalysis test", price: "500" },
-    { name: "X-Ray", description: "Chest X-ray", price: "1100" },
-  ]);
+function TestOffered(props) {
+  const [productList, setProductList] = useState([]);
+  const [isNewLab, setIsNewLab] = useState(true);
+
+  useEffect(() => {
+    fetchSavedTests();
+  }, []);
+
+  const fetchSavedTests = () => {
+    fetch(`/api/product/get/${props.labId}`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (
+          data &&
+          Array.isArray(data) &&
+          data.length > 0 &&
+          data.some(
+            (item) => item.productList && Array.isArray(item.productList)
+          )
+        ) {
+          const allProducts = data.flatMap((item) => item.productList || []);
+          setProductList(allProducts);
+          setIsNewLab(false);
+        } else {
+          console.error("Invalid data format received:", data);
+          setProductList([]);
+          setIsNewLab(true);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching saved tests:", error);
+        setProductList([]);
+        setIsNewLab(true);
+      });
+  };
 
   const [newTest, setNewTest] = useState({
     name: "",
@@ -65,37 +93,28 @@ function TestOffered() {
   };
 
   const addTest = () => {
-    setTests([...tests, newTest]);
-    setNewTest({
-      name: "",
-      description: "",
-      sampleName: "",
-      sampleType: "",
-      vialName: "",
-      preparationTime: "",
-      price: "",
-      sampleCollection: [],
-      availability: [],
-      features: [],
-      availableTimeSlots: [],
-    });
+    setProductList([...productList, newTest]);
   };
 
   const deleteTest = (index) => {
-    setTests(tests.filter((_, i) => i !== index));
+    setProductList(productList.filter((_, i) => i !== index));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const payload = {
-      tests,
+      labRef: props.labId,
+      productList,
     };
 
     console.log("Payload:", payload);
 
-    // Replace with your POST request logic
-    fetch("https://your-api-endpoint.com/save-test-details", {
+    const apiEndpoint = isNewLab
+      ? `/api/product/create`
+      : `/api/product/update/${props.labId}`;
+
+    fetch(apiEndpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -105,6 +124,7 @@ function TestOffered() {
       .then((response) => response.json())
       .then((data) => {
         console.log("Success:", data);
+        alert("Test added successfully");
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -113,7 +133,6 @@ function TestOffered() {
 
   return (
     <>
-      <Sidebar />
       <div className="TestOffered">
         <section className="tests-offered">
           <h2>Tests Offered</h2>
@@ -311,17 +330,17 @@ function TestOffered() {
         <section className="saved-tests">
           <h2>Saved Tests</h2>
           <div className="test-cards">
-            {tests.map((test, index) => (
+            {productList.map((test, index) => (
               <div className="test-card" key={index}>
                 <div
                   className="delete-button"
                   onClick={() => deleteTest(index)}
                 >
-                  &#10005;
+                  ✕
                 </div>
-                <h3>{test.name}</h3>
-                <p>{test.description}</p>
-                <p>{test.price}</p>
+                <h3>{test.name || "N/A"}</h3>
+                <p>{test.description || "N/A"}</p>
+                <p>{test.price || "N/A"}</p>
               </div>
             ))}
           </div>

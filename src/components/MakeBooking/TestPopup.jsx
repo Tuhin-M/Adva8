@@ -1,5 +1,21 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+
+const dummyTests = [
+  {
+    id: 1,
+    name: "Blood Test",
+    description: "Complete blood count",
+    price: "$50",
+  },
+  { id: 2, name: "Urine Test", description: "Urinalysis", price: "$30" },
+  { id: 3, name: "X-Ray", description: "Chest X-ray", price: "$100" },
+  {
+    id: 4,
+    name: "MRI",
+    description: "Magnetic Resonance Imaging",
+    price: "$500",
+  },
+];
 
 function Popup({ isOpen, onClose, onTestsSelected }) {
   const [availableTests, setAvailableTests] = useState([]);
@@ -7,18 +23,9 @@ function Popup({ isOpen, onClose, onTestsSelected }) {
 
   useEffect(() => {
     if (isOpen) {
-      fetchAvailableTests();
+      setAvailableTests(dummyTests);
     }
   }, [isOpen]);
-
-  const fetchAvailableTests = async () => {
-    try {
-      const response = await axios.get("/api/available-tests");
-      setAvailableTests(response.data);
-    } catch (error) {
-      console.error("Error fetching available tests:", error);
-    }
-  };
 
   const handleTestSelect = (id) => {
     setSelectedTests((prevSelected) =>
@@ -28,16 +35,12 @@ function Popup({ isOpen, onClose, onTestsSelected }) {
     );
   };
 
-  const handleSubmit = async () => {
-    try {
-      const response = await axios.post("/api/selected-tests", {
-        testIds: selectedTests,
-      });
-      onTestsSelected(response.data);
-      onClose();
-    } catch (error) {
-      console.error("Error submitting selected tests:", error);
-    }
+  const handleSubmit = () => {
+    const selectedTestData = dummyTests.filter((test) =>
+      selectedTests.includes(test.id)
+    );
+    onTestsSelected(selectedTestData);
+    onClose();
   };
 
   if (!isOpen) return null;

@@ -91,3 +91,8 @@
 .auth-form .skip:hover {
     text-decoration: underline;
 }
+
+.role{
+    display: flex;
+gap: 10px;
+}
