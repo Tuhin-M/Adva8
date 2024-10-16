@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
 
 const dummyTests = [
@@ -20,10 +21,28 @@ const dummyTests = [
 function Popup({ isOpen, onClose, onTestsSelected }) {
   const [availableTests, setAvailableTests] = useState([]);
   const [selectedTests, setSelectedTests] = useState([]);
+  const [testData, setTestData] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    fetchTests();
+  }, []);
+  console.log("Fetching Lab Tests");
+  const fetchTests = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get("/api/lab/get");
+      setTestData(response.data);
+    } catch (error) {
+      console.error("Error fetching lab tests:", error);
+      setTestData([]);
+    }
+    console.log("Lab Test Data here", testData);
+  };
 
   useEffect(() => {
     if (isOpen) {
-      setAvailableTests(dummyTests);
+      setAvailableTests(testData);
     }
   }, [isOpen]);
 
@@ -36,8 +55,8 @@ function Popup({ isOpen, onClose, onTestsSelected }) {
   };
 
   const handleSubmit = () => {
-    const selectedTestData = dummyTests.filter((test) =>
-      selectedTests.includes(test.id)
+    const selectedTestData = testData.filter((test) =>
+      selectedTests.includes(test._id)
     );
     onTestsSelected(selectedTestData);
     onClose();
@@ -52,29 +71,34 @@ function Popup({ isOpen, onClose, onTestsSelected }) {
         <div className="tests-list">
           {availableTests.map((test) => (
             <div
-              key={test.id}
+              key={test._id}
               className={`test-item ${
-                selectedTests.includes(test.id) ? "selected" : ""
+                selectedTests.includes(test._id) ? "selected" : ""
               }`}
-              onClick={() => handleTestSelect(test.id)}
+              onClick={() => handleTestSelect(test._id)}
             >
               <div className="test-image"></div>
               <div className="test-info">
-                <h3>{test.name}</h3>
-                <p>{test.description}</p>
+                <h3>{test.labName}</h3>
+                <p>{test.labAddress}</p>
                 <p className="test-price">{test.price}</p>
               </div>
               <input
                 type="checkbox"
-                checked={selectedTests.includes(test.id)}
+                checked={selectedTests.includes(test._id)}
                 readOnly
               />
             </div>
           ))}
         </div>
-        <button className="primary-button" onClick={handleSubmit}>
-          Submit
-        </button>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <button className="primary-button" onClick={handleSubmit}>
+            Submit
+          </button>
+          <button className="secondary-button" onClick={onClose}>
+            Close
+          </button>
+        </div>
       </div>
     </div>
   );
