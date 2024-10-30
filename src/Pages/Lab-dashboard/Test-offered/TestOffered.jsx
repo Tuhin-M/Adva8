@@ -38,6 +38,7 @@ function TestOffered(props) {
   };
 
   const [newTest, setNewTest] = useState({
+    testId: "",
     name: "",
     description: "",
     sampleName: "",
@@ -92,8 +93,13 @@ function TestOffered(props) {
     });
   };
 
+  const generateTestId = () => {
+    return "test_" + Math.random().toString(36).substr(2, 9);
+  };
+
   const addTest = () => {
-    setProductList([...productList, newTest]);
+    const testWithId = { ...newTest, testId: generateTestId() };
+    setProductList([...productList, testWithId]);
   };
 
   const deleteTest = (index) => {

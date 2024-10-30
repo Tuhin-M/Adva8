@@ -1,95 +1,89 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
-
-const dummyTests = [
-  {
-    id: 1,
-    name: "Blood Test",
-    description: "Complete blood count",
-    price: "$50",
-  },
-  { id: 2, name: "Urine Test", description: "Urinalysis", price: "$30" },
-  { id: 3, name: "X-Ray", description: "Chest X-ray", price: "$100" },
-  {
-    id: 4,
-    name: "MRI",
-    description: "Magnetic Resonance Imaging",
-    price: "$500",
-  },
-];
+import { useParams } from "react-router-dom";
 
 function Popup({ isOpen, onClose, onTestsSelected }) {
   const [availableTests, setAvailableTests] = useState([]);
-  const [selectedTests, setSelectedTests] = useState([]);
+  const [selectedTest, setSelectedTest] = useState(null);
   const [testData, setTestData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const params = useParams();
 
-  useEffect(() => {
-    fetchTests();
-  }, []);
-  console.log("Fetching Lab Tests");
   const fetchTests = async () => {
     setLoading(true);
+    console.log("Fetching Lab Tests", params);
     try {
-      const response = await axios.get("/api/lab/get");
-      setTestData(response.data);
+      const response = await axios.get(`/api/product/get/${params?.listingId}`);
+      setTestData(response.data[0].productList);
+      setAvailableTests(response.data[0].productList);
+      setLoading(false);
+      console.log("Lab Tests:", response.data[0].productList);
     } catch (error) {
       console.error("Error fetching lab tests:", error);
       setTestData([]);
+      setAvailableTests([]);
+      setLoading(false);
     }
-    console.log("Lab Test Data here", testData);
   };
 
   useEffect(() => {
     if (isOpen) {
-      setAvailableTests(testData);
+      fetchTests();
     }
-  }, [isOpen]);
+  }, [isOpen, params?.listingId]);
 
-  const handleTestSelect = (id) => {
-    setSelectedTests((prevSelected) =>
-      prevSelected.includes(id)
-        ? prevSelected.filter((testId) => testId !== id)
-        : [...prevSelected, id]
-    );
+  const handleTestSelect = (test) => {
+    setSelectedTest(test);
   };
 
   const handleSubmit = () => {
-    const selectedTestData = testData.filter((test) =>
-      selectedTests.includes(test._id)
-    );
-    onTestsSelected(selectedTestData);
+    onTestsSelected(selectedTest ? [selectedTest] : []);
     onClose();
   };
 
   if (!isOpen) return null;
+
+  if (loading) {
+    return (
+      <div className="popup-overlay">
+        <div className="popup-content">
+          <h2>Loading...</h2>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="popup-overlay">
       <div className="popup-content">
         <h2>Choose from the below available tests</h2>
         <div className="tests-list">
-          {availableTests.map((test) => (
-            <div
-              key={test._id}
-              className={`test-item ${
-                selectedTests.includes(test._id) ? "selected" : ""
-              }`}
-              onClick={() => handleTestSelect(test._id)}
-            >
-              <div className="test-image"></div>
-              <div className="test-info">
-                <h3>{test.labName}</h3>
-                <p>{test.labAddress}</p>
-                <p className="test-price">{test.price}</p>
+          {availableTests && availableTests.length > 0 ? (
+            availableTests.map((test, index) => (
+              <div
+                key={index}
+                className={`test-item ${
+                  selectedTest === test ? "selected" : ""
+                }`}
+                onClick={() => handleTestSelect(test)}
+              >
+                <div className="test-image"></div>
+                <div className="test-info">
+                  <h3>{test.name}</h3>
+                  <p>{test.description}</p>
+                  <p className="test-price">₹{test.price}</p>
+                </div>
+                <input
+                  type="radio"
+                  checked={selectedTest === test}
+                  onChange={() => handleTestSelect(test)}
+                  onClick={(e) => e.stopPropagation()}
+                />
               </div>
-              <input
-                type="checkbox"
-                checked={selectedTests.includes(test._id)}
-                readOnly
-              />
-            </div>
-          ))}
+            ))
+          ) : (
+            <p>No tests available</p>
+          )}
         </div>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <button className="primary-button" onClick={handleSubmit}>

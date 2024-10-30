@@ -21,8 +21,8 @@ function Details() {
   const params = useParams();
   const isLabOwner = localStorage.getItem("userRole");
 
+  console.log("paraams - ", params);
   useEffect(() => {
-    console.log("paraams - ", params);
     const fetchListing = async () => {
       try {
         setLoading(true);
@@ -79,7 +79,7 @@ function Details() {
                 </p>
               </div>
               {isLabOwner == 0 && (
-                <a href="/make-booking">
+                <a href={"/make-booking/" + params?.listingId}>
                   <button className="px-6 py-2 bg-teal-500 text-white rounded-md">
                     Make Booking
                   </button>

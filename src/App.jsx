@@ -41,7 +41,7 @@ function App() {
         <Route path="/labs" element={<LabCards />} />
         <Route path="/test" element={<TestOffered />} />
         <Route path="/blog" element={<Blog />} />
-        <Route path="/make-booking" element={<MakeBooking />} />
+        <Route path="/make-booking/:listingId" element={<MakeBooking />} />
       </Routes>
     </>
   );

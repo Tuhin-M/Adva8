@@ -58,7 +58,7 @@ function MakeBooking() {
 
   const fetchSelectedTests = async () => {
     try {
-      const response = await axios.get("/api/selected-tests");
+      const response = await axios.get("/api/tests");
       setSelectedTests(response.data);
     } catch (error) {
       console.error("Error fetching selected tests:", error);
@@ -197,7 +197,7 @@ function MakeBooking() {
     console.log("Full payload:", payload);
 
     try {
-      const response = await axios.post("/api/make-booking", payload);
+      const response = await axios.post("/api/bookings", payload);
       console.log("Booking successful:", response.data);
       // Handle successful booking (e.g., show success message, redirect to confirmation page)
     } catch (error) {
@@ -305,6 +305,7 @@ function MakeBooking() {
           type="file"
           onChange={handleFileSelect}
           className="upload-button"
+          multiple
         />
         {selectedFiles.length > 0 && (
           <div>
@@ -317,24 +318,14 @@ function MakeBooking() {
             <button onClick={handleFileUpload} className="upload-button">
               Upload Selected Files
             </button>
+            <button
+              onClick={() => handleFileDelete(file.name)}
+              className="delete-file-button"
+            >
+              Delete
+            </button>
           </div>
         )}
-        <ul className="file-list">
-          {uploadedFiles.map((file, index) => (
-            <li key={index}>
-              <span className="file-icon">📄</span>
-              <a href={file.url} target="_blank" rel="noopener noreferrer">
-                {file.name}
-              </a>
-              <button
-                onClick={() => handleFileDelete(file.name)}
-                className="delete-file-button"
-              >
-                Delete
-              </button>
-            </li>
-          ))}
-        </ul>
       </div>
       <div className="section">
         <h2>Test Selection</h2>
@@ -354,12 +345,12 @@ function MakeBooking() {
           {Array.isArray(selectedTests) &&
             selectedTests.map((test) => (
               <div className="test-card" key={test.id}>
-                <div
+                <button
                   className="delete-button"
                   onClick={() => deleteTest(test.id)}
                 >
                   ✕
-                </div>
+                </button>
                 <h3>{test.name}</h3>
                 <p>{test.description}</p>
                 <p>{test.price}</p>
@@ -446,7 +437,7 @@ function MakeBooking() {
                 id="totalPrice"
                 value={`${selectedTests
                   .reduce(
-                    (total, test) => total + parseFloat(test.price.slice(1)),
+                    (total, test) => total + parseFloat(test.price.slice(0)),
                     0
                   )
                   .toFixed(2)}`}
