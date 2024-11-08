@@ -11,33 +11,16 @@ import {
   getDownloadURL,
   deleteObject,
 } from "firebase/storage";
+import { useParams } from "react-router-dom";
 
 function MakeBooking() {
   const [selectedTests, setSelectedTests] = useState([]);
-  const [days, setDays] = useState({
-    Monday: false,
-    Tuesday: false,
-    Wednesday: false,
-    Thursday: false,
-    Friday: false,
-    Saturday: false,
-    Sunday: false,
-  });
-  const [timeSlots, setTimeSlots] = useState({
-    "9AM - 10AM": false,
-    "10AM - 11AM": false,
-    "11AM - 12PM": false,
-    "12PM - 1PM": false,
-    "1PM - 2PM": false,
-    "2PM - 3PM": false,
-    "3PM - 4PM": false,
-    "4PM - 5PM": false,
-    "5PM - 6PM": false,
-    "6PM - 7PM": false,
-  });
+  const [selectedDay, setSelectedDay] = useState("");
+
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const params = useParams();
   const [userDetails, setUserDetails] = useState({
     fullName: "",
     dateOfBirth: "",
@@ -90,18 +73,12 @@ function MakeBooking() {
     }
   };
 
-  const handleClickForDayChange = (day) => {
-    setDays((prevDays) => ({
-      ...prevDays,
-      [day]: !prevDays[day],
-    }));
+  const handleDeleteTest = async (testId) => {
+    setSelectedTests(selectedTests.filter((test) => test.id !== testId));
   };
 
-  const handleClickForTimeChange = (slot) => {
-    setTimeSlots((prevTimeSlots) => ({
-      ...prevTimeSlots,
-      [slot]: !prevTimeSlots[slot],
-    }));
+  const handleClickForDayChange = (day) => {
+    setSelectedDay(day);
   };
 
   const handleFileSelect = (event) => {
@@ -165,47 +142,84 @@ function MakeBooking() {
     }));
   };
 
-  const handleAdditionalFeaturesChange = (e) => {
-    const { id, checked } = e.target;
-    setAdditionalFeatures((prevFeatures) => ({
-      ...prevFeatures,
-      [id]: checked,
-    }));
-  };
-
   const handleProceedToPayment = async () => {
-    const selectedDays = Object.keys(days).filter((day) => days[day]);
-    const selectedTimeSlots = Object.keys(timeSlots).filter(
-      (slot) => timeSlots[slot]
-    );
-
+    let selectedTestData = selectedTests.map((test) => {
+      return {
+        id: test.testId,
+        name: test.name,
+        price: test.price,
+        description: test.description,
+      };
+    });
     const payload = {
       userDetails,
-      uploadedFiles: uploadedFiles.map((file) => file.url),
-      selectedTests,
+      uploadedFiles: [uploadedFiles[0].url],
+      selectedTests: selectedTestData,
       availability: {
-        days: selectedDays,
-        timeSlots: selectedTimeSlots,
+        day: selectedDay,
+        timeSlot: selectedTimeSlot,
       },
       additionalFeatures,
       totalTests: selectedTests.length,
       totalPrice: selectedTests
         .reduce((total, test) => total + parseFloat(test.price.slice(1)), 0)
         .toFixed(2),
+      labRef: params.listingId,
     };
 
-    console.log("Full payload:", payload);
+    console.log(JSON.stringify(payload));
 
     try {
-      const response = await axios.post("/api/bookings", payload);
+      const response = await axios.post("/api/order/create", payload);
       console.log("Booking successful:", response.data);
-      // Handle successful booking (e.g., show success message, redirect to confirmation page)
+
+      Swal.fire({
+        title: "Success!",
+        text: "Booking successful",
+        icon: "success",
+        confirmButtonText: "OK",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.href = "/";
+        }
+      });
     } catch (error) {
       console.error("Error making booking:", error);
-      // Handle error (e.g., show error message to user)
+      popToaster("Error making booking", "error");
     }
   };
+  const [timeSlots, setTimeSlots] = useState([
+    "9AM - 10AM",
+    "10AM - 11AM",
+    "11AM - 12PM",
+    "12PM - 1PM",
+    "1PM - 2PM",
+    "2PM - 3PM",
+    "3PM - 4PM",
+    "4PM - 5PM",
+    "5PM - 6PM",
+    "6PM - 7PM",
+  ]);
+  const [selectedTimeSlot, setSelectedTimeSlot] = useState(null);
+  const handleClickForTimeChange = (slot) => {
+    console.log("Clicked time slot:", slot);
+    setSelectedTimeSlot(slot);
+  };
 
+  const handleAdditionalFeaturesChange = (e) => {
+    const { id, checked } = e.target;
+
+    const featureId =
+      id === "Express Service"
+        ? "expressService"
+        : id === "Online Reports"
+        ? "onlineReports"
+        : id;
+    setAdditionalFeatures((prevFeatures) => ({
+      ...prevFeatures,
+      [featureId]: checked,
+    }));
+  };
   return (
     <div className="MakeBooking">
       <div className="section user-details">
@@ -342,120 +356,151 @@ function MakeBooking() {
           />
         </div>
         <div className="test-cards">
-          {Array.isArray(selectedTests) &&
-            selectedTests.map((test) => (
-              <div className="test-card" key={test.id}>
-                <button
-                  className="delete-button"
-                  onClick={() => deleteTest(test.id)}
-                >
-                  ✕
-                </button>
-                <h3>{test.name}</h3>
-                <p>{test.description}</p>
-                <p>{test.price}</p>
-              </div>
-            ))}
+          {Array.isArray(selectedTests) && selectedTests.length > 0 && (
+            <table className="test-table">
+              <thead>
+                <tr>
+                  <th>Test Name</th>
+                  <th>Description</th>
+                  <th>Price</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {selectedTests.map((test) => (
+                  <tr key={test.id}>
+                    <td>{test.name}</td>
+                    <td>{test.description}</td>
+                    <td>{test.price}</td>
+                    <td>
+                      <a
+                        href="#"
+                        style={{ color: "red" }}
+                        onClick={() => handleDeleteTest(test.id)}
+                      >
+                        ✕
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
-        <form>
-          <div className="form-row">
-            <div className="form-group">
-              <label>Availability</label>
-              <div className="date-container">
-                {Object.keys(days).map((day) => {
-                  return (
+        {selectedTests.length > 0 && (
+          <form>
+            <div className="form-row">
+              <div className="form-group">
+                <label>Availability</label>
+                <div className="date-container">
+                  {selectedTests[0]?.availability.map((day) => {
+                    return (
+                      <div
+                        key={day}
+                        className={`days ${
+                          day === selectedDay ? "active" : ""
+                        }`}
+                        onClick={() => handleClickForDayChange(day)}
+                      >
+                        {day}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+            <div className="form-row">
+              <div className="form-group">
+                <label>Available Time slots</label>
+
+                <div className="time-slots-container">
+                  {timeSlots.map((slot) => {
+                    return (
+                      <div
+                        key={slot}
+                        className={`timeSlots ${
+                          slot === selectedTimeSlot ? "active" : ""
+                        }`}
+                        onClick={() => handleClickForTimeChange(slot)}
+                      >
+                        {slot}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+            <div className="form-row">
+              <div className="form-group">
+                <label>Additional Features</label>
+                <div className="checkbox-group">
+                  {selectedTests[0]?.features.map((feature) => (
                     <div
-                      key={day}
-                      className={`days ${days[day] ? "active" : ""}`}
-                      onClick={() => handleClickForDayChange(day)}
+                      style={{ display: "flex", alignItems: "center" }}
+                      key={feature}
                     >
-                      {day}
+                      <input
+                        type="checkbox"
+                        id={feature}
+                        checked={
+                          additionalFeatures[
+                            feature === "Express Service"
+                              ? "expressService"
+                              : "onlineReports"
+                          ]
+                        }
+                        onChange={handleAdditionalFeaturesChange}
+                      />
+                      <label htmlFor={feature}>{feature}</label>
                     </div>
-                  );
-                })}
+                  ))}
+                </div>
               </div>
             </div>
-          </div>
-          <div className="form-row">
-            <div className="form-group">
-              <label>Available Time slots</label>
-              <div className="time-slots-container">
-                {Object.keys(timeSlots).map((slot) => {
-                  return (
-                    <div
-                      key={slot}
-                      className={`timeSlots ${timeSlots[slot] ? "active" : ""}`}
-                      onClick={() => handleClickForTimeChange(slot)}
-                    >
-                      {slot}
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-          <div className="form-row">
-            <div className="form-group">
-              <label>Additional Features</label>
-              <div className="checkbox-group">
-                <input
-                  type="checkbox"
-                  id="expressService"
-                  checked={additionalFeatures.expressService}
-                  onChange={handleAdditionalFeaturesChange}
-                />
-                <label htmlFor="expressService">Express Service</label>
-                <input
-                  type="checkbox"
-                  id="onlineReports"
-                  checked={additionalFeatures.onlineReports}
-                  onChange={handleAdditionalFeaturesChange}
-                />
-                <label htmlFor="onlineReports">Online Reports</label>
-              </div>
-            </div>
-          </div>
-        </form>
+          </form>
+        )}
       </div>
-      <div className="section booking-summary">
-        <h2>Bookings Summary</h2>
-        <div className="summary-details">
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="totalTests">Total Tests</label>
-              <input
-                type="text"
-                id="totalTests"
-                value={selectedTests.length}
-                readOnly
-              />
+      {selectedTests.length > 0 && (
+        <div className="section booking-summary">
+          <h2>Bookings Summary</h2>
+          <div className="summary-details">
+            <div className="form-row">
+              <div className="form-group">
+                <label htmlFor="totalTests">Total Tests</label>
+                <input
+                  type="text"
+                  id="totalTests"
+                  value={selectedTests.length}
+                  readOnly
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="totalPrice">Total Price</label>
+                <input
+                  type="text"
+                  id="totalPrice"
+                  value={`${selectedTests
+                    .reduce(
+                      (total, test) => total + parseFloat(test.price.slice(0)),
+                      0
+                    )
+                    .toFixed(2)}`}
+                  readOnly
+                />
+              </div>
             </div>
-            <div className="form-group">
-              <label htmlFor="totalPrice">Total Price</label>
-              <input
-                type="text"
-                id="totalPrice"
-                value={`${selectedTests
-                  .reduce(
-                    (total, test) => total + parseFloat(test.price.slice(0)),
-                    0
-                  )
-                  .toFixed(2)}`}
-                readOnly
-              />
-            </div>
+            <button
+              disabled={!selectedDay || !selectedTimeSlot}
+              type="button"
+              className="primary-button"
+              onClick={handleProceedToPayment}
+            >
+              Proceed to Payment
+            </button>
           </div>
-          <button
-            type="button"
-            className="primary-button"
-            onClick={handleProceedToPayment}
-          >
-            Proceed to Payment
-          </button>
         </div>
-      </div>
+      )}
     </div>
   );
 }
-
 export default MakeBooking;
