@@ -173,16 +173,18 @@ function MakeBooking() {
       const response = await axios.post("/api/order/create", payload);
       console.log("Booking successful:", response.data);
 
-      Swal.fire({
-        title: "Success!",
-        text: "Booking successful",
-        icon: "success",
-        confirmButtonText: "OK",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          window.location.href = "/";
-        }
-      });
+      if (response.status === 200) {
+        Swal.fire({
+          title: "Success!",
+          text: "Booking successful",
+          icon: "success",
+          confirmButtonText: "OK",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = "/home";
+          }
+        });
+      }
     } catch (error) {
       console.error("Error making booking:", error);
       popToaster("Error making booking", "error");
