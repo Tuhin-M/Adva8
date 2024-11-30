@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-
 // import Navigation from "./Navigation/Nav";
 import Products from "../../Products/Products";
 import products from "../../db/data";
@@ -11,7 +10,7 @@ import "./Listing.css";
 function Listing() {
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-  // ----------- Input Filter -----------
+  // ----------- Input Filter ----------- 
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [listingData, setListingData] = useState([]);
@@ -24,48 +23,52 @@ function Listing() {
     (product) => product.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
   );
 
-  // ----------- Radio Filtering -----------
+  // ----------- Radio Filtering ----------- 
   const handleChange = (event) => {
     setSelectedCategory(event.target.value);
   };
 
-  // ------------ Button Filtering -----------
+  // ------------ Button Filtering ----------- 
   const handleClick = (event) => {
     setSelectedCategory(event.target.value);
   };
 
-  function filteredData(products, selected, query) {
+  // ------------ Filter Data ----------- 
+  function filteredData(products, selectedCategory, query) {
     let filteredProducts = products;
 
-    // Filtering Input Items
+    // Apply Input filter (search query)
     if (query) {
       filteredProducts = filteredItems;
     }
 
-    // Applying selected filter
-    if (selected) {
+    // Apply Category filter
+    if (selectedCategory) {
       filteredProducts = filteredProducts.filter(
-        ({ type, name }) => type === selected || name === selected
+        ({ type, name }) => type === selectedCategory || name === selectedCategory
       );
     }
 
-    console.log("filterred product - ", filteredProducts);
-    return filteredProducts.map(
-      ({ img, name, star, reviews, prevPrice, newPrice }) => (
-        <Card
-          key={Math.random()}
-          img={img}
-          name={name}
-          star={star}
-          reviews={reviews}
-          prevPrice={prevPrice}
-          newPrice={newPrice}
-        />
-      )
-    );
+    return filteredProducts; // Return filtered data only, without mapping to Card
   }
 
-  const result = filteredData(listingData, selectedCategory, query);
+  // This will store the filtered products list
+  const filteredProducts = filteredData(listingData, selectedCategory, query);
+
+  // Map the filtered products to Cards
+  const result = filteredProducts.map(
+    ({ img, name, star, reviews, prevPrice, newPrice }) => (
+      <Card
+        key={Math.random()} // It's better to use a unique ID, but we'll leave Math.random() here for simplicity
+        img={img}
+        name={name}
+        star={star}
+        reviews={reviews}
+        prevPrice={prevPrice}
+        newPrice={newPrice}
+      />
+    )
+  );
 
   useEffect(() => {
     const fetchListings = async () => {
@@ -73,7 +76,7 @@ function Listing() {
       try {
         const res = await fetch(`/api/lab/get`);
         const data = await res.json();
-        console.log("data - ", data);
+        // console.log("data - ", data);
         setListingData(data);
       } catch {
         setListingData([]);
@@ -83,6 +86,7 @@ function Listing() {
 
     fetchListings();
   }, []);
+
   return (
     <div style={{ display: 'flex' }}>
       <div style={{ flex: '0 0 250px' }}>

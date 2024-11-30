@@ -17,7 +17,7 @@ const AppointmentForm = () => {
       setLoading(true);
       const res = await fetch(`/api/booking/get`);
       const data = await res.json();
-      console.log("booking data - ", data);
+      // console.log("booking data - ", data);
       if (data.length > 8) {
       } else {
       }

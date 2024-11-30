@@ -1,110 +1,80 @@
-/* AboutUs.css */
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.about-us {
+  background-color: #ffffff;
+  margin: 5rem auto;
+  padding: 20px;
+  max-width: 1200px;
+}
+
+.about-us-heading {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  font-size: 32px;
+  color: #007777;
+  margin-bottom: 20px;
+}
+
+.about-us-content {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Ensure the image section scales properly */
+.about-us-photo {
+  flex: 1;
+  min-width: 300px;
+  background-image: url("../../assets/pic4.jpeg");
+  background-size: cover;
+  background-position: center;
+  height: 60vh;
+  border-radius: 10px;
+}
+
+/* Adjust text content */
+.about-us-text {
+  flex: 2;
+  padding-left: 20px;
+  font-size: 18px;
+  color: #191919;
+}
+
+.about-us-text p {
+  margin-bottom: 15px;
+}
+
+/* Media Queries for responsiveness */
+@media (max-width: 768px) {
+  .about-us-content {
+    flex-direction: column;
+    align-items: center;
   }
-  
-  .logo {
-    font-size: 1.5em;
-    font-weight: bold;
-    margin-right: 20px;
+
+  .about-us-photo {
+    width: 100%;
+    height: 40vh;
+    margin-bottom: 20px;
   }
-  
-  .search-bar {
-    flex: 1;
-    background-color: #ffffff;
-    padding: 5px 10px;
-    margin-right: 20px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    width: 30%;
+
+  .about-us-text {
+    padding-left: 0;
+    text-align: center;
   }
-  
-  .nav-items a {
-    margin: 0 10px;
-    text-decoration: none;
-    color: #191919;
+}
+
+@media (max-width: 480px) {
+  .about-us-heading {
+    font-size: 24px;
   }
-  
-  .nav-items a:hover {
-    color: #007BFF;
+
+  .about-us-text {
+    font-size: 16px;
   }
-  
-  .profile {
-    margin-left: auto;
-    position: relative;
-    cursor: pointer;
-    margin-right: 30px;
-  }
-  
-  .profile-dropdown {
-    position: absolute;
-    top: 35px;
-    right: 0;
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
-    z-index: 1001;
-  }
-  
-  .profile-dropdown a {
-    display: block;
-    padding: 10px;
-    text-decoration: none;
-    color: #191919;
-  }
-  
-  .profile-dropdown a:hover {
-    background-color: #ffffff;
-  }
-  .about-us {
-      background-color: #ffffff;
-      margin: 10rem;
-    }
-    
-    .about-us-heading {
-      display: flex;
-      justify-content: center;
-      text-align: center;
-      font-size: 32px;
-      color: #007777;
-      margin-bottom: 20px;
-    }
-    
-    .about-us-content {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-    }
-    
-    .about-us-photo {
-      flex: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-image: url("../assets/pic4.jpeg"); 
-      background-size: cover;
-      background-position: center;
-      padding: 30px;
-      height: 60vh;
-    }
-    
-    /* .photo {
-      width: 300px;
-      height: 300px;
-      object-fit: cover;
-      border-radius: 10px;
-      background-image: url("../public/assets/pic3.jpg"); 
-    } */
-    
-    .about-us-text {
-      flex: 2;
-      padding-left: 20px;
-      font-size: 18px;
-      color: #191919;
-    }
-    
-    .about-us-text p {
-      margin-bottom: 15px;
-    }  
+}

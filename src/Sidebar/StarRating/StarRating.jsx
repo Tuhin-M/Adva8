@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Collapse, Typography } from 'antd';
+import './StarRating.css';
 
 const { Title } = Typography;
 const { Panel } = Collapse;
