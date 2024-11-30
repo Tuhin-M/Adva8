@@ -1,20 +1,17 @@
-.sidebar-title {
-    margin-top: 20px;
-  }
-  
-  .ml {
-    margin-left: 20px;
-  }
+.ant-typography {
+  color: #001529;
+}
 
-  .container {
-    display: flex;
-     flex-direction: row;
-     justify-content: center;
-     align-items: center;
- 
- }
- .button {
-  color: rgb(29, 32, 31);
+.ant-slider-track {
+  background-color: #1890ff;
+}
+
+.ant-input-number {
+  border-radius: 8px;
+}
+
+.ant-btn-primary {
   background-color: aqua;
- }
- 
+  color: rgb(29, 32, 31);
+  border: none;
+}

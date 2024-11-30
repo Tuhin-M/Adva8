@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import "./Details.css"; // Assume styles are defined here for simplicity
+import "./Details.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationArrow } from "@fortawesome/free-solid-svg-icons";
 import Slider from "../../components/Slider/Slider";
-import { FaMapMarkerAlt } from "react-icons/fa";
+import {
+  FaMapMarkerAlt,
+  FaPhone,
+  FaEnvelope,
+  FaGlobe,
+  FaClock,
+} from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore from "swiper";
 import "swiper/css/bundle";
@@ -20,8 +26,6 @@ function Details() {
   const [contact, setContact] = useState(false);
   const params = useParams();
   const isLabOwner = localStorage.getItem("userRole");
-
-  console.log("paraams - ", params);
   useEffect(() => {
     const fetchListing = async () => {
       try {
@@ -65,7 +69,6 @@ function Details() {
               </SwiperSlide>
             ))}
           </Swiper>
-          {/* <div className="background-image"></div> */}
           <div className="labs-details">
             <div className="flex justify-between items-center">
               <div>
@@ -86,45 +89,44 @@ function Details() {
                 </a>
               )}
             </div>
-            <p className="mt-6 text-gray-700">{listing.description}</p>
-            {/* <div className="max-w-md mx-auto mt-10 p-8 border border-blue-500 rounded-md">
-          <form>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-              <input
-                type="text"
-                placeholder="Your Name*"
-                className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-teal-500"
-              />
-              <input
-                type="email"
-                placeholder="Your E-mail"
-                className="p-2 border border-gray-300 rounded-md focus:outline-none focus:border-teal-500"
-              />
+
+            <div className="mt-6 space-y-4">
+              <p className="text-gray-700">{listing.description}</p>
+
+              <div className="contact-info space-y-2">
+                <p className="flex items-center">
+                  <FaPhone className="mr-2" />
+                  <span>Phone: {listing.labPhoneNumber}</span>
+                </p>
+                <p className="flex items-center">
+                  <FaEnvelope className="mr-2" />
+                  <span>Email: {listing.labEmail}</span>
+                </p>
+                <p className="flex items-center">
+                  <FaGlobe className="mr-2" />
+                  <span>Website: {listing.labWebsite}</span>
+                </p>
+                <p className="flex items-center">
+                  <FaClock className="mr-2" />
+                  <span>
+                    Operating Hours: {listing.labOpeningTime} -{" "}
+                    {listing.labClosingTime}
+                  </span>
+                </p>
+                <div className="operating-days">
+                  <p className="font-semibold">Operating Days:</p>
+                  <ul className="list-disc pl-8">
+                    {listing.labOperatingDays.map((day, index) => (
+                      <li key={index}>{day}</li>
+                    ))}
+                  </ul>
+                </div>
+                {/* <p className="flex items-center">
+                  <FaMapMarkerAlt className="mr-2" />
+                  <span>Coordinates: {listing.labLatLong}</span>
+                </p> */}
+              </div>
             </div>
-            <div className="mt-4">
-              <input
-                type="text"
-                placeholder="Subject*"
-                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-teal-500"
-              />
-            </div>
-            <div className="mt-4">
-              <textarea
-                placeholder="Type Your Message*"
-                className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:border-teal-500"
-                rows="4"
-              ></textarea>
-            </div>
-            <div className="mt-6">
-              <button
-                type="submit"
-                className="w-full bg-teal-500 text-white p-2 rounded-md hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-opacity-50"
-              >
-                Confirm Booking
-              </button>
-            </div>
-          </form>
-        </div> */}
           </div>
           {isLabOwner == 1 && isLabOwner != undefined && (
             <TestOffered labId={currentLabId} />
@@ -134,5 +136,4 @@ function Details() {
     </div>
   );
 }
-
 export default Details;

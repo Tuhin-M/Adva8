@@ -1,7 +1,8 @@
 /* src/AppointmentForm.css */
 .appointment-form {
     width: 80%;
-    height: 50%;
+    padding-bottom: 50px;
+    padding-left: 50px;
     margin: auto;
     background: #ffffff;
     border-radius: 10px;
@@ -73,7 +74,7 @@
     background: #56BBB3;
     border: none;
     color: white;
-    padding: 10px 20px;
+    padding: 20px 35px 20px 20px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;

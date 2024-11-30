@@ -1,45 +1,22 @@
-import Input from "../../components/Input";
-import "./Speciality.css";
+import React from "react";
+import { Radio, Collapse, Typography } from "antd";
+
+const { Panel } = Collapse;
+const { Title } = Typography;
 
 const Speciality = ({ handleChange }) => {
   return (
-    <>
-      <div>
-        <h6 className="sidebar-title">Speciality</h6>
-        <label className="sidebar-label-container">
-          <input onChange={handleChange} type="radio" value="" name="test2" />
-          <span className="checkmark"></span>All
-        </label>
-
-        <Input
-          handleChange={handleChange}
-          value="Speciality 1"
-          title="Speciality 1"
-          name="test2"
-        />
-
-        <Input
-          handleChange={handleChange}
-          value="Speciality 2"
-          title="Speciality 2"
-          name="test2"
-        />
-
-        <Input
-          handleChange={handleChange}
-          value="Speciality 3"
-          title="Speciality 3"
-          name="test2"
-        />
-
-        <Input
-          handleChange={handleChange}
-          value="Speciality 4"
-          title="Speciality 4"
-          name="test2"
-        />
-      </div>
-    </>
+    <Collapse defaultActiveKey={["1"]} style={{ backgroundColor: "#f0f2f5", borderRadius: "8px" }}>
+      <Panel header={<Title level={5}>Speciality</Title>} key="1">
+        <Radio.Group onChange={handleChange} name="test2" style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+          <Radio value="">All</Radio>
+          <Radio value="Speciality 1">Speciality 1</Radio>
+          <Radio value="Speciality 2">Speciality 2</Radio>
+          <Radio value="Speciality 3">Speciality 3</Radio>
+          <Radio value="Speciality 4">Speciality 4</Radio>
+        </Radio.Group>
+      </Panel>
+    </Collapse>
   );
 };
 

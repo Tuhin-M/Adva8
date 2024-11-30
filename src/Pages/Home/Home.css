@@ -1,8 +1,26 @@
 /* for home stylising  *//* for home stylising  */
 .card-slider{
-  margin-top: 15vh;
+  margin-top: 5vh;
   color: #56BBB3;
   font-size:larger ;
+}
+
+@media screen and (max-width: 768px) {
+  .card-slider {
+    margin-top: 40vh;
+  }
+}
+.background-image {
+  background-image: url("../../assets/pic3.jpg"); /* Add your background image path here */
+  height: 500px;
+  width: 100vw;
+  background-size: cover;
+  background-position: center;
+  padding: 20px;
+  position: relative; /* Ensure the search-section can be centered correctly */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 /* src/SearchBar.css */
 .search-bar {

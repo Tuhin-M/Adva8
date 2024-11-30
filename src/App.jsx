@@ -1,4 +1,4 @@
-import "./App.css";
+import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./Pages/Home/Home";
@@ -19,6 +19,7 @@ import AllLabs from "./Pages/Lab-dashboard/AllLabs";
 import TestOffered from "./Pages/Lab-dashboard/Test-offered/TestOffered";
 import UserProfile from "./Pages/UserProfile/UserProfile";
 import LabCards from "./Pages/Lab-dashboard/LabCards";
+import AVDAFooter from "./components/Footer/Footer";
 
 function App() {
   return (
@@ -43,10 +44,11 @@ function App() {
         <Route path="/blog" element={<Blog />} />
         <Route path="/make-booking/:listingId" element={<MakeBooking />} />
       </Routes>
+      <AVDAFooter/>
     </>
   );
 }
 
 export default App;
 
-// App.css
+

@@ -1,76 +1,23 @@
-.sidebar-title {
+.ant-collapse-header {
+  background: #fff;
+  padding: 12px 24px;
+}
+
+.ant-radio-wrapper {
   font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 20px;
+  padding: 6px 0;
 }
 
-.sidebar-items {
-  margin-top: 20px;
-}
-.sidebar-item.open > .sidebar-content{
-  height: auto;
+.ant-collapse {
+  margin: 16px 0;
+  border: none;
 }
 
-.sidebar-label-container {
-  display: block;
-  position: relative;
-  padding-left: 35px;
-  margin-bottom: 12px;
-  cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+.ant-collapse-item {
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.sidebar-label-container input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-}
-
-.checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 20px;
-  width: 20px;
-  background-color: #eee;
-  border-radius: 50%;
-}
-
-.all {
-  background: linear-gradient(blue, crimson);
-}
-
-.sidebar-label-container:hover input ~ .checkmark {
-  background-color: #ccc;
-}
-
-.sidebar-label-container input:checked ~ .checkmark {
-  background-color: #2196f3;
-}
-
-.checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-}
-
-.sidebar-label-container input:checked ~ .checkmark:after {
-  display: block;
-}
-
-.sidebar-label-container .checkmark:after {
-  top: 6.4px;
-  left: 6.4px;
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: white;
-}
-
-.line {
-  margin-top: 3rem;
-  border-color: #f7f7f7;
+.ant-radio-group {
+  padding: 16px;
 }

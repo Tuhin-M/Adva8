@@ -1,3 +1,23 @@
-.color-title {
-  margin-top: 2rem;
+.ant-collapse-header {
+  background: #fff;
+  padding: 12px 24px;
+}
+
+.ant-radio-wrapper {
+  font-size: 16px;
+  padding: 6px 0;
+}
+
+.ant-collapse {
+  margin: 16px 0;
+  border: none;
+}
+
+.ant-collapse-item {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.ant-radio-group {
+  padding: 16px;
 }

@@ -1,67 +1,36 @@
-import React, { useState } from 'react';
-import './Selectable.css';
+import React, { useState } from "react";
+import { Collapse, Radio, Typography } from "antd";
 
-function Selectable() {
+const { Title } = Typography;
+const { Panel } = Collapse;
+
+const Selectable = () => {
   const [selectedOption, setSelectedOption] = useState(1);
- 
 
-  const handleOptionChange = (event) => {
-    setSelectedOption(parseInt(event.target.value));
-   };
-
- 
+  const handleOptionChange = (e) => {
+    setSelectedOption(e.target.value);
+  };
 
   return (
-    <div>
-     <h6 className="sidebar-title">Selectable</h6>
-      <div>
-      <label > 
-          <input
-            type="radio"
-            value="1"
-            checked={selectedOption === 1}
+    <div style={{ backgroundColor: "#f0f2f5", padding: "24px", borderRadius: "8px" }}>
+      <Title level={5}>Selectable</Title>
+
+      <Collapse defaultActiveKey={['1']} expandIconPosition="right" style={{ border: "none" }}>
+        <Panel header="Select an Option" key="1">
+          <Radio.Group
             onChange={handleOptionChange}
-          />
-          Selectable 1
-          </label>
-      </div>
-      <div>
-        <label>
-          <input
-            type="radio"
-            value="2"
-            checked={selectedOption === 2}
-            onChange={handleOptionChange}
-          />
-          Selectable 2
-        </label>
-      </div>
-      <div>
-        <label>
-          <input
-            type="radio"
-            value="3"
-            checked={selectedOption === 3}
-            onChange={handleOptionChange}
-          />
-          Selectable 3
-        </label>
-      </div>
-      <div>
-        <label>
-          <input
-            type="radio"
-            value="4"
-            checked={selectedOption === 4}
-            onChange={handleOptionChange}
-          />
-          Selectable 4
-        </label>
-        
-      </div>
-     
-      </div>
-  )
-}
+            value={selectedOption}
+            style={{ display: "flex", flexDirection: "column", gap: "8px" }}
+          >
+            <Radio value={1}>Selectable 1</Radio>
+            <Radio value={2}>Selectable 2</Radio>
+            <Radio value={3}>Selectable 3</Radio>
+            <Radio value={4}>Selectable 4</Radio>
+          </Radio.Group>
+        </Panel>
+      </Collapse>
+    </div>
+  );
+};
 
 export default Selectable;

@@ -1,35 +1,30 @@
-/* Hide the default radio button */
-.sidebar-title {
-  margin-top: 0px;
+/* Style for the stars */
+.star {
+  font-size: 2rem;
+  color: #d3d3d3;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
 }
-.ml {
-  margin-left: 10px;
+
+/* Filled stars (selected) */
+.star.filled {
+  color: #f4c542; /* Gold color */
 }
-input[type="radio"] {
-    display: none;
-  }
-  
-  /* Style the label for the radio button */
-  label {
-    display: inline-flex;
-    align-items: center;
-    cursor: pointer;
-    user-select: none;
-    font-size: 1rem;
-    line-height: 1.5;
-    margin-bottom: 0,5rem;
-  }
-  
-  /* Style the stars */
-  .stars {
-    display: inline-block;
-    font-size: 1.5rem;
-    line-height: 1;
-    background-color: rgb(135, 171, 57);
-    transition: color 0.2s;
-  }
-  
-  /* Style the selected stars */
-  input[type="radio"]:checked + label .stars {
-    background-color: rgb(244, 12, 12);
-  }
+
+/* On hover, stars will lighten */
+.star:hover {
+  color: #f4c542;
+}
+
+.ant-collapse-header {
+  font-weight: bold;
+}
+
+.ant-radio-wrapper {
+  padding: 8px 0;
+  font-size: 14px;
+}
+
+.ant-collapse-item {
+  margin-bottom: 8px;
+}

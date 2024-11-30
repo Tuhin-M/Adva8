@@ -1,61 +1,63 @@
 import React, { useState } from "react";
-import "./PriceRange.css";
+import { Slider, InputNumber, Button, Typography, Row, Col, Space } from "antd";
 
-function PriceRange() {
+const { Title } = Typography;
+
+const PriceRange = () => {
   const [priceMin, setPriceMin] = useState(0);
   const [priceMax, setPriceMax] = useState(999999);
 
-  const handlePriceChange = (event) => {
-    const value = parseInt(event.target.value, 10);
-    if (value >= 0) {
-      setPriceMin(value);
-    }
-  };
-
   const handleApply = () => {
-    // Handle filter application with the selected values
     console.log("Applied Filters:", {
       price: { min: priceMin, max: priceMax },
     });
   };
 
   return (
-    <>
-      <h6 className="sidebar-title">Price Range</h6>
-      <div className="cantainer text-align-center">
-        <div className="flex">
-          <input
-            type="range"
-            min="0"
-            max="999999"
-            value={priceMin}
-            onChange={handlePriceChange}
-            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+    <div style={{ backgroundColor: "#f0f2f5", padding: "24px", borderRadius: "8px" }}>
+      <Title level={5}>Price Range</Title>
+
+      <Row gutter={16} align="middle">
+        <Col span={12}>
+          <Slider
+            range
+            min={0}
+            max={999999}
+            value={[priceMin, priceMax]}
+            onChange={(values) => {
+              setPriceMin(values[0]);
+              setPriceMax(values[1]);
+            }}
           />
-          <br />
-          <input
-            type="number"
-            min="0"
+        </Col>
+
+        <Col span={16}>
+          <InputNumber
+            min={0}
+            max={999999}
             value={priceMin}
-            onChange={handlePriceChange}
-            className="w-20 pl-2 pr-2 text-sm text-gray-700"
+            onChange={(value) => setPriceMin(value)}
+            style={{ width: "100%" }}
           />
-        </div>
-        <input
-          type="number"
-          min="0"
-          value={priceMax}
-          onChange={(event) => setPriceMax(parseInt(event.target.value, 10))}
-          className="w-10 pl-2 pr-2 text-sm text-gray-700"
-        />
-      </div>
-      <div className="container">
-        <button onClick={handleApply} className="button">
+        </Col>
+        <Col span={16}>
+          <InputNumber
+            min={0}
+            max={999999}
+            value={priceMax}
+            onChange={(value) => setPriceMax(value)}
+            style={{ width: "100%" }}
+          />
+        </Col>
+      </Row>
+
+      <Space style={{ marginTop: "16px" }}>
+        <Button type="primary" onClick={handleApply}>
           Apply
-        </button>
-      </div>
-    </>
+        </Button>
+      </Space>
+    </div>
   );
-}
+};
 
 export default PriceRange;

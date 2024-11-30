@@ -84,12 +84,14 @@ function Listing() {
     fetchListings();
   }, []);
   return (
-    <>
-      <Sidebar handleChange={handleChange} />
-      {/* <Navigation query={query} handleInputChange={handleInputChange} /> */}
-      {/* <Recommended handleClick={handleClick} /> */}
-      <Products result={result} />
-    </>
+    <div style={{ display: 'flex' }}>
+      <div style={{ flex: '0 0 250px' }}>
+        <Sidebar handleChange={handleChange} />
+      </div>
+      <div style={{ flex: '1' }}>
+        <Products result={result} />
+      </div>
+    </div>
   );
 }
 
