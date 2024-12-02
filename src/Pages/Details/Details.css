@@ -6,12 +6,17 @@ body {
 .details{
   margin-top: 10vh;
 }
-.labs-details {
+/* .labs-details {
   margin-left: 10rem;
   margin-right: 10rem;
-  margin-bottom: 50px;
+  margin-bottom: 50px; 
+} */
+.mr-8 {
+  margin-right: 8px;
 }
-
+.mr-3 {
+  margin-right: 2px;
+}
 .logo {
   font-size: 1.5em;
   font-weight: bold;
