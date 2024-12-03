@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "./Lab-dashboard.css";
 import Sidebar from "./Sidebar.jsx";
+import { Row, Col, Card, Layout, Typography, Avatar, List } from "antd";
+
+const { Content } = Layout;
+const { Title } = Typography;
 
 const LabDashboard = () => {
   const [dashboardData, setDashboardData] = useState({
@@ -30,84 +34,61 @@ const LabDashboard = () => {
     fetchData();
   }, []);
 
+  const statCards = [
+    { icon: "🏨", title: "Bookings Today", value: dashboardData.bookingToday },
+    { icon: "🏥", title: "In Patient Today", value: dashboardData.patientIn },
+    { icon: "🏥", title: "Patient Relatives", value: dashboardData.patientRel },
+    { icon: "🛌", title: "Relieved Today", value: dashboardData.relievedToday },
+    { icon: "🧪", title: "Reports to be delivered", value: dashboardData.reportsToDeliver },
+    { icon: "🧪", title: "Reports Delivered", value: dashboardData.reportsDelivered },
+  ];
+
   return (
-    <div className="dashboard">
+    <Layout className="dashboard">
       <Sidebar />
-      <main className="main-content">
-        <div className="stats">
-          <div className="stat-card">
-            <div className="stat-icon">🏨</div>
-            <div className="stat-info">
-              <span className="stat-number">{dashboardData.bookingToday}</span>
-              <span className="stat-label">Bookings Today</span>
-            </div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-icon">🏥</div>
-            <div className="stat-info">
-              <span className="stat-number">{dashboardData.patientIn}</span>
-              <span className="stat-label">In Patient Today</span>
-            </div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-icon">🏥</div>
-            <div className="stat-info">
-              <span className="stat-number">{dashboardData.patientRel}</span>
-              <span className="stat-label">Patient Relatives</span>
-            </div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-icon">🛌</div>
-            <div className="stat-info">
-              <span className="stat-number">{dashboardData.relievedToday}</span>
-              <span className="stat-label">Relieved Today</span>
-            </div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-icon">🧪</div>
-            <div className="stat-info">
-              <span className="stat-number">
-                {dashboardData.reportsToDeliver}
-              </span>
-              <span className="stat-label">Reports to be delivered</span>
-            </div>
-          </div>
-          <div className="stat-card">
-            <div className="stat-icon">🧪</div>
-            <div className="stat-info">
-              <span className="stat-number">
-                {dashboardData.reportsDelivered}
-              </span>
-              <span className="stat-label">Reports Delivered</span>
-            </div>
-          </div>
-        </div>
-        <div className="appointments">
-          <h3>Upcoming Appointments</h3>
-          {dashboardData.appointments.map((appointment, index) => (
-            <div
-              key={index}
-              className={`appointment ${index === 0 ? "ongoing" : ""}`}
-            >
-              <div className="appointment-info">
-                <img src={appointment.image} alt="Patient" />
-                <div>
-                  <span className="patient-name">
-                    {appointment.patientName}
-                  </span>
-                  <span className="test-name">{appointment.testName}</span>
+      <Content className="main-content" style={{ padding: '24px' }}>
+        <Row gutter={[16, 16]}>
+          {statCards.map((stat, index) => (
+            <Col xs={24} sm={12} md={8} lg={8} xl={8} key={index}>
+              <Card>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                  <div style={{ fontSize: '24px', marginRight: '16px' }}>{stat.icon}</div>
+                  <div>
+                    <div style={{ fontSize: '24px', fontWeight: 'bold' }}>{stat.value}</div>
+                    <div>{stat.title}</div>
+                  </div>
                 </div>
-              </div>
-              {index === 0 ? (
-                <span className="appointment-status">Ongoing</span>
-              ) : (
-                <span className="appointment-time">{appointment.time}</span>
-              )}
-            </div>
+              </Card>
+            </Col>
           ))}
-        </div>
-      </main>
-    </div>
+        </Row>
+        
+        <Card style={{ marginTop: '24px' }}>
+          <Title level={4}>Upcoming Appointments</Title>
+          <List
+            itemLayout="horizontal"
+            dataSource={dashboardData.appointments}
+            renderItem={(appointment, index) => (
+              <List.Item
+                extra={
+                  index === 0 ? (
+                    <span style={{ color: '#1890ff' }}>Ongoing</span>
+                  ) : (
+                    <span>{appointment.time}</span>
+                  )
+                }
+              >
+                <List.Item.Meta
+                  avatar={<Avatar src={appointment.image} />}
+                  title={appointment.patientName}
+                  description={appointment.testName}
+                />
+              </List.Item>
+            )}
+          />
+        </Card>
+      </Content>
+    </Layout>
   );
 };
 

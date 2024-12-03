@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
-import "./Bookings.css";
+import { Layout, Card, Avatar, Button, Tabs, Table, Tag, Typography, Row, Col, Space } from "antd";
 import Sidebar from "./Sidebar";
+import "./Bookings.css";
+
+const { Content } = Layout;
+const { Title, Text } = Typography;
+const { TabPane } = Tabs;
 
 const Bookings = () => {
-  const [activeTab, setActiveTab] = useState("bookings");
   const [data, setData] = useState({
     bookingsLog: [
       {
@@ -62,7 +66,6 @@ const Bookings = () => {
   });
 
   useEffect(() => {
-    // Simulating API call with dummy data
     const fetchData = async () => {
       try {
         // const response = await fetch('your_api_endpoint');
@@ -76,157 +79,174 @@ const Bookings = () => {
     fetchData();
   }, []);
 
-  const renderContent = () => {
-    switch (activeTab) {
-      case "bookings":
-        return (
-          <div className="bookings-log">
-            {data.bookingsLog.map((booking, index) => (
-              <div key={index} className="booking-entry">
-                <img
-                  src={booking.image}
-                  alt="Patient"
-                  className="patient-image"
-                />
-                <div className="booking-info">
-                  <p>
-                    <strong>{booking.patientName}</strong>
-                  </p>
-                  <p>{booking.TestName}</p>
-                  <p>
-                    <strong>Status:</strong> {booking.status}
-                  </p>
-                  <p>{booking.time}</p>
-                </div>
-                <div className="booking-actions">
-                  {booking.status === "Waiting" ? (
-                    <>
-                      <button className="accept-button">Accept</button>
-                      <button className="decline-button">Decline</button>
-                    </>
-                  ) : (
-                    <span className={`status-${booking.status.toLowerCase()}`}>
-                      {booking.status}
-                    </span>
-                  )}
-                </div>
-                <div className="view-details">
-                  <button className="view-details-button">View Details</button>
-                </div>
-              </div>
-            ))}
-          </div>
-        );
-      case "inout":
-        return (
-          <div className="in-out-track">
-            {data.inOutTrack.map((booking, index) => (
-              <div key={index} className="booking-entry">
-                <img
-                  src={booking.image}
-                  alt="Patient"
-                  className="patient-image"
-                />
-                <div className="booking-info">
-                  <p>
-                    <strong>{booking.patientName}</strong>
-                  </p>
-                  <p>{booking.TestName}</p>
-                  <p>{booking.time}</p>
-                </div>
-                <div className="view-details">
-                  <button className="view-details-button">View Details</button>
-                </div>
-              </div>
-            ))}
-          </div>
-        );
-      case "missed":
-        return (
-          <div className="missed-out">
-            {data.missedOut.map((booking, index) => (
-              <div key={index} className="booking-entry">
-                <img
-                  src={booking.image}
-                  alt="Patient"
-                  className="patient-image"
-                />
-                <div className="booking-info">
-                  <p>
-                    <strong>{booking.patientName}</strong>
-                  </p>
-                  <p>{booking.TestName}</p>
-                  <p>{booking.time}</p>
-                </div>
-                <div className="view-details">
-                  <button className="view-details-button">View Details</button>
-                </div>
-              </div>
-            ))}
-          </div>
-        );
-      default:
-        return null;
-    }
-  };
+  const bookingsColumns = [
+    {
+      title: 'Patient',
+      dataIndex: 'patientName',
+      key: 'patientName',
+      render: (text, record) => (
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
+          <Avatar src={record.image} />
+          <Text strong>{text}</Text>
+        </div>
+      ),
+      responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
+    },
+    {
+      title: 'Test',
+      dataIndex: 'TestName',
+      key: 'TestName',
+      responsive: ['sm', 'md', 'lg', 'xl'],
+    },
+    {
+      title: 'Time',
+      dataIndex: 'time',
+      key: 'time',
+      responsive: ['sm', 'md', 'lg', 'xl'],
+    },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+      render: (status) => {
+        let color = status === 'Confirmed' ? 'green' : status === 'Waiting' ? 'gold' : 'red';
+        return <Tag color={color}>{status}</Tag>;
+      },
+      responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
+    },
+    {
+      title: 'Actions',
+      key: 'actions',
+      render: (_, record) => (
+        <Space size="small" wrap>
+          {record.status === 'Waiting' && (
+            <>
+              <Button type="primary" size="small">Accept</Button>
+              <Button danger size="small">Decline</Button>
+            </>
+          )}
+          <Button type="link" size="small">View Details</Button>
+        </Space>
+      ),
+      responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
+    },
+  ];
+
+  const trackColumns = [
+    {
+      title: 'Patient',
+      dataIndex: 'patientName',
+      key: 'patientName',
+      render: (text, record) => (
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
+          <Avatar src={record.image} />
+          <Text strong>{text}</Text>
+        </div>
+      ),
+      responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
+    },
+    {
+      title: 'Test',
+      dataIndex: 'TestName',
+      key: 'TestName',
+      responsive: ['sm', 'md', 'lg', 'xl'],
+    },
+    {
+      title: 'Time',
+      dataIndex: 'time',
+      key: 'time',
+      responsive: ['sm', 'md', 'lg', 'xl'],
+    },
+    {
+      title: 'Actions',
+      key: 'actions',
+      render: () => <Button type="link" size="small">View Details</Button>,
+      responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
+    },
+  ];
 
   return (
-    <>
+    <Layout>
       <Sidebar />
-      <div className="lab-details-container">
-        <div className="lab-details-header">
-          <img
-            src={data.labDetails.image}
-            alt="Lab Logo"
-            className="lab-logo"
-          />
-          <div>
-            <h2>Lab Details</h2>
-            <p>
-              <strong>Name:</strong> {data.labDetails.name}
-            </p>
-            <p>
-              <strong>Date of Joining:</strong> {data.labDetails.doj}
-            </p>
-            <p>
-              <strong>Lab Owner Name:</strong> {data.labDetails.owner}
-            </p>
-            <p>
-              <strong>Contact Number:</strong> {data.labDetails.contact}
-            </p>
-            <p>
-              <strong>Emergency Contact Number:</strong>{" "}
-              {data.labDetails.emergencyContact}
-            </p>
-            <p>
-              <strong>Email Address:</strong> {data.labDetails.email}
-            </p>
-          </div>
-        </div>
-        <div className="tabs">
-          <button
-            className={`tab-button ${activeTab === "bookings" ? "active" : ""}`}
-            onClick={() => setActiveTab("bookings")}
-          >
-            Bookings Log
-          </button>
-          <button
-            className={`tab-button ${activeTab === "inout" ? "active" : ""}`}
-            onClick={() => setActiveTab("inout")}
-          >
-            In / Out Track
-          </button>
-          <button
-            className={`tab-button ${activeTab === "missed" ? "active" : ""}`}
-            onClick={() => setActiveTab("missed")}
-          >
-            Missed Out
-          </button>
-        </div>
-        {renderContent()}
-        <button className="export-data-button">Export Data</button>
-      </div>
-    </>
+      <Content style={{ padding: '0.75rem', marginLeft: '16%', backgroundColor: '#f0f2f5', marginTop: '4rem' }}>
+        <Card bodyStyle={{ padding: { xs: '0.75rem', sm: '1.5rem' } }}>
+          <Row gutter={[16, 16]}>
+            <Col xs={24} sm={8}>
+              <div style={{ textAlign: 'center' }}>
+                <Avatar src={data.labDetails.image} size={{ xs: 108, sm: 150, md: 200, lg: 200, xl: 200 }} />
+              </div>
+            </Col>
+            <Col xs={24} sm={16}>
+              <Title level={3}>Lab Details</Title>
+              <Row gutter={[0.75, 0.5]}>
+                <Col xs={24} sm={12}>
+                  <Text strong>Name: </Text>
+                  <Text>{data.labDetails.name}</Text>
+                </Col>
+                <Col xs={24} sm={12}>
+                  <Text strong>Date of Joining: </Text>
+                  <Text>{data.labDetails.doj}</Text>
+                </Col>
+                <Col xs={24} sm={12}>
+                  <Text strong>Lab Owner: </Text>
+                  <Text>{data.labDetails.owner}</Text>
+                </Col>
+                <Col xs={24} sm={12}>
+                  <Text strong>Contact: </Text>
+                  <Text>{data.labDetails.contact}</Text>
+                </Col>
+                <Col xs={24} sm={12}>
+                  <Text strong>Emergency Contact: </Text>
+                  <Text>{data.labDetails.emergencyContact}</Text>
+                </Col>
+                <Col xs={24} sm={12}>
+                  <Text strong>Email: </Text>
+                  <Text>{data.labDetails.email}</Text>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        </Card>
+
+        <Card style={{ marginTop: '1rem' }} bodyStyle={{ padding: { xs: '0.75rem', sm: '1.5rem' } }}>
+          <Tabs defaultActiveKey="bookings" size={{ xs: 'small', sm: 'middle' }}>
+            <TabPane tab="Bookings Log" key="bookings">
+              <Table 
+                columns={bookingsColumns} 
+                dataSource={data.bookingsLog}
+                rowKey={(record, index) => index}
+                scroll={{ x: 'max-content' }}
+                size={{ xs: 'small', sm: 'middle' }}
+                pagination={{ responsive: true, position: ['bottom', 'center'] }}
+              />
+            </TabPane>
+            <TabPane tab="In / Out Track" key="inout">
+              <Table 
+                columns={trackColumns} 
+                dataSource={data.inOutTrack}
+                rowKey={(record, index) => index}
+                scroll={{ x: 'max-content' }}
+                size={{ xs: 'small', sm: 'middle' }}
+                pagination={{ responsive: true, position: ['bottom', 'center'] }}
+              />
+            </TabPane>
+            <TabPane tab="Missed Out" key="missed">
+              <Table 
+                columns={trackColumns} 
+                dataSource={data.missedOut}
+                rowKey={(record, index) => index}
+                scroll={{ x: 'max-content' }}
+                size={{ xs: 'small', sm: 'middle' }}
+                pagination={{ responsive: true, position: ['bottom', 'center'] }}
+              />
+            </TabPane>
+          </Tabs>
+          <Button type="primary" style={{ marginTop: '1rem' }} size={{ xs: 'small', sm: 'middle' }}>
+            Export Data
+          </Button>
+        </Card>
+      </Content>
+    </Layout>
   );
 };
 

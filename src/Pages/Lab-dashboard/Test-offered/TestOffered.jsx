@@ -111,6 +111,7 @@ function TestOffered(props) {
 
     const payload = {
       labRef: props.labId,
+      category: "testCategory",
       productList,
     };
 
