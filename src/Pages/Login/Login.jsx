@@ -111,6 +111,7 @@ const Login = () => {
             type="submit"
             style={{
               backgroundColor: "rgb(35, 187, 184)",
+              color: "#fff",
               borderColor: "skyblue",
               borderWidth: "2px",
               fontWeight: "bold",

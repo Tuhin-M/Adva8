@@ -5,7 +5,7 @@ const { Footer } = Layout;
 
 const AVDAFooter = () => {
   return (
-    <Footer style={{ backgroundColor: "#001529", color: "#fff", textAlign: "center", padding: "40px 20px",zIndex: 1000 }}>
+    <Footer style={{ backgroundColor: "#001529", color: "#fff", textAlign: "center", padding: "40px 20px", position: "fixed", bottom: "0", width: "100%" }}>
       <Row justify="space-around" gutter={[32, 16]}>
         {/* About Us Section */}
         <Col xs={24} sm={12} md={8} lg={6} xl={4}>

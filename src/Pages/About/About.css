@@ -29,14 +29,14 @@ body {
 
 /* Ensure the image section scales properly */
 .about-us-photo {
-  flex: 1;
-  min-width: 300px;
-  background-image: url("../../assets/pic4.jpeg");
+  width: 100%;
+  height: 60vh;
+  background-image: url('../../assets/pic4.jpeg');
   background-size: cover;
   background-position: center;
-  height: 60vh;
   border-radius: 10px;
 }
+
 
 /* Adjust text content */
 .about-us-text {
@@ -61,6 +61,7 @@ body {
     width: 100%;
     height: 40vh;
     margin-bottom: 20px;
+    margin-top: 20px;
   }
 
   .about-us-text {
