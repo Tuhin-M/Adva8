@@ -1,36 +1,38 @@
-/* MyPage.css */
+.blog-management-container {
+  padding: 16px;
+  background-color: #f0f2f5;
+  min-height: 100vh;
+  margin-top: 10vh;
+}
+.container{
+  margin-top: 5vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
 
-/* Header styles */
-.header {
-    background-color: #191919;
-    color: white;
-    padding: 20px;
-    /* Add more styles as needed */
-  }
-  
-  /* Hero section styles */
-  .hero {
-    display: flex;
-    align-items: center;
-    /* Add more styles as needed */
-  }
-  
-  .hero-text {
-    flex: 1;
-    padding: 20px;
-    /* Add more styles as needed */
-  }
-  
-  .hero-image {
-    flex: 1;
-    /* Add more styles as needed */
-  }
-  
-  .blog-container {
-    /* display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between; */
-    gap: 20px;
-    padding: 20px;
-    margin-top: 50px;
-  }
+.blog-container {
+  /* display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between; */
+  gap: 20px;
+  padding: 20px;
+  margin-top: 50px;
+}
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.blog-card {
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+}
