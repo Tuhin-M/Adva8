@@ -1,17 +1,31 @@
 import React from "react";
 import { Layout, Row, Col, Divider } from "antd";
+import { useEffect, useState } from "react";
 
 const { Footer } = Layout;
 
-const AVDAFooter = () => {
+const ADVAFooter = () => {
+
+
   return (
-    <Footer style={{ backgroundColor: "#001529", color: "#fff", textAlign: "center", padding: "40px 20px", position: "fixed", bottom: "0", width: "100%" }}>
+    <Footer 
+      style={{ 
+        backgroundColor: "#001529", 
+        color: "#fff", 
+        textAlign: "center", 
+        padding: "10px 20px", 
+        position: "relative",
+        bottom: "0", 
+        width: "100%",
+        marginTop: "auto"
+      }}
+    >
       <Row justify="space-around" gutter={[32, 16]}>
         {/* About Us Section */}
         <Col xs={24} sm={12} md={8} lg={6} xl={4}>
           <h4 style={{ color: "#fff", marginBottom: "16px" }}>About Us</h4>
           <p style={{ color: "#aaa", fontSize: "14px" }}>
-          ADVA8 simplifies health checkup bookings with expert support for a smooth, rewarding experience.
+          ADVA8 simplifies health checkups with expert support.
           </p>
         </Col>
 
@@ -41,4 +55,4 @@ const AVDAFooter = () => {
   );
 };
 
-export default AVDAFooter;
+export default ADVAFooter;
