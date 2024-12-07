@@ -1,25 +1,30 @@
 .blog-management-container {
   padding: 16px;
   background-color: #f0f2f5;
-  min-height: 100vh;
-  margin-top: 10vh;
+  margin-top: 20vh;
 }
-.container{
-  margin-top: 5vh;
+
+/* .container {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-}
+  padding: 16px;
+} */
 
 .blog-container {
-  /* display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between; */
   gap: 20px;
   padding: 20px;
   margin-top: 50px;
+  animation: fadeIn 0.5s ease-in-out;
 }
+
+.blog-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
 .card-container {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -29,10 +34,27 @@
 .blog-card {
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.blog-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .card-actions {
   margin-top: 10px;
   display: flex;
   justify-content: space-between;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

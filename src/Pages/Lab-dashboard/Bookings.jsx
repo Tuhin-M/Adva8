@@ -1,5 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Layout, Card, Avatar, Button, Tabs, Table, Tag, Typography, Row, Col, Space } from "antd";
+import {
+  Layout,
+  Card,
+  Avatar,
+  Button,
+  Tabs,
+  Table,
+  Tag,
+  Typography,
+  Row,
+  Col,
+  Space,
+} from "antd";
 import Sidebar from "./Sidebar";
 import "./Bookings.css";
 
@@ -81,99 +93,124 @@ const Bookings = () => {
 
   const bookingsColumns = [
     {
-      title: 'Patient',
-      dataIndex: 'patientName',
-      key: 'patientName',
+      title: "Patient",
+      dataIndex: "patientName",
+      key: "patientName",
       render: (text, record) => (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "0.625rem" }}>
           <Avatar src={record.image} />
           <Text strong>{text}</Text>
         </div>
       ),
-      responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
+      responsive: ["xs", "sm", "md", "lg", "xl"],
     },
     {
-      title: 'Test',
-      dataIndex: 'TestName',
-      key: 'TestName',
-      responsive: ['sm', 'md', 'lg', 'xl'],
+      title: "Test",
+      dataIndex: "TestName",
+      key: "TestName",
+      responsive: ["sm", "md", "lg", "xl"],
     },
     {
-      title: 'Time',
-      dataIndex: 'time',
-      key: 'time',
-      responsive: ['sm', 'md', 'lg', 'xl'],
+      title: "Time",
+      dataIndex: "time",
+      key: "time",
+      responsive: ["sm", "md", "lg", "xl"],
     },
     {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
       render: (status) => {
-        let color = status === 'Confirmed' ? 'green' : status === 'Waiting' ? 'gold' : 'red';
+        let color =
+          status === "Confirmed"
+            ? "green"
+            : status === "Waiting"
+            ? "gold"
+            : "red";
         return <Tag color={color}>{status}</Tag>;
       },
-      responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
+      responsive: ["xs", "sm", "md", "lg", "xl"],
     },
     {
-      title: 'Actions',
-      key: 'actions',
+      title: "Actions",
+      key: "actions",
       render: (_, record) => (
         <Space size="small" wrap>
-          {record.status === 'Waiting' && (
+          {record.status === "Waiting" && (
             <>
-              <Button type="primary" size="small">Accept</Button>
-              <Button danger size="small">Decline</Button>
+              <Button type="primary" size="small">
+                Accept
+              </Button>
+              <Button danger size="small">
+                Decline
+              </Button>
             </>
           )}
-          <Button type="link" size="small">View Details</Button>
+          <Button type="link" size="small">
+            View Details
+          </Button>
         </Space>
       ),
-      responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
+      responsive: ["xs", "sm", "md", "lg", "xl"],
     },
   ];
 
   const trackColumns = [
     {
-      title: 'Patient',
-      dataIndex: 'patientName',
-      key: 'patientName',
+      title: "Patient",
+      dataIndex: "patientName",
+      key: "patientName",
       render: (text, record) => (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.625rem' }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "0.625rem" }}>
           <Avatar src={record.image} />
           <Text strong>{text}</Text>
         </div>
       ),
-      responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
+      responsive: ["xs", "sm", "md", "lg", "xl"],
     },
     {
-      title: 'Test',
-      dataIndex: 'TestName',
-      key: 'TestName',
-      responsive: ['sm', 'md', 'lg', 'xl'],
+      title: "Test",
+      dataIndex: "TestName",
+      key: "TestName",
+      responsive: ["sm", "md", "lg", "xl"],
     },
     {
-      title: 'Time',
-      dataIndex: 'time',
-      key: 'time',
-      responsive: ['sm', 'md', 'lg', 'xl'],
+      title: "Time",
+      dataIndex: "time",
+      key: "time",
+      responsive: ["sm", "md", "lg", "xl"],
     },
     {
-      title: 'Actions',
-      key: 'actions',
-      render: () => <Button type="link" size="small">View Details</Button>,
-      responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
+      title: "Actions",
+      key: "actions",
+      render: () => (
+        <Button type="link" size="small">
+          View Details
+        </Button>
+      ),
+      responsive: ["xs", "sm", "md", "lg", "xl"],
     },
   ];
 
   return (
     <Layout>
       <Sidebar />
-      <Content style={{ padding: '0.75rem', marginLeft: '16%', backgroundColor: '#f0f2f5', marginTop: '4rem' }}>
-        <Card bodyStyle={{ padding: { xs: '0.75rem', sm: '1.5rem' } }}>
+      <Content
+        style={{
+          padding: "0.75rem",
+          marginLeft: "16%",
+          backgroundColor: "#f0f2f5",
+          marginTop: "4rem",
+        }}
+      >
+        <Card bodyStyle={{ padding: { xs: "0.75rem", sm: "1.5rem" } }}>
           <Row gutter={[16, 16]}>
             <Col xs={24} sm={8}>
-              <div style={{ textAlign: 'center' }}>
-                <Avatar src={data.labDetails.image} size={{ xs: 108, sm: 150, md: 200, lg: 200, xl: 200 }} />
+              <div style={{ textAlign: "center" }}>
+                <Avatar
+                  src={data.labDetails.image}
+                  size={{ xs: 108, sm: 150, md: 200, lg: 200, xl: 200 }}
+                />
               </div>
             </Col>
             <Col xs={24} sm={16}>
@@ -208,40 +245,59 @@ const Bookings = () => {
           </Row>
         </Card>
 
-        <Card style={{ marginTop: '1rem' }} bodyStyle={{ padding: { xs: '0.75rem', sm: '1.5rem' } }}>
-          <Tabs defaultActiveKey="bookings" size={{ xs: 'small', sm: 'middle' }}>
+        <Card
+          style={{ marginTop: "1rem" }}
+          styles={{ padding: { xs: "0.75rem", sm: "1.5rem" } }}
+        >
+          <Tabs
+            defaultActiveKey="bookings"
+            size={{ xs: "small", sm: "middle" }}
+          >
             <TabPane tab="Bookings Log" key="bookings">
-              <Table 
-                columns={bookingsColumns} 
+              <Table
+                columns={bookingsColumns}
                 dataSource={data.bookingsLog}
                 rowKey={(record, index) => index}
-                scroll={{ x: 'max-content' }}
-                size={{ xs: 'small', sm: 'middle' }}
-                pagination={{ responsive: true, position: ['bottom', 'center'] }}
+                scroll={{ x: "max-content" }}
+                size={{ xs: "small", sm: "middle" }}
+                pagination={{
+                  responsive: true,
+                  position: ["bottom", "center"],
+                }}
               />
             </TabPane>
             <TabPane tab="In / Out Track" key="inout">
-              <Table 
-                columns={trackColumns} 
+              <Table
+                columns={trackColumns}
                 dataSource={data.inOutTrack}
                 rowKey={(record, index) => index}
-                scroll={{ x: 'max-content' }}
-                size={{ xs: 'small', sm: 'middle' }}
-                pagination={{ responsive: true, position: ['bottom', 'center'] }}
+                scroll={{ x: "max-content" }}
+                size={{ xs: "small", sm: "middle" }}
+                pagination={{
+                  responsive: true,
+                  position: ["bottom", "center"],
+                }}
               />
             </TabPane>
             <TabPane tab="Missed Out" key="missed">
-              <Table 
-                columns={trackColumns} 
+              <Table
+                columns={trackColumns}
                 dataSource={data.missedOut}
                 rowKey={(record, index) => index}
-                scroll={{ x: 'max-content' }}
-                size={{ xs: 'small', sm: 'middle' }}
-                pagination={{ responsive: true, position: ['bottom', 'center'] }}
+                scroll={{ x: "max-content" }}
+                size={{ xs: "small", sm: "middle" }}
+                pagination={{
+                  responsive: true,
+                  position: ["bottom", "center"],
+                }}
               />
             </TabPane>
           </Tabs>
-          <Button type="primary" style={{ marginTop: '1rem' }} size={{ xs: 'small', sm: 'middle' }}>
+          <Button
+            type="primary"
+            style={{ marginTop: "1rem" }}
+            size={{ xs: "small", sm: "middle" }}
+          >
             Export Data
           </Button>
         </Card>

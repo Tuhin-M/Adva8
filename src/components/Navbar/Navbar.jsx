@@ -32,15 +32,40 @@ const Navbar = () => {
           </button>
         </div>
 
-        <Button className="menu-button" type="text" icon={<MenuOutlined />} onClick={showDrawer} />
+        <Button
+          className="menu-button"
+          type="text"
+          icon={<MenuOutlined />}
+          onClick={showDrawer}
+        />
 
         <nav className="nav-items">
-          {(userRole == undefined || userRole == 0) && <NavLink exact to="/" activeClassName="active">Home</NavLink>}
-          {userRole == 1 && <NavLink to="/labs-onboarding" activeClassName="active">Labs Onboarding</NavLink>}
-          {userRole == 1 && <NavLink to="/lab-dashboard" activeClassName="active">Labs Dashboard</NavLink>}
-          {(userRole == undefined || userRole == 0) && <NavLink to="/listing" activeClassName="active">Services</NavLink>}
-          <NavLink to="/about" activeClassName="active">About Us</NavLink>
-          <NavLink to="/blog" activeClassName="active">Blogs</NavLink>
+          {(userRole == undefined || userRole == 0) && (
+            <NavLink exact to="/" activeclassname="active">
+              Home
+            </NavLink>
+          )}
+          {userRole == 1 && (
+            <NavLink to="/labs-onboarding" activeclassname="active">
+              Labs Onboarding
+            </NavLink>
+          )}
+          {userRole == 1 && (
+            <NavLink to="/lab-dashboard" activeclassname="active">
+              Labs Dashboard
+            </NavLink>
+          )}
+          {(userRole == undefined || userRole == 0) && (
+            <NavLink to="/listing" activeclassname="active">
+              Services
+            </NavLink>
+          )}
+          <NavLink to="/about" activeclassname="active">
+            About Us
+          </NavLink>
+          <NavLink to="/blog" activeclassname="active">
+            Blogs
+          </NavLink>
         </nav>
 
         <div className="profile" onClick={toggleProfileMenu}>
@@ -68,24 +93,58 @@ const Navbar = () => {
         title={<img src={logo} alt="ADVA8" className="drawer-logo" />}
         placement="left"
         onClose={closeDrawer}
-        visible={drawerVisible}
-        bodyStyle={{ padding: 0 }}
+        open={drawerVisible}
+        style={{ padding: 0 }}
       >
         <ul className="drawer-menu">
-          {(userRole == undefined || userRole == 0) && <li><a href="/" activeClassName="active">Home</a></li>}
-          {userRole == 1 && <li><a href="/labs-onboarding" activeClassName="active">Labs Onboarding</a></li>}
-          {userRole == 1 && <li><a href="/lab-dashboard" activeClassName="active">Labs Dashboard</a></li>}
-          {(userRole == undefined || userRole == 0) && <li><a href="/listing" activeClassName="active">Services</a></li>}
-          <li><a href="/about">About Us</a></li>
-          <li><a href="/blog">Blogs</a></li>
+          {(userRole == undefined || userRole == 0) && (
+            <li>
+              <a href="/" activeclassname="active">
+                Home
+              </a>
+            </li>
+          )}
+          {userRole == 1 && (
+            <li>
+              <a href="/labs-onboarding" activeclassname="active">
+                Labs Onboarding
+              </a>
+            </li>
+          )}
+          {userRole == 1 && (
+            <li>
+              <a href="/lab-dashboard" activeclassname="active">
+                Labs Dashboard
+              </a>
+            </li>
+          )}
+          {(userRole == undefined || userRole == 0) && (
+            <li>
+              <a href="/listing" activeclassname="active">
+                Services
+              </a>
+            </li>
+          )}
+          <li>
+            <a href="/about">About Us</a>
+          </li>
+          <li>
+            <a href="/blog">Blogs</a>
+          </li>
           {!isLoggedIn ? (
-                <>
-                  <li><a href="login">Login</a></li>
-                  <li><a href="signup">Sign Up</a></li>
-                </>
-              ) : (
-                <li><a href="userprofile">User Profile</a></li>
-              )}
+            <>
+              <li>
+                <a href="login">Login</a>
+              </li>
+              <li>
+                <a href="signup">Sign Up</a>
+              </li>
+            </>
+          ) : (
+            <li>
+              <a href="userprofile">User Profile</a>
+            </li>
+          )}
         </ul>
       </Drawer>
     </>
