@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Card, Typography, Image, Spin, Alert, Avatar, Space, Tag } from "antd";
+import { Card, Typography, Image, Spin, Alert, Avatar, Space, Tag,message, } from "antd";
 import "./Blog.css";
 import { motion } from "framer-motion";
 import {
-  CalendarOutlined,
-  EyeOutlined,
   HeartOutlined,
   HeartFilled,
   ShareAltOutlined,
 } from "@ant-design/icons";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 const BlogDetails = () => {
   const [blog, setBlog] = useState(null);
@@ -17,55 +17,79 @@ const BlogDetails = () => {
   const [error, setError] = useState(false);
   const [liked, setLiked] = useState(false);
   const params = useParams();
-  const { Title, Paragraph, Text } = Typography;
+  const { Title } = Typography;
+  const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
-    const fetchBlog = async () => {
-      try {
-        setLoading(true);
-        const res = await fetch(`/api/blog/get/${params?.blogId}`);
-        const data = await res.json();
-        if (data.success === false) {
-          setError(true);
-          setLoading(false);
-        } else {
-          setBlog(data);
-          setLoading(false);
-          setError(false);
-        }
-      } catch (error) {
+    fetchBlog();
+  }, [params?.blogId, currentUser._id]);
+  const fetchBlog = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch(`/api/blog/get/${params?.blogId}`);
+      const data = await res.json();
+      if (data.success === false) {
         setError(true);
         setLoading(false);
+      } else {
+        setBlog(data);
+        console.log("Curent Data",data);
+        setLiked(data.likes?.includes(currentUser._id));
+        setLoading(false);
+        setError(false);
       }
-    };
-    fetchBlog();
-  }, [params?.blogId]);
+    } catch (error) {
+      setError(true);
+      setLoading(false);
+    }
+  };
 
+
+  const handleLike = async (values) => {
+    if (!currentUser) {
+      message.error("Please login to like the blog");
+      return;
+    }
+
+    if (liked) {
+      // message.info("You have already liked this blog");
+      setLiked(!liked);
+    }
+
+    const payload = { userRef: currentUser._id, action: !liked };
+    console.log("Payload Sending", payload);
+    try {
+      const response = await axios.post(`/api/blog/updateLike/${values}`, payload);
+      if (response.data.success) {
+        fetchBlog()
+        if(!liked){
+          message.success("Blog liked successfully");
+        }else{
+          return;
+        }
+      }
+    } catch (error) {
+      setLiked(false);
+      message.error("Error liking blog");
+      console.log("This is the Error", error);
+    }
+  };
   return (
-    <div
-      className="container"
-      style={{
-        background: "rgba(255,255,255,0.5)",
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          marginTop: "20vh",
-          marginBottom: "20vh",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "90%",
-          margin: "10vh auto",
-          padding: "0 20px",
-        }}
-      >
+    <div style={{ 
+      maxWidth: "1200px",
+      marginTop: "16vh",
+      padding: "1.25rem",
+      width: "100%"
+    }}>
+      <>
         {loading && (
           <div
             style={{
-              display: "flex",
-              justifyContent: "center",
-              padding: "50px",
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 1000
             }}
           >
             <Spin size="large" />
@@ -74,7 +98,7 @@ const BlogDetails = () => {
         {error && (
           <Alert
             type="error"
-            style={{ marginTop: "24px" }}
+            style={{ marginTop: "1.5rem" }}
             message="Something went wrong"
           />
         )}
@@ -86,11 +110,13 @@ const BlogDetails = () => {
           >
             <Card
               style={{
-                borderRadius: "16px",
-                boxShadow: "0 4px 20px rgba(0,0,0,0.5)",
-                background: "rgba(255,255,255,0.9)",
-                backdropFilter: "blur(10px)",
+                borderRadius: "1rem",
+                boxShadow: "0 0.5rem 1.875rem rgba(0,0,0,0.12)",
+                backdropFilter: "blur(0.625rem)",
                 overflow: "hidden",
+                margin: "0 auto",
+                width: "100%",
+                maxWidth: "56.25rem"
               }}
             >
               <Title
@@ -99,39 +125,46 @@ const BlogDetails = () => {
                   background: "linear-gradient(45deg, #1a2a6c, #b21f1f)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
+                  textAlign: "center"
                 }}
               >
                 {blog.title}
               </Title>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  {blog.image && (
+                    <Image
+                      src={blog.image}
+                      alt={blog.title}
+                      style={{
+                        width: "100%",
+                        marginBottom: "1.5rem",
+                        height: "auto",
+                        maxHeight: "31.25rem",
+                        borderRadius: "0.75rem",
+                        objectFit: "contain",
+                        boxShadow: "0 0.25rem 1.25rem rgba(0,0,0,0.15)",
+                        display: "block",
+                        marginLeft: "auto",
+                        marginRight: "auto"
+                      }}
+                    />
+                  )}
+                </motion.div>
 
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-              >
-                {blog.image && (
-                  <Image
-                    src={blog.image}
-                    alt={blog.title}
-                    style={{
-                      width: "100%",
-                      marginBottom: "24px",
-                      height: "400px",
-                      borderRadius: "12px",
-                      maxHeight: "500px",
-                      objectFit: "contain",
-                      boxShadow: "0 4px 12px rgba(0,0,0,0.5)",
-                    }}
-                  />
-                )}
-              </motion.div>
-
-              <Space style={{ marginBottom: "24px" }}>
+              <Space style={{ marginBottom: "1.5rem", justifyContent: "center", width: "100%" }}>
                 {blog.tags?.map((tag, index) => (
                   <Tag
                     key={index}
                     color="blue"
-                    style={{ borderRadius: "15px", padding: "4px 12px" }}
+                    style={{ borderRadius: "0.9375rem", padding: "0.25rem 0.75rem" }}
                   >
                     {tag}
                   </Tag>
@@ -145,9 +178,10 @@ const BlogDetails = () => {
               >
                 <div
                   style={{
-                    fontSize: "17px",
+                    fontSize: "1.0625rem",
                     lineHeight: "1.8",
                     color: "#2c3e50",
+                    textAlign: "justify"
                   }}
                   dangerouslySetInnerHTML={{ __html: blog.content }}
                 />
@@ -158,9 +192,11 @@ const BlogDetails = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
                 style={{
-                  marginTop: "32px",
+                  marginTop: "2rem",
                   borderTop: "1px solid #eee",
-                  paddingTop: "20px",
+                  paddingTop: "1.25rem",
+                  display: "flex",
+                  justifyContent: "center"
                 }}
               >
                 <Space size={24}>
@@ -173,13 +209,13 @@ const BlogDetails = () => {
                       cursor: "pointer",
                       display: "flex",
                       alignItems: "center",
-                      gap: "8px",
+                      gap: "0.5rem",
                       color: liked ? "#ff4d4f" : "#666",
                     }}
-                    onClick={() => setLiked(!liked)}
+                    onClick={() => handleLike(params?.blogId)}
                   >
                     {liked ? <HeartFilled /> : <HeartOutlined />}
-                    <span>{(blog.likes || 0) + (liked ? 1 : 0)}</span>
+                    <span>{blog.likes?.length || 0}</span>
                   </motion.button>
                   <motion.button
                     whileHover={{ scale: 1.1 }}
@@ -190,7 +226,7 @@ const BlogDetails = () => {
                       cursor: "pointer",
                       display: "flex",
                       alignItems: "center",
-                      gap: "8px",
+                      gap: "0.5rem",
                       color: "#666",
                     }}
                     onClick={() => {
@@ -211,7 +247,7 @@ const BlogDetails = () => {
             </Card>
           </motion.div>
         )}
-      </div>
+      </>
     </div>
   );
 };

@@ -77,11 +77,11 @@ header {
   color: white;
 }
 
-.general {
+/* .general {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 20px;
-}
+} */
 
 .health-center-details,
 .center-contact {

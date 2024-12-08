@@ -19,6 +19,8 @@ import {
   PlusOutlined,
   EditOutlined,
   DeleteOutlined,
+  HeartOutlined,
+  HeartFilled,
 } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import axios from "axios";
@@ -36,8 +38,10 @@ const Blog = () => {
   const [editingBlog, setEditingBlog] = useState(null);
   const [form] = Form.useForm();
   const [imageUrl, setImageUrl] = useState("");
+  const [liked, setLiked] = useState(false);
   const navigate = useNavigate();
   const userRole = localStorage.getItem("userRole");
+  const { currentUser } = useSelector((state) => state.user);
 
   const fetchBlogs = async () => {
     try {
@@ -48,7 +52,6 @@ const Blog = () => {
     }
   };
 
-  const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
     fetchBlogs();
@@ -289,17 +292,38 @@ const Blog = () => {
                 </div>
                 <div
                   style={{
-                    textAlign: "right",
-                    background: "linear-gradient(45deg, #56BBB3, #0d8b84)",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    cursor: "pointer",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
                     marginTop: "auto",
-                    fontWeight: "600",
-                    fontSize: "16px",
                   }}
                 >
-                  Read more →
+                  <div
+                    style={{
+                      background: "linear-gradient(45deg, #56BBB3, #0d8b84)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      cursor: "pointer",
+                      fontWeight: "600",
+                      fontSize: "16px",
+                    }}
+                  >
+                    Read more →
+                  </div>
+                  <motion.button
+                    style={{
+                      border: "none",
+                      background: "none",
+                      cursor: "text",
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.5rem",
+                      color: blog.likes?.includes(currentUser._id) ? "#ff4d4f" : "#666",
+                    }}
+                  >
+                    {blog.likes?.includes(currentUser._id) ? <HeartFilled /> : <HeartOutlined />}
+                    <span>{blog.likes?.length || 0}</span>
+                  </motion.button>
                 </div>
               </Card>
             </motion.div>

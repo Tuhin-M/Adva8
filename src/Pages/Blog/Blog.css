@@ -4,13 +4,13 @@
   margin-top: 20vh;
 }
 
-/* .container {
+.container {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   padding: 16px;
-} */
+}
 
 .blog-container {
   gap: 20px;
