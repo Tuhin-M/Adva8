@@ -101,9 +101,10 @@
 }
 
 .lab-cards {
-  display: flex;
-  flex-wrap: wrap;
-  margin-left: 20vw;
+  /* display: flex;
+  flex-wrap: wrap; */
+  margin-left: 17vw;
   margin-top: 10vh;
-  justify-content: flex-start;
+  margin-bottom: 5vh;
+  /* justify-content: flex-start; */ 
 }

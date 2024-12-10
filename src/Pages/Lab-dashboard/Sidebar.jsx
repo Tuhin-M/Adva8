@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Layout, Menu } from "antd";
 import { DashboardOutlined, CalendarOutlined, ExperimentOutlined, MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
+import "../../Sidebar/Sidebar.css";
 
 const { Sider } = Layout;
 
@@ -10,17 +11,12 @@ const Sidebar = () => {
 
   return (
     <Sider
+    className="sidebar-container"
       breakpoint="md"
       collapsible
       collapsed={collapsed}
       onCollapse={(value) => setCollapsed(value)}
       trigger={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-      style={{
-        height: "100vh",
-        position: "fixed",
-        left: 0,
-        zIndex: 1000,
-      }}
     >
       <div className="logo" style={{ padding: "16px", textAlign: "center" }}>
         <img src="path_to_logo_image" alt="Lab Logo" style={{ maxWidth: "80%" }} />

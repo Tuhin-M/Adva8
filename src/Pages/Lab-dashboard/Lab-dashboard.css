@@ -8,6 +8,12 @@ body {
   .dashboard {
     display: flex;
   }
+
+  @media screen and (max-width: 768px) {
+    .dashboard {
+      margin-top: 60px;
+    }
+  }
   
   /* Sidebar styles */
   .sidebar {

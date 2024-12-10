@@ -2,7 +2,7 @@ import { IconBase } from "react-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationArrow } from "@fortawesome/free-solid-svg-icons";
 import React, { useState, useEffect } from "react";
-import "../../components/Slider/Slider.css";
+import { Row, Col, Card } from "antd";
 import { Link } from "react-router-dom";
 import Sidebar from "./Sidebar";
 
@@ -28,42 +28,44 @@ function LabCards() {
   }, []);
   return (
     <>
-      <Sidebar />
       <div className="lab-cards">
-        {data && data.length
-          ? data.map((item, index) => (
-              <Link
-                className="card"
-                id="RouterNavLink"
-                to={`/details/${item._id}`}
-                key={index}
-                style={{ marginBottom: "40px" }}
-              >
-                <section style={{ margin: "0" }}>
-                  <div className="card-top">
-                    <img src={item.labImageUrls} height={10} />
-                    <div className="lab-info-listing">
-                      <span>{item.labName}</span>
-                    </div>
-                  </div>
-                  <div className="card-bottom">
-                    <section className="location">
-                      <div className="location-icon">
-                        <FontAwesomeIcon icon={faLocationArrow} />
+      <Sidebar />
+        <Row gutter={[24, 24]}>
+          {data && data.length
+            ? data.map((item, index) => (
+                <Col xs={24} sm={12} md={8} lg={6} key={index} style={{ display: 'flex' }}>
+                  <Link
+                    id="RouterNavLink"
+                    to={`/details/${item._id}`}
+                    style={{ width: '100%' }}
+                  >
+                    <Card hoverable style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+                      <div className="card-top" style={{ flex: '0 0 auto' }}>
+                        <img src={item.labImageUrls} alt={item.labName} style={{ width: '100%', height: '200px', objectFit: 'cover' }} />
+                        <div className="lab-info-listing">
+                          <span>{item.labName}</span>
+                        </div>
                       </div>
-                      <p>
-                        {item.labAddress}, {item.labCity}, {item.labState},{" "}
-                        {item.labPin}
-                      </p>
-                    </section>
-                    <a href="details">
-                      <button className="tests">Get Details</button>
-                    </a>
-                  </div>
-                </section>
-              </Link>
-            ))
-          : null}
+                      <div className="card-bottom" style={{ flex: '1 0 auto', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                        <section className="location">
+                          <div className="location-icon">
+                            <FontAwesomeIcon icon={faLocationArrow} />
+                          </div>
+                          <p>
+                            {item.labAddress}, {item.labCity}, {item.labState},{" "}
+                            {item.labPin}
+                          </p>
+                        </section>
+                        <a href="details">
+                          <button className="tests">Get Details</button>
+                        </a>
+                      </div>
+                    </Card>
+                  </Link>
+                </Col>
+              ))
+            : null}
+        </Row>
       </div>
     </>
   );
