@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   content: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
   media: false, // or 'media' or 'class'
   theme: {
