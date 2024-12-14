@@ -12,6 +12,7 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { useParams } from "react-router-dom";
+import { Button, Card, Col, Row } from "antd";
 
 function MakeBooking() {
   const [selectedTests, setSelectedTests] = useState([]);
@@ -21,6 +22,7 @@ function MakeBooking() {
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [recommendedTests, setRecommendedTests] = useState([]);
   const params = useParams();
   const [userDetails, setUserDetails] = useState({
     fullName: "",
@@ -38,6 +40,9 @@ function MakeBooking() {
   useEffect(() => {
     fetchSelectedTests();
     fetchUploadedFiles();
+    if(selectedTests.length > 0) {
+      fetchRecommendedTests()
+    }
   }, []);
 
   const fetchSelectedTests = async () => {
@@ -226,13 +231,66 @@ function MakeBooking() {
       [featureId]: checked,
     }));
   };
+  const fetchRecommendedTests = async (testIds) => {
+    try {
+      // Dummy data instead of API call
+      const dummyData = [
+        {
+          id: 1,
+          name: "Complete Blood Count",
+          description: "Measures different components of blood",
+          price: "$50",
+          category: "Blood Tests"
+        },
+        {
+          id: 2,
+          name: "Lipid Profile",
+          description: "Checks cholesterol and triglycerides",
+          price: "$75",
+          category: "Blood Tests"
+        },
+        {
+          id: 3,
+          name: "Thyroid Function",
+          description: "Measures thyroid hormone levels",
+          price: "$90",
+          category: "Urine Test"
+        },
+        {
+          id: 4,
+          name: "Vitamin D Test",
+          description: "Checks vitamin D levels in blood",
+          price: "$60",
+          category: "Urine Test"
+        },
+        {
+          id: 5,
+          name: "Liver Function",
+          description: "Evaluates liver health",
+          price: "$85",
+          category: "Urine Test"
+        }
+      ];
+
+      const groupedByCategory = dummyData.reduce((acc, test) => {
+        if (!acc[test.category]) {
+          acc[test.category] = [];
+        }
+        acc[test.category].push(test);
+        return acc;
+      }, {});
+      console.log("Recommended Tests:", dummyData);
+      setRecommendedTests(groupedByCategory);
+    } catch (error) {
+      console.error("Error fetching recommended tests:", error);
+    }
+  };
       return (
         <div className="MakeBooking">
           <div className="section user-details">
             <h2>User Details</h2>
             <p>Please provide your information</p>
-            <form>
-              <div className="form-row">
+            <form>              <div className="form-row">
                 <div className="form-group">
                   <label htmlFor="fullName">Full Name</label>
                   <input
@@ -387,6 +445,35 @@ function MakeBooking() {
                 </table>
               )}
             </div>
+            {selectedTests.length>0 && (
+              <div className="section recommended-tests">
+              <h2>Recommended Tests</h2>
+              <div className="recommended-tests-container">
+                {Object.entries(recommendedTests).map(([category, tests]) => (
+                  <div key={category} className="category-section">
+                    <h3>{category}</h3>
+                    <Row gutter={[16, 16]}>
+                      {tests.map((test) => (
+                        <Col xs={24} sm={12} md={8} lg={6} key={test.id}>
+                          <Card
+                            hoverable
+                            title={test.name}
+                            className="test-card"
+                          >
+                            <p>{test.description}</p>
+                            <p className="price">{test.price}</p>
+                            <Button type="primary" onClick={() => handleAddTest(test)}>
+                              View Test
+                            </Button>
+                          </Card>
+                        </Col>
+                      ))}
+                    </Row>
+                  </div>
+                ))}
+              </div>
+            </div>
+            )}
             {selectedTests.length > 0 && (
               <form>
               <div className="form-row">
@@ -461,6 +548,7 @@ function MakeBooking() {
                 readOnly
               />
             </div>
+        
             <div className="form-group">
               <label htmlFor="totalPrice">Total Price</label>
               <input

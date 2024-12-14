@@ -24,3 +24,19 @@ li {
   color: #323232;
   cursor: pointer;
 }
+.horizontal-grid {
+  display: flex;
+  gap: 16px; /* Space between items */
+  overflow-x: auto;
+  padding: 8px;
+  scrollbar-width: thin; /* For custom scrollbar styling */
+}
+
+.horizontal-grid::-webkit-scrollbar {
+  height: 8px;
+}
+
+.horizontal-grid::-webkit-scrollbar-thumb {
+  background-color: #ccc;
+  border-radius: 4px;
+}

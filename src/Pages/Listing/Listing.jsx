@@ -1,16 +1,11 @@
 import { useState, useEffect } from "react";
-// import Navigation from "./Navigation/Nav";
-import Products from "../../Products/Products";
-import products from "../../db/data";
-//import Recommended from "../../Recommended/Recommended";
 import Sidebar from "../../Sidebar/Sidebar";
 import Card from "../../components/Card";
 import "./Listing.css";
+import { Col, Row } from "antd";
 
 function Listing() {
   const [selectedCategory, setSelectedCategory] = useState(null);
-
-  // ----------- Input Filter ----------- 
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
   const [listingData, setListingData] = useState([]);
@@ -19,54 +14,57 @@ function Listing() {
     setQuery(event.target.value);
   };
 
-  const filteredItems = products.filter(
-    (product) => product.name.toLowerCase().indexOf(query.toLowerCase()) !== -1
-  );
-
-  // ----------- Radio Filtering ----------- 
   const handleChange = (event) => {
     setSelectedCategory(event.target.value);
   };
 
-  // ------------ Button Filtering ----------- 
-  const handleClick = (event) => {
-    setSelectedCategory(event.target.value);
-  };
-
-  // ------------ Filter Data ----------- 
   function filteredData(products, selectedCategory, query) {
     let filteredProducts = products;
 
     // Apply Input filter (search query)
     if (query) {
-      filteredProducts = filteredItems;
+      filteredProducts = filteredProducts.filter((product) =>
+        product.name.toLowerCase().includes(query.toLowerCase())
+      );
     }
 
     // Apply Category filter
     if (selectedCategory) {
       filteredProducts = filteredProducts.filter(
-        ({ type, name }) => type === selectedCategory || name === selectedCategory
+        ({ type }) => type === selectedCategory
       );
     }
 
-    return filteredProducts; // Return filtered data only, without mapping to Card
+    // Remove duplicates based on `name`
+    const seen = new Set();
+    filteredProducts = filteredProducts.filter(({ name }) => {
+      if (seen.has(name)) {
+        return false;
+      }
+      seen.add(name);
+      return true;
+    });
+
+    return filteredProducts;
   }
 
-  // This will store the filtered products list
   const filteredProducts = filteredData(listingData, selectedCategory, query);
 
-  // Map the filtered products to Cards
   const result = filteredProducts.map(
-    ({ img, name, star, reviews, prevPrice, newPrice }) => (
-      <Card
-        key={Math.random()} // It's better to use a unique ID, but we'll leave Math.random() here for simplicity
-        img={img}
-        name={name}
-        star={star}
-        reviews={reviews}
-        prevPrice={prevPrice}
-        newPrice={newPrice}
-      />
+    ({ id, img, name, star, reviews, prevPrice, newPrice }) => (
+      <Row
+      key={id || name} xs={24} sm={12} md={8} lg={6} xl={4} >
+       {/* <Col xs={24} sm={12} md={15} lg={20}> */}
+        <Card
+          img={img}
+          name={name}
+          star={star}
+          reviews={reviews}
+          prevPrice={prevPrice}
+          newPrice={newPrice}
+        />
+       {/* </Col> */}
+      </Row>
     )
   );
 
@@ -76,7 +74,6 @@ function Listing() {
       try {
         const res = await fetch(`/api/lab/get`);
         const data = await res.json();
-        // console.log("data - ", data);
         setListingData(data);
       } catch {
         setListingData([]);
@@ -88,14 +85,16 @@ function Listing() {
   }, []);
 
   return (
-    <div style={{ display: 'flex' }}>
-      <div style={{ flex: '0 0 250px' }}>
-        <Sidebar handleChange={handleChange} />
-      </div>
-      <div style={{ flex: '1' }}>
-        <Products result={result} />
-      </div>
+    <div style={{ display: "flex" }}>
+    <div style={{ flex: "0 0 250px" }}>
+      <Sidebar handleChange={handleChange} />
     </div>
+    <div style={{ flex: "1" }}>
+      <Row gutter={[16, 16]}> 
+        {result}
+      </Row> {/* Apply spacing between cards */}
+    </div>
+  </div>
   );
 }
 

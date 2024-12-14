@@ -14,6 +14,7 @@ function Popup({ isOpen, onClose, onTestsSelected }) {
     console.log("Fetching Lab Tests", params);
     try {
       const response = await axios.get(`/api/product/get/${params?.listingId}`);
+      console.log("Lab Tests:", response.data);
       setTestData(response.data[0].productList);
       setAvailableTests(response.data[0].productList);
       setLoading(false);

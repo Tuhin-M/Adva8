@@ -2,7 +2,7 @@ import "./Product.css";
 import { Row, Col, Card } from 'antd';
 
 const Products = ({ result }) => {
-  // console.log("Results in product",result);
+  console.log("Results in product",result);
   return (
     <Row gutter={[16, 16]} className="card-container">
       {result && result.map((item, index) => (
