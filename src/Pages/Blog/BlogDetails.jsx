@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Card, Typography, Image, Spin, Alert, Avatar, Space, Tag,message, } from "antd";
+import {
+  Card,
+  Typography,
+  Image,
+  Spin,
+  Alert,
+  Avatar,
+  Space,
+  Tag,
+  message,
+} from "antd";
 import "./Blog.css";
 import { motion } from "framer-motion";
 import {
@@ -33,7 +43,7 @@ const BlogDetails = () => {
         setLoading(false);
       } else {
         setBlog(data);
-        console.log("Curent Data",data);
+        console.log("Curent Data", data);
         setLiked(data.likes?.includes(currentUser._id));
         setLoading(false);
         setError(false);
@@ -43,7 +53,6 @@ const BlogDetails = () => {
       setLoading(false);
     }
   };
-
 
   const handleLike = async (values) => {
     if (!currentUser) {
@@ -59,12 +68,15 @@ const BlogDetails = () => {
     const payload = { userRef: currentUser._id, action: !liked };
     console.log("Payload Sending", payload);
     try {
-      const response = await axios.post(`/api/blog/updateLike/${values}`, payload);
+      const response = await axios.post(
+        `/api/blog/updateLike/${values}`,
+        payload
+      );
       if (response.data.success) {
-        fetchBlog()
-        if(!liked){
+        fetchBlog();
+        if (!liked) {
           message.success("Blog liked successfully");
-        }else{
+        } else {
           return;
         }
       }
@@ -75,12 +87,14 @@ const BlogDetails = () => {
     }
   };
   return (
-    <div style={{ 
-      maxWidth: "1200px",
-      marginTop: "16vh",
-      padding: "1.25rem",
-      width: "100%"
-    }}>
+    <div
+      style={{
+        maxWidth: "1200px",
+        marginTop: "16vh",
+        padding: "1.25rem",
+        width: "100%",
+      }}
+    >
       <>
         {loading && (
           <div
@@ -89,7 +103,7 @@ const BlogDetails = () => {
               top: "50%",
               left: "50%",
               transform: "translate(-50%, -50%)",
-              zIndex: 1000
+              zIndex: 1000,
             }}
           >
             <Spin size="large" />
@@ -116,7 +130,7 @@ const BlogDetails = () => {
                 overflow: "hidden",
                 margin: "0 auto",
                 width: "100%",
-                maxWidth: "56.25rem"
+                maxWidth: "56.25rem",
               }}
             >
               <Title
@@ -125,46 +139,57 @@ const BlogDetails = () => {
                   background: "linear-gradient(45deg, #1a2a6c, #b21f1f)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
-                  textAlign: "center"
+                  textAlign: "center",
                 }}
               >
                 {blog.title}
               </Title>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  {blog.image && (
-                    <Image
-                      src={blog.image}
-                      alt={blog.title}
-                      style={{
-                        width: "100%",
-                        marginBottom: "1.5rem",
-                        height: "auto",
-                        maxHeight: "31.25rem",
-                        borderRadius: "0.75rem",
-                        objectFit: "contain",
-                        boxShadow: "0 0.25rem 1.25rem rgba(0,0,0,0.15)",
-                        display: "block",
-                        marginLeft: "auto",
-                        marginRight: "auto"
-                      }}
-                    />
-                  )}
-                </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {blog.image && (
+                  <Image
+                    src={blog.image}
+                    alt={blog.title}
+                    style={{
+                      width: "100%",
+                      marginBottom: "1.5rem",
+                      height: "auto",
+                      maxHeight: "31.25rem",
+                      borderRadius: "0.75rem",
+                      objectFit: "contain",
+                      boxShadow: "0 0.25rem 1.25rem rgba(0,0,0,0.15)",
+                      display: "block",
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      justifyContent: "center",
+                    }}
+                  />
+                )}
+              </motion.div>
 
-              <Space style={{ marginBottom: "1.5rem", justifyContent: "center", width: "100%" }}>
+              <Space
+                style={{
+                  marginBottom: "1.5rem",
+                  justifyContent: "center",
+                  width: "100%",
+                }}
+              >
                 {blog.tags?.map((tag, index) => (
                   <Tag
                     key={index}
                     color="blue"
-                    style={{ borderRadius: "0.9375rem", padding: "0.25rem 0.75rem" }}
+                    style={{
+                      borderRadius: "0.9375rem",
+                      padding: "0.25rem 0.75rem",
+                    }}
                   >
                     {tag}
                   </Tag>
@@ -181,7 +206,7 @@ const BlogDetails = () => {
                     fontSize: "1.0625rem",
                     lineHeight: "1.8",
                     color: "#2c3e50",
-                    textAlign: "justify"
+                    textAlign: "justify",
                   }}
                   dangerouslySetInnerHTML={{ __html: blog.content }}
                 />
@@ -196,7 +221,7 @@ const BlogDetails = () => {
                   borderTop: "1px solid #eee",
                   paddingTop: "1.25rem",
                   display: "flex",
-                  justifyContent: "center"
+                  justifyContent: "center",
                 }}
               >
                 <Space size={24}>

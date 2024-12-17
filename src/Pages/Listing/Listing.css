@@ -29,7 +29,7 @@ li {
   gap: 16px; /* Space between items */
   overflow-x: auto;
   padding: 8px;
-  scrollbar-width: thin; /* For custom scrollbar styling */
+  scroll-behavior: smooth; /* For custom scrollbar styling */
 }
 
 .horizontal-grid::-webkit-scrollbar {

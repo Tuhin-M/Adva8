@@ -17,8 +17,7 @@ import { Button, Card, Col, Row } from "antd";
 function MakeBooking() {
   const [selectedTests, setSelectedTests] = useState([]);
   const [selectedDay, setSelectedDay] = useState("");
- 
-  
+
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [selectedFiles, setSelectedFiles] = useState([]);
@@ -40,8 +39,8 @@ function MakeBooking() {
   useEffect(() => {
     fetchSelectedTests();
     fetchUploadedFiles();
-    if(selectedTests.length > 0) {
-      fetchRecommendedTests()
+    if (selectedTests.length > 0) {
+      fetchRecommendedTests();
     }
   }, []);
 
@@ -79,16 +78,13 @@ function MakeBooking() {
     }
   };
 
-  const handleDeleteTest= async (testId) => {
-    
-      setSelectedTests(selectedTests.filter((test) => test.id !== testId));
-    
+  const handleDeleteTest = async (testId) => {
+    setSelectedTests(selectedTests.filter((test) => test.id !== testId));
   };
 
   const handleClickForDayChange = (day) => {
     setSelectedDay(day);
   };
- 
 
   const handleFileSelect = (event) => {
     const files = Array.from(event.target.files);
@@ -240,36 +236,36 @@ function MakeBooking() {
           name: "Complete Blood Count",
           description: "Measures different components of blood",
           price: "$50",
-          category: "Blood Tests"
+          category: "Blood Tests",
         },
         {
           id: 2,
           name: "Lipid Profile",
           description: "Checks cholesterol and triglycerides",
           price: "$75",
-          category: "Blood Tests"
+          category: "Blood Tests",
         },
         {
           id: 3,
           name: "Thyroid Function",
           description: "Measures thyroid hormone levels",
           price: "$90",
-          category: "Urine Test"
+          category: "Urine Test",
         },
         {
           id: 4,
           name: "Vitamin D Test",
           description: "Checks vitamin D levels in blood",
           price: "$60",
-          category: "Urine Test"
+          category: "Urine Test",
         },
         {
           id: 5,
           name: "Liver Function",
           description: "Evaluates liver health",
           price: "$85",
-          category: "Urine Test"
-        }
+          category: "Urine Test",
+        },
       ];
 
       const groupedByCategory = dummyData.reduce((acc, test) => {
@@ -285,283 +281,387 @@ function MakeBooking() {
       console.error("Error fetching recommended tests:", error);
     }
   };
-      return (
-        <div className="MakeBooking">
-          <div className="section user-details">
-            <h2>User Details</h2>
-            <p>Please provide your information</p>
-            <form>              <div className="form-row">
-                <div className="form-group">
-                  <label htmlFor="fullName">Full Name</label>
-                  <input
-                    type="text"
-                    id="fullName"
-                    placeholder="Enter your full name"
-                    value={userDetails.fullName}
-                    onChange={handleUserDetailsChange}
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="dateOfBirth">Date of Birth</label>
-                  <input
-                    type="date"
-                    id="dateOfBirth"
-                    value={userDetails.dateOfBirth}
-                    onChange={handleUserDetailsChange}
-                  />
-                </div>
-              </div>
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Gender</label>
-                  <div className="radio-group">
-                    <input
-                      type="radio"
-                      id="male"
-                      name="gender"
-                      checked={userDetails.gender === "male"}
-                      onChange={handleGenderChange}
-                    />
-                    <label htmlFor="male">Male</label>
-                    <input
-                      type="radio"
-                      id="female"
-                      name="gender"
-                      checked={userDetails.gender === "female"}
-                      onChange={handleGenderChange}
-                    />
-                    <label htmlFor="female">Female</label>
-                    <input
-                      type="radio"
-                      id="other"
-                      name="gender"
-                      checked={userDetails.gender === "other"}
-                      onChange={handleGenderChange}
-                    />
-                    <label htmlFor="other">Other</label>
-                  </div>
-                </div>
-                <div className="form-group">
-                  <label htmlFor="phoneNumber">Contact Information</label>
-                  <input
-                    type="tel"
-                    id="phoneNumber"
-                    placeholder="Enter your phone number"
-                    value={userDetails.phoneNumber}
-                    onChange={handleUserDetailsChange}
-                  />
-                </div>
-              </div>
-              <div className="form-row">
-                <div className="form-group">
-                  <label htmlFor="email">Email</label>
-                  <input
-                    type="email"
-                    id="email"
-                    placeholder="Enter your email"
-                    value={userDetails.email}
-                    onChange={handleUserDetailsChange}
-                  />
-                </div>
-                <div className="form-group">
-                  <label htmlFor="address">Address</label>
-                  <input
-                    type="text"
-                    id="address"
-                    placeholder="Enter your address"
-                    value={userDetails.address}
-                    onChange={handleUserDetailsChange}
-                  />
-                </div>
-              </div>
-            </form>
-          </div>
-          <div className="section medical-reports">
-            <h2>Medical Reports</h2>
-            <p>Upload any previous medical reports</p>
-            <input
-              type="file"
-              onChange={handleFileSelect}
-              className="upload-button"
-              multiple
-            />
-            {selectedFiles.length > 0 && (
-              <div>
-                <h3>Selected Files:</h3>
-                <ul>
-                  {selectedFiles.map((file, index) => (
-                    <li key={index}>{file.name}</li>
-                  ))}
-                </ul>
-                <button onClick={handleFileUpload} className="upload-button">
-                  Upload Selected Files
-                </button>
-                <button
-                  onClick={() => handleFileDelete(file.name)}
-                  className="delete-file-button"
-                >
-                  Delete
-                </button>
-              </div>
-            )}
-          </div>
-          <div className="section">
-            <h2>Test Selection</h2>
-            <div className="test-popup">
-              <button className="primary-button" onClick={() => setPopupOpen(true)}>
-                Add Test
-              </button>
-              <Popup
-                isOpen={isPopupOpen}
-                onClose={() => setPopupOpen(false)}
-                onTestsSelected={(newTests) =>
-                  setSelectedTests((prevTests) => [...prevTests, ...newTests])
-                }
-              />
-            </div>
-            <div className="test-cards">
-              {Array.isArray(selectedTests) && selectedTests.length > 0 && (
-                <table className="test-table">
-                  <thead>
-                    <tr>
-                      <th>Test Name</th>
-                      <th>Description</th>
-                      <th>Price</th>
-                      <th>Action</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {selectedTests.map((test) => (
-                      <tr key={test.id}>
-                        <td>{test.name}</td>
-                        <td>{test.description}</td>
-                        <td>{test.price}</td>
-                        <td>
-                          <a href="#" style={{ color: "red" }} onClick={() => handleDeleteTest(test.id)}>✕</a>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              )}
-            </div>
-            {selectedTests.length>0 && (
-              <div className="section recommended-tests">
-              <h2>Recommended Tests</h2>
-              <div className="recommended-tests-container">
-                {Object.entries(recommendedTests).map(([category, tests]) => (
-                  <div key={category} className="category-section">
-                    <h3>{category}</h3>
-                    <Row gutter={[16, 16]}>
-                      {tests.map((test) => (
-                        <Col xs={24} sm={12} md={8} lg={6} key={test.id}>
-                          <Card
-                            hoverable
-                            title={test.name}
-                            className="test-card"
-                          >
-                            <p>{test.description}</p>
-                            <p className="price">{test.price}</p>
-                            <Button type="primary" onClick={() => handleAddTest(test)}>
-                              View Test
-                            </Button>
-                          </Card>
-                        </Col>
-                      ))}
-                    </Row>
-                  </div>
-                ))}
-              </div>
-            </div>
-            )}
-            {selectedTests.length > 0 && (
-              <form>
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Availability</label>
-                  <div className="date-container">
-                    {selectedTests[0]?.availability.map((day) => {
-                      return (
-                        <div
-                          key={day}
-                          className={`days ${day === selectedDay ? "active" : ""}`}
-                          onClick={() => handleClickForDayChange(day)}
-                        >
-                          {day}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>
-              <div className="form-row">
-                <div className="form-group">
-                  <label>Available Time slots</label>
-
-                  <div className="time-slots-container">
-                    {timeSlots.map((slot) => {
-                      return (
-                        <div
-                          key={slot}
-                          className={`timeSlots ${slot === selectedTimeSlot ? "active" : ""}`}
-                          onClick={() => handleClickForTimeChange(slot)}
-                        >
-                          {slot}
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              </div>          
+  return (
+    <div className="MakeBooking">
+      <div className="section user-details">
+        <h2>User Details</h2>
+        <p>Please provide your information</p>
+        <form>
+          {" "}
           <div className="form-row">
             <div className="form-group">
-              <label>Additional Features</label>
-              <div className="checkbox-group">
-                {selectedTests[0]?.features.map((feature) => (
-                  <div style={{ display: "flex", alignItems: "center" }} key={feature}>
-                    <input
-                      type="checkbox"
-                      id={feature}
-                      checked={additionalFeatures[feature]}
-                      onChange={handleAdditionalFeaturesChange}
-                    />
-                    <label htmlFor={feature}>{feature}</label>
-                  </div>
-                ))}
-              </div>            
+              <label htmlFor="fullName">Full Name</label>
+              <input
+                type="text"
+                id="fullName"
+                placeholder="Enter your full name"
+                value={userDetails.fullName}
+                onChange={handleUserDetailsChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="dateOfBirth">Date of Birth</label>
+              <input
+                type="date"
+                id="dateOfBirth"
+                value={userDetails.dateOfBirth}
+                onChange={handleUserDetailsChange}
+              />
+            </div>
+          </div>
+          <div className="form-row">
+            <div className="form-group">
+              <label>Gender</label>
+              <div className="radio-group">
+                <input
+                  type="radio"
+                  id="male"
+                  name="gender"
+                  checked={userDetails.gender === "male"}
+                  onChange={handleGenderChange}
+                />
+                <label htmlFor="male">Male</label>
+                <input
+                  type="radio"
+                  id="female"
+                  name="gender"
+                  checked={userDetails.gender === "female"}
+                  onChange={handleGenderChange}
+                />
+                <label htmlFor="female">Female</label>
+                <input
+                  type="radio"
+                  id="other"
+                  name="gender"
+                  checked={userDetails.gender === "other"}
+                  onChange={handleGenderChange}
+                />
+                <label htmlFor="other">Other</label>
               </div>
+            </div>
+            <div className="form-group">
+              <label htmlFor="phoneNumber">Contact Information</label>
+              <input
+                type="tel"
+                id="phoneNumber"
+                placeholder="Enter your phone number"
+                value={userDetails.phoneNumber}
+                onChange={handleUserDetailsChange}
+              />
+            </div>
+          </div>
+          <div className="form-row">
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                placeholder="Enter your email"
+                value={userDetails.email}
+                onChange={handleUserDetailsChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="address">Address</label>
+              <input
+                type="text"
+                id="address"
+                placeholder="Enter your address"
+                value={userDetails.address}
+                onChange={handleUserDetailsChange}
+              />
+            </div>
           </div>
         </form>
-      )}
+      </div>
+      <div className="section medical-reports">
+        <h2>Medical Reports</h2>
+        <p>Upload any previous medical reports</p>
+        <input
+          type="file"
+          onChange={handleFileSelect}
+          className="upload-button"
+          multiple
+        />
+        {selectedFiles.length > 0 && (
+          <div>
+            <h3>Selected Files:</h3>
+            <ul>
+              {selectedFiles.map((file, index) => (
+                <li key={index}>{file.name}</li>
+              ))}
+            </ul>
+            <button onClick={handleFileUpload} className="upload-button">
+              Upload Selected Files
+            </button>
+            <button
+              onClick={() => handleFileDelete(file.name)}
+              className="delete-file-button"
+            >
+              Delete
+            </button>
+          </div>
+        )}
+      </div>
+      <div className="section">
+        <h2>Test Selection</h2>
+        <div className="test-popup">
+          <button className="primary-button" onClick={() => setPopupOpen(true)}>
+            Add Test
+          </button>
+          <Popup
+            isOpen={isPopupOpen}
+            onClose={() => setPopupOpen(false)}
+            onTestsSelected={(newTests) =>
+              setSelectedTests((prevTests) => [...prevTests, ...newTests])
+            }
+          />
+        </div>
+        <div className="test-cards">
+          {Array.isArray(selectedTests) && selectedTests.length > 0 && (
+            <table className="test-table">
+              <thead>
+                <tr>
+                  <th>Test Name</th>
+                  <th>Description</th>
+                  <th>Price</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {selectedTests.map((test) => (
+                  <tr key={test.id}>
+                    <td>{test.name}</td>
+                    <td>{test.description}</td>
+                    <td>{test.price}</td>
+                    <td>
+                      <a
+                        href="#"
+                        style={{ color: "red" }}
+                        onClick={() => handleDeleteTest(test.id)}
+                      >
+                        ✕
+                      </a>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
+        {selectedTests.length > 0 && (
+          <div className="section recommended-tests">
+            <h2>Recommended Tests</h2>
+            <div className="recommended-tests-container">
+              <div style={{ overflowX: "auto", padding: "20px 0" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "20px",
+                    minWidth: "min-content",
+                  }}
+                >
+                  {[
+                    {
+                      id: 1,
+                      name: "Complete Blood Count",
+                      lab: "Apollo Diagnostics",
+                      description:
+                        "Measures different components of blood including red cells, white cells, and platelets",
+                      price: "₹800",
+                    },
+                    {
+                      id: 2,
+
+                      name: "Complete Blood Count",
+                      lab: "SRL Diagnostics",
+                      description:
+                        "Comprehensive blood test measuring various blood components",
+                      price: "₹750",
+                    },
+                    {
+                      id: 3,
+
+                      name: "Complete Blood Count",
+                      lab: "Thyrocare",
+                      description:
+                        "Full blood profile test including hemoglobin and cell counts",
+                      price: "₹650",
+                    },
+                    {
+                      id: 4,
+
+                      name: "Diabetes Screening",
+                      lab: "Dr Lal PathLabs",
+                      description:
+                        "HbA1c and Fasting Blood Sugar test for diabetes screening",
+                      price: "₹1200",
+                    },
+                    {
+                      id: 5,
+
+                      name: "Diabetes Screening",
+                      lab: "Metropolis",
+                      description:
+                        "Comprehensive diabetes check including glucose tolerance test",
+                      price: "₹1100",
+                    },
+                  ]
+                    .sort(
+                      (a, b) =>
+                        parseInt(a.price.slice(1)) - parseInt(b.price.slice(1))
+                    )
+                    .map((test) => (
+                      <div key={test.id} style={{ minWidth: "280px" }}>
+                        <Card
+                          hoverable
+                          title={test.name}
+                          className="test-card"
+                          style={{
+                            height: "100%",
+                            boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                            borderRadius: "8px",
+                          }}
+                        >
+                          <div style={{ height: "120px", overflow: "hidden" }}>
+                            <p>
+                              <strong>{test.lab}</strong>
+                            </p>
+                            <p>{test.description}</p>
+                          </div>
+                          <p
+                            className="price"
+                            style={{
+                              fontSize: "1.2em",
+                              fontWeight: "bold",
+                              color: "#1890ff",
+                              margin: "16px 0",
+                            }}
+                          >
+                            {test.price}
+                          </p>
+                          <Button
+                            type="primary"
+                            onClick={() => handleAddTest(test)}
+                            style={{
+                              width: "100%",
+                              borderRadius: "4px",
+                            }}
+                          >
+                            View Test
+                          </Button>
+                        </Card>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        {selectedTests.length > 0 && (
+          <form>
+            <div className="form-row">
+              <div className="form-group">
+                <label>Availability</label>
+                <div className="date-container">
+                  {selectedTests[0]?.availability.map((day) => {
+                    return (
+                      <div
+                        key={day}
+                        className={`days ${
+                          day === selectedDay ? "active" : ""
+                        }`}
+                        onClick={() => handleClickForDayChange(day)}
+                      >
+                        {day}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+            <div className="form-row">
+              <div className="form-group">
+                <label>Available Time slots</label>
+
+                <div className="time-slots-container">
+                  {timeSlots.map((slot) => {
+                    return (
+                      <div
+                        key={slot}
+                        className={`timeSlots ${
+                          slot === selectedTimeSlot ? "active" : ""
+                        }`}
+                        onClick={() => handleClickForTimeChange(slot)}
+                      >
+                        {slot}
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+            <div className="form-row">
+              <div className="form-group">
+                <label>Additional Features</label>
+                <div className="checkbox-group">
+                  {selectedTests[0]?.features.map((feature) => (
+                    <div
+                      style={{ display: "flex", alignItems: "center" }}
+                      key={feature}
+                    >
+                      <input
+                        type="checkbox"
+                        id={feature}
+                        checked={additionalFeatures[feature]}
+                        onChange={handleAdditionalFeaturesChange}
+                      />
+                      <label htmlFor={feature}>{feature}</label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </form>
+        )}
       </div>
       {selectedTests.length > 0 && (
         <div className="section booking-summary">
-        <h2>Bookings Summary</h2>
-        <div className="summary-details">
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="totalTests">Total Tests</label>
-              <input
-                type="text"
-                id="totalTests"
-                value={selectedTests.length}
-                readOnly
-              />
-            </div>
-        
-            <div className="form-group">
-              <label htmlFor="totalPrice">Total Price</label>
-              <input
-                type="text"
-                id="totalPrice"
-                value={`${selectedTests
-                  .reduce(
-                    (total, test) => total + parseFloat(test.price.slice(0)),
-                    0
-                  )
-                  .toFixed(2)}`}
-                readOnly
-              />
+          <h2>Bookings Summary</h2>
+          <div className="summary-details">
+            <div className="form-row">
+              <div className="form-group">
+                <label htmlFor="totalTests">Total Tests</label>
+                <input
+                  type="text"
+                  id="totalTests"
+                  value={selectedTests.length}
+                  readOnly
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="totalPrice">Total Price</label>
+                <input
+                  type="text"
+                  id="totalPrice"
+                  value={`${selectedTests
+                    .reduce(
+                      (total, test) => total + parseFloat(test.price.slice(0)),
+                      0
+                    )
+                    .toFixed(2)}`}
+                  readOnly
+                />
+              </div>
+              <button
+                disabled={!selectedDay || !selectedTimeSlot}
+                type="button"
+                className="primary-button"
+                onClick={handleProceedToPayment}
+              >
+                Proceed to Payment
+              </button>
             </div>
             <button
               disabled={!selectedDay || !selectedTimeSlot}
@@ -572,17 +672,8 @@ function MakeBooking() {
               Proceed to Payment
             </button>
           </div>
-          <button
-          disabled={!selectedDay || !selectedTimeSlot}
-            type="button"
-            className="primary-button"
-            onClick={handleProceedToPayment}
-          >
-            Proceed to Payment
-          </button>
         </div>
-      </div>
-    )}
+      )}
     </div>
   );
 }

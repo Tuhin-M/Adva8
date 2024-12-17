@@ -1,8 +1,19 @@
 import React, { useState, useEffect } from "react";
 import "./TestOffered.css";
-import { Button, Card, Col, Descriptions, Form, Input, InputNumber, Row, Select, Space, Typography } from "antd";
-import { CloseOutlined } from '@ant-design/icons';
-
+import {
+  Button,
+  Card,
+  Col,
+  Descriptions,
+  Form,
+  Input,
+  InputNumber,
+  Row,
+  Select,
+  Space,
+  Typography,
+} from "antd";
+import { CloseOutlined } from "@ant-design/icons";
 
 function TestOffered(props) {
   const [productList, setProductList] = useState([]);
@@ -107,7 +118,7 @@ function TestOffered(props) {
     { id: "24", name: "Prenatal Screening" },
     { id: "25", name: "Allergy Testing" },
     { id: "26", name: "Pathology" },
-    { id: "27", name: "Metabolic Studies" }
+    { id: "27", name: "Metabolic Studies" },
   ];
 
   const handleInputChange = (e) => {
@@ -196,7 +207,9 @@ function TestOffered(props) {
                   <Select
                     name="category"
                     value={newTest.category}
-                    onChange={(value) => handleInputChange({ target: { name: 'category', value }})}
+                    onChange={(value) =>
+                      handleInputChange({ target: { name: "category", value } })
+                    }
                     placeholder="Select Category"
                   >
                     {testCategories.map((category) => (
@@ -260,10 +273,12 @@ function TestOffered(props) {
               <Col xs={24} sm={12}>
                 <Form.Item label="Pricing">
                   <InputNumber
-                    style={{ width: '100%' }}
+                    style={{ width: "100%" }}
                     name="price"
                     value={newTest.price}
-                    onChange={(value) => handleInputChange({ target: { name: 'price', value }})}
+                    onChange={(value) =>
+                      handleInputChange({ target: { name: "price", value } })
+                    }
                     placeholder="Enter Test Price"
                   />
                 </Form.Item>
@@ -274,13 +289,18 @@ function TestOffered(props) {
                     {["Home", "At Lab"].map((sample) => (
                       <Button
                         key={sample}
-                        type={newTest.sampleCollection.includes(sample) ? "primary" : "default"}
+                        type={
+                          newTest.sampleCollection.includes(sample)
+                            ? "primary"
+                            : "default"
+                        }
                         onClick={() =>
                           handleCheckboxChange({
                             target: {
                               name: "sampleCollection",
                               value: sample,
-                              checked: !newTest.sampleCollection.includes(sample),
+                              checked:
+                                !newTest.sampleCollection.includes(sample),
                             },
                           })
                         }
@@ -297,7 +317,11 @@ function TestOffered(props) {
                     {["Express Service", "Online Reports"].map((feature) => (
                       <Button
                         key={feature}
-                        type={newTest.features.includes(feature) ? "primary" : "default"}
+                        type={
+                          newTest.features.includes(feature)
+                            ? "primary"
+                            : "default"
+                        }
                         onClick={() =>
                           handleCheckboxChange({
                             target: {
@@ -320,7 +344,11 @@ function TestOffered(props) {
                     {Object.keys(days).map((day) => (
                       <Button
                         key={day}
-                        type={newTest.availability.includes(day) ? "primary" : "default"}
+                        type={
+                          newTest.availability.includes(day)
+                            ? "primary"
+                            : "default"
+                        }
                         onClick={() =>
                           handleCheckboxChange({
                             target: {
@@ -343,13 +371,18 @@ function TestOffered(props) {
                     {Object.keys(timeSlots).map((slot) => (
                       <Button
                         key={slot}
-                        type={newTest.availableTimeSlots.includes(slot) ? "primary" : "default"}
+                        type={
+                          newTest.availableTimeSlots.includes(slot)
+                            ? "primary"
+                            : "default"
+                        }
                         onClick={() =>
                           handleCheckboxChange({
                             target: {
                               name: "availableTimeSlots",
                               value: slot,
-                              checked: !newTest.availableTimeSlots.includes(slot),
+                              checked:
+                                !newTest.availableTimeSlots.includes(slot),
                             },
                           })
                         }
@@ -361,38 +394,49 @@ function TestOffered(props) {
                 </Form.Item>
               </Col>
             </Row>
-            <Form.Item style={{ textAlign: 'center' }}>
+            <Form.Item style={{ textAlign: "center" }}>
               <Button type="primary" onClick={addTest}>
                 Add Test
               </Button>
             </Form.Item>
           </Form>
         </section>
-
-        <section className="saved-tests">
-          <Typography.Title level={2}>Saved Tests</Typography.Title>
-          <Row gutter={[16, 16]}>
-            {productList.map((test, index) => (
-              <Col xs={24} sm={12} md={8} lg={6} key={index}>
-                <Card
-                  title={test.name || "N/A"}
-                  extra={
-                    <Button type="text" danger onClick={() => deleteTest(index)}>
-                      <CloseOutlined />
-                    </Button>
-                  }
-                >
-                  <Descriptions column={1}>
-                    <Descriptions.Item label="Category">{test.category || "N/A"}</Descriptions.Item>
-                    <Descriptions.Item label="Description">{test.description || "N/A"}</Descriptions.Item>
-                    <Descriptions.Item label="Pricing">{test.price || "N/A"}</Descriptions.Item>
-                  </Descriptions>
-                </Card>
-              </Col>
-            ))}
-          </Row>
-        </section>
-        <div style={{ textAlign: 'center', margin: '24px 0' }}>
+        {productList.length > 0 && (
+          <section className="saved-tests">
+            <Typography.Title level={2}>Saved Tests</Typography.Title>
+            <Row gutter={[16, 16]}>
+              {productList.map((test, index) => (
+                <Col xs={24} sm={12} md={8} lg={6} key={index}>
+                  <Card
+                    title={test.name || "N/A"}
+                    extra={
+                      <Button
+                        type="text"
+                        danger
+                        onClick={() => deleteTest(index)}
+                      >
+                        <CloseOutlined />
+                      </Button>
+                    }
+                  >
+                    <Descriptions column={1}>
+                      <Descriptions.Item label="Category">
+                        {test.category || "N/A"}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="Description">
+                        {test.description || "N/A"}
+                      </Descriptions.Item>
+                      <Descriptions.Item label="Pricing">
+                        {test.price || "N/A"}
+                      </Descriptions.Item>
+                    </Descriptions>
+                  </Card>
+                </Col>
+              ))}
+            </Row>
+          </section>
+        )}
+        <div style={{ textAlign: "center", margin: "24px 0" }}>
           <Button type="primary" onClick={handleSubmit}>
             Save Details
           </Button>

@@ -52,9 +52,8 @@ function Listing() {
 
   const result = filteredProducts.map(
     ({ id, img, name, star, reviews, prevPrice, newPrice }) => (
-      <Row
-      key={id || name} xs={24} sm={12} md={8} lg={6} xl={4} >
-       {/* <Col xs={24} sm={12} md={15} lg={20}> */}
+      <Row key={id || name} xs={24} sm={12} md={8} lg={6} xl={4}>
+        {/* <Col xs={24} sm={12} md={15} lg={20}> */}
         <Card
           img={img}
           name={name}
@@ -63,7 +62,7 @@ function Listing() {
           prevPrice={prevPrice}
           newPrice={newPrice}
         />
-       {/* </Col> */}
+        {/* </Col> */}
       </Row>
     )
   );
@@ -86,15 +85,14 @@ function Listing() {
 
   return (
     <div style={{ display: "flex" }}>
-    <div style={{ flex: "0 0 250px" }}>
-      <Sidebar handleChange={handleChange} />
+      <div style={{ flex: "0 0 250px" }}>
+        <Sidebar handleChange={handleChange} />
+      </div>
+      <div style={{ flex: "1", marginTop: "10vh" }}>
+        <Row gutter={[16, 16]}>{result}</Row>{" "}
+        {/* Apply spacing between cards */}
+      </div>
     </div>
-    <div style={{ flex: "1" }}>
-      <Row gutter={[16, 16]}> 
-        {result}
-      </Row> {/* Apply spacing between cards */}
-    </div>
-  </div>
   );
 }
 
