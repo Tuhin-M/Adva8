@@ -12,11 +12,14 @@ import {
   deleteObject,
 } from "firebase/storage";
 import { useParams } from "react-router-dom";
-import { Button, Card, Col, Row } from "antd";
+import { Button, Card, Carousel, Checkbox, Col, DatePicker, Form, Input, List, Radio, Row, Table, Tag, Typography, Upload } from "antd";
+import moment from "moment";
+import { CloseOutlined, CloudUploadOutlined, UploadOutlined } from "@ant-design/icons";
 
 function MakeBooking() {
   const [selectedTests, setSelectedTests] = useState([]);
   const [selectedDay, setSelectedDay] = useState("");
+
 
   const [isPopupOpen, setPopupOpen] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -39,9 +42,9 @@ function MakeBooking() {
   useEffect(() => {
     fetchSelectedTests();
     fetchUploadedFiles();
-    if (selectedTests.length > 0) {
-      fetchRecommendedTests();
-    }
+    // if(selectedTests.length > 0) {
+    fetchRecommendedTests()
+    // }
   }, []);
 
   const fetchSelectedTests = async () => {
@@ -79,12 +82,15 @@ function MakeBooking() {
   };
 
   const handleDeleteTest = async (testId) => {
+
     setSelectedTests(selectedTests.filter((test) => test.id !== testId));
+
   };
 
   const handleClickForDayChange = (day) => {
     setSelectedDay(day);
   };
+
 
   const handleFileSelect = (event) => {
     const files = Array.from(event.target.files);
@@ -140,10 +146,11 @@ function MakeBooking() {
     }));
   };
 
-  const handleGenderChange = (e) => {
+  const handleGenderChange = (gender) => {
+    console.log("Selected gender:", gender);
     setUserDetails((prevDetails) => ({
       ...prevDetails,
-      gender: e.target.id,
+      gender: gender.target.value,
     }));
   };
 
@@ -220,8 +227,8 @@ function MakeBooking() {
       id === "Express Service"
         ? "expressService"
         : id === "Online Reports"
-        ? "onlineReports"
-        : id;
+          ? "onlineReports"
+          : id;
     setAdditionalFeatures((prevFeatures) => ({
       ...prevFeatures,
       [featureId]: checked,
@@ -229,179 +236,143 @@ function MakeBooking() {
   };
   const fetchRecommendedTests = async (testIds) => {
     try {
-      // Dummy data instead of API call
-      const dummyData = [
-        {
-          id: 1,
-          name: "Complete Blood Count",
-          description: "Measures different components of blood",
-          price: "$50",
-          category: "Blood Tests",
-        },
-        {
-          id: 2,
-          name: "Lipid Profile",
-          description: "Checks cholesterol and triglycerides",
-          price: "$75",
-          category: "Blood Tests",
-        },
-        {
-          id: 3,
-          name: "Thyroid Function",
-          description: "Measures thyroid hormone levels",
-          price: "$90",
-          category: "Urine Test",
-        },
-        {
-          id: 4,
-          name: "Vitamin D Test",
-          description: "Checks vitamin D levels in blood",
-          price: "$60",
-          category: "Urine Test",
-        },
-        {
-          id: 5,
-          name: "Liver Function",
-          description: "Evaluates liver health",
-          price: "$85",
-          category: "Urine Test",
-        },
-      ];
-
-      const groupedByCategory = dummyData.reduce((acc, test) => {
-        if (!acc[test.category]) {
-          acc[test.category] = [];
-        }
-        acc[test.category].push(test);
-        return acc;
-      }, {});
-      console.log("Recommended Tests:", dummyData);
-      setRecommendedTests(groupedByCategory);
+      const response = await axios.get(`/api/product/getByCategory/${params?.listingId}`);
+      // console.log("Lab Tests:", response.data);
+      console.log("Lab Recommended Tests resonse:", response.data);
+      setRecommendedTests(response.data);
     } catch (error) {
-      console.error("Error fetching recommended tests:", error);
+      console.error("Error fetching lab tests:", error);
+      setTestData([]);
+      setAvailableTests([]);
+      setLoading(false);
     }
+  };
+  const handleSelectedTest = (newTests) => {
+    setSelectedTests((prevTests) => [newTests]);
   };
   return (
     <div className="MakeBooking">
       <div className="section user-details">
         <h2>User Details</h2>
         <p>Please provide your information</p>
-        <form>
-          {" "}
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="fullName">Full Name</label>
-              <input
-                type="text"
-                id="fullName"
-                placeholder="Enter your full name"
-                value={userDetails.fullName}
-                onChange={handleUserDetailsChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="dateOfBirth">Date of Birth</label>
-              <input
-                type="date"
-                id="dateOfBirth"
-                value={userDetails.dateOfBirth}
-                onChange={handleUserDetailsChange}
-              />
-            </div>
-          </div>
-          <div className="form-row">
-            <div className="form-group">
-              <label>Gender</label>
-              <div className="radio-group">
-                <input
-                  type="radio"
-                  id="male"
-                  name="gender"
-                  checked={userDetails.gender === "male"}
-                  onChange={handleGenderChange}
+        <Form layout="vertical">
+          <Row gutter={[16, 16]}>
+            <Col xs={24} sm={12}>
+              <Form.Item label="Full Name">
+                <Input
+                  id="fullName"
+                  placeholder="Enter your full name"
+                  value={userDetails.fullName}
+                  onChange={handleUserDetailsChange}
                 />
-                <label htmlFor="male">Male</label>
-                <input
-                  type="radio"
-                  id="female"
-                  name="gender"
-                  checked={userDetails.gender === "female"}
-                  onChange={handleGenderChange}
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12}>
+              <Form.Item label="Date of Birth">
+                <DatePicker
+                  id="dateOfBirth"
+                  style={{ width: '100%' }}
+                  value={userDetails.dateOfBirth ? moment(userDetails.dateOfBirth) : null} onChange={(date) => handleUserDetailsChange({ target: { id: 'dateOfBirth', value: date ? date.format('YYYY-MM-DD') : '' } })}
                 />
-                <label htmlFor="female">Female</label>
-                <input
-                  type="radio"
-                  id="other"
-                  name="gender"
-                  checked={userDetails.gender === "other"}
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={[16, 16]}>
+            <Col xs={24} sm={12}>
+              <Form.Item label="Gender">
+                <Radio.Group
+                  value={userDetails.gender}
                   onChange={handleGenderChange}
+                >
+                  <Radio value="male">Male</Radio>
+                  <Radio value="female">Female</Radio>
+                  <Radio value="other">Other</Radio>
+                </Radio.Group>
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12}>
+              <Form.Item label="Contact Information">
+                <Input
+                  id="phoneNumber"
+                  placeholder="Enter your phone number"
+                  value={userDetails.phoneNumber}
+                  onChange={handleUserDetailsChange}
                 />
-                <label htmlFor="other">Other</label>
-              </div>
-            </div>
-            <div className="form-group">
-              <label htmlFor="phoneNumber">Contact Information</label>
-              <input
-                type="tel"
-                id="phoneNumber"
-                placeholder="Enter your phone number"
-                value={userDetails.phoneNumber}
-                onChange={handleUserDetailsChange}
-              />
-            </div>
-          </div>
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <input
-                type="email"
-                id="email"
-                placeholder="Enter your email"
-                value={userDetails.email}
-                onChange={handleUserDetailsChange}
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="address">Address</label>
-              <input
-                type="text"
-                id="address"
-                placeholder="Enter your address"
-                value={userDetails.address}
-                onChange={handleUserDetailsChange}
-              />
-            </div>
-          </div>
-        </form>
+              </Form.Item>
+            </Col>
+          </Row>
+          <Row gutter={[16, 16]}>
+            <Col xs={24} sm={12}>
+              <Form.Item label="Email">
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  value={userDetails.email}
+                  onChange={handleUserDetailsChange}
+                />
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12}>
+              <Form.Item label="Address">
+                <Input
+                  id="address"
+                  placeholder="Enter your address"
+                  value={userDetails.address}
+                  onChange={handleUserDetailsChange}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
+        </Form>
       </div>
       <div className="section medical-reports">
         <h2>Medical Reports</h2>
-        <p>Upload any previous medical reports</p>
-        <input
-          type="file"
-          onChange={handleFileSelect}
-          className="upload-button"
-          multiple
-        />
-        {selectedFiles.length > 0 && (
-          <div>
-            <h3>Selected Files:</h3>
-            <ul>
-              {selectedFiles.map((file, index) => (
-                <li key={index}>{file.name}</li>
-              ))}
-            </ul>
-            <button onClick={handleFileUpload} className="upload-button">
-              Upload Selected Files
-            </button>
-            <button
-              onClick={() => handleFileDelete(file.name)}
-              className="delete-file-button"
+        <Row>
+          <Col xs={24}>
+            <Typography.Text>Upload any previous medical reports</Typography.Text>
+            <Upload
+              onChange={handleFileSelect}
+              multiple
+              className="upload-area"
             >
-              Delete
-            </button>
-          </div>
-        )}
+              <Button icon={<UploadOutlined />}>Select Files</Button>
+            </Upload>
+            {selectedFiles.length > 0 && (
+              <div style={{ marginTop: '16px' }}>
+                <Typography.Title level={4}>Selected Files:</Typography.Title>
+                <List
+                  dataSource={selectedFiles}
+                  renderItem={(file, index) => (
+                    <List.Item
+                      key={index}
+                      actions={[
+                        <Button
+                          type="text"
+                          danger
+                          icon={<DeleteOutlined />}
+                          onClick={() => handleFileDelete(file.name)}
+                        >
+                          Delete
+                        </Button>
+                      ]}
+                    >
+                      <Typography.Text>{file.name}</Typography.Text>
+                    </List.Item>
+                  )}
+                />
+                <Button
+                  type="primary"
+                  icon={<CloudUploadOutlined />}
+                  onClick={handleFileUpload}
+                  style={{ marginTop: '16px' }}
+                >
+                  Upload Selected Files
+                </Button>
+              </div>
+            )}
+          </Col>
+        </Row>
       </div>
       <div className="section">
         <h2>Test Selection</h2>
@@ -417,199 +388,175 @@ function MakeBooking() {
             }
           />
         </div>
-        <div className="test-cards">
+        <div className="test-cards" style={{ width: '100%' }}>
           {Array.isArray(selectedTests) && selectedTests.length > 0 && (
-            <table className="test-table">
-              <thead>
-                <tr>
-                  <th>Test Name</th>
-                  <th>Description</th>
-                  <th>Price</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {selectedTests.map((test) => (
-                  <tr key={test.id}>
-                    <td>{test.name}</td>
-                    <td>{test.description}</td>
-                    <td>{test.price}</td>
-                    <td>
-                      <a
-                        href="#"
-                        style={{ color: "red" }}
-                        onClick={() => handleDeleteTest(test.id)}
-                      >
-                        ✕
-                      </a>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <Table
+              dataSource={selectedTests}
+              columns={[
+                {
+                  title: 'Test Name',
+                  dataIndex: 'name',
+                  key: 'name',
+                  responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
+                },
+                {
+                  title: 'Description',
+                  dataIndex: 'description',
+                  key: 'description',
+                  responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
+                },
+                {
+                  title: 'Price',
+                  dataIndex: 'price',
+                  key: 'price',
+                  responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
+                },
+                {
+                  title: 'Action',
+                  key: 'action',
+                  responsive: ['xs', 'sm', 'md', 'lg', 'xl'],
+                  render: (_, record) => (
+                    <Button
+                      type="link"
+                      danger
+                      onClick={() => handleDeleteTest(record.id)}
+                      icon={<CloseOutlined />}
+                    />
+                  ),
+                },
+              ]}
+              pagination={false}
+              scroll={{ x: true }}
+              size="middle"
+              bordered
+              style={{ width: '100%' }}
+            />
           )}
-        </div>
-        {selectedTests.length > 0 && (
+        </div>        {selectedTests.length > 0 && (
           <div className="section recommended-tests">
             <h2>Recommended Tests</h2>
             <div className="recommended-tests-container">
-              <div style={{ overflowX: "auto", padding: "20px 0" }}>
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "20px",
-                    minWidth: "min-content",
-                  }}
-                >
-                  {[
-                    {
-                      id: 1,
-                      name: "Complete Blood Count",
-                      lab: "Apollo Diagnostics",
-                      description:
-                        "Measures different components of blood including red cells, white cells, and platelets",
-                      price: "₹800",
+              <Carousel
+                dots={true}
+                slidesToShow={4}
+                slidesToScroll={1}
+                draggable={true}
+                responsive={[
+                  {
+                    breakpoint: 1440,
+                    settings: {
+                      slidesToShow: 4,
+                      slidesToScroll: 1,
                     },
-                    {
-                      id: 2,
-
-                      name: "Complete Blood Count",
-                      lab: "SRL Diagnostics",
-                      description:
-                        "Comprehensive blood test measuring various blood components",
-                      price: "₹750",
+                  },
+                  {
+                    breakpoint: 1024,
+                    settings: {
+                      slidesToShow: 3,
+                      slidesToScroll: 1,
                     },
-                    {
-                      id: 3,
-
-                      name: "Complete Blood Count",
-                      lab: "Thyrocare",
-                      description:
-                        "Full blood profile test including hemoglobin and cell counts",
-                      price: "₹650",
+                  },
+                  {
+                    breakpoint: 768,
+                    settings: {
+                      slidesToShow: 2,
+                      slidesToScroll: 1,
                     },
-                    {
-                      id: 4,
-
-                      name: "Diabetes Screening",
-                      lab: "Dr Lal PathLabs",
-                      description:
-                        "HbA1c and Fasting Blood Sugar test for diabetes screening",
-                      price: "₹1200",
+                  },
+                  {
+                    breakpoint: 480,
+                    settings: {
+                      slidesToShow: 1,
+                      slidesToScroll: 1,
                     },
-                    {
-                      id: 5,
-
-                      name: "Diabetes Screening",
-                      lab: "Metropolis",
-                      description:
-                        "Comprehensive diabetes check including glucose tolerance test",
-                      price: "₹1100",
-                    },
-                  ]
-                    .sort(
-                      (a, b) =>
-                        parseInt(a.price.slice(1)) - parseInt(b.price.slice(1))
-                    )
-                    .map((test) => (
-                      <div key={test.id} style={{ minWidth: "280px" }}>
-                        <Card
-                          hoverable
-                          title={test.name}
-                          className="test-card"
+                  },
+                ]}
+                style={{ paddingBottom: '30px' }}
+              >
+                {Object.entries(recommendedTests)
+                  .filter(([key, test]) => !selectedTests.some(selected => selected.id === test.testId))
+                  .map(([key, test]) => (
+                    <div key={test.testId} className="carousel-item">
+                      <Card
+                        hoverable
+                        title={test.name}
+                        className="test-card"
+                        style={{ height: 'auto', width: '95%', margin: '10px' }}
+                      >
+                        <p style={{ minHeight: '80px', fontSize: '0.9rem' }}>{test.description}</p>
+                        <p
+                          className="price"
                           style={{
-                            height: "100%",
-                            boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
-                            borderRadius: "8px",
+                            fontSize: "1.2em",
+                            fontWeight: "bold",
+                            color: "#1890ff",
+                            margin: "16px 0",
                           }}
                         >
-                          <div style={{ height: "120px", overflow: "hidden" }}>
-                            <p>
-                              <strong>{test.lab}</strong>
-                            </p>
-                            <p>{test.description}</p>
-                          </div>
-                          <p
-                            className="price"
-                            style={{
-                              fontSize: "1.2em",
-                              fontWeight: "bold",
-                              color: "#1890ff",
-                              margin: "16px 0",
-                            }}
-                          >
-                            {test.price}
-                          </p>
-                          <Button
-                            type="primary"
-                            onClick={() => handleAddTest(test)}
-                            style={{
-                              width: "100%",
-                              borderRadius: "4px",
-                            }}
-                          >
-                            View Test
-                          </Button>
-                        </Card>
-                      </div>
-                    ))}
-                </div>
-              </div>
-            </div>
+                          ₹{test.price}
+                        </p>
+                        <Button
+                          type="primary"
+                          onClick={() => handleSelectedTest(test)}
+                          style={{
+                            width: "100%",
+                            borderRadius: "4px",
+                          }}
+                        >
+                          View Test
+                        </Button>
+                      </Card>
+                    </div>
+                  ))}              </Carousel>          </div>
           </div>
         )}
+
         {selectedTests.length > 0 && (
-          <form>
-            <div className="form-row">
-              <div className="form-group">
-                <label>Availability</label>
-                <div className="date-container">
-                  {selectedTests[0]?.availability.map((day) => {
-                    return (
-                      <div
+          <Form layout="vertical">
+            <Row gutter={[16, 16]}>
+              <Col xs={24} sm={24} md={24}>
+                <Form.Item label="Availability">
+                  <div className="date-container">
+                    {selectedTests[0]?.availability.map((day) => (
+                      <Tag
                         key={day}
-                        className={`days ${
-                          day === selectedDay ? "active" : ""
-                        }`}
+                        className={`days ${day === selectedDay ? "active" : ""}`}
                         onClick={() => handleClickForDayChange(day)}
+                        style={{ cursor: 'pointer', margin: '4px' }}
+                        color={day === selectedDay ? "blue" : "default"}
                       >
                         {day}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-            <div className="form-row">
-              <div className="form-group">
-                <label>Available Time slots</label>
-
-                <div className="time-slots-container">
-                  {timeSlots.map((slot) => {
-                    return (
-                      <div
+                      </Tag>
+                    ))}
+                  </div>
+                </Form.Item>
+              </Col>
+            </Row>
+            <Row gutter={[16, 16]}>
+              <Col xs={24} sm={24} md={24}>
+                <Form.Item label="Available Time slots">
+                  <div className="time-slots-container">
+                    {timeSlots.map((slot) => (
+                      <Tag
                         key={slot}
-                        className={`timeSlots ${
-                          slot === selectedTimeSlot ? "active" : ""
-                        }`}
+                        className={`timeSlots ${slot === selectedTimeSlot ? "active" : ""}`}
                         onClick={() => handleClickForTimeChange(slot)}
+                        style={{ cursor: 'pointer', margin: '4px' }}
+                        color={slot === selectedTimeSlot ? "blue" : "default"}
                       >
                         {slot}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
+                      </Tag>
+                    ))}
+                  </div>
+                </Form.Item>
+              </Col>
+            </Row>
             <div className="form-row">
               <div className="form-group">
                 <label>Additional Features</label>
                 <div className="checkbox-group">
                   {selectedTests[0]?.features.map((feature) => (
-                    <div
-                      style={{ display: "flex", alignItems: "center" }}
-                      key={feature}
-                    >
+                    <div style={{ display: "flex", alignItems: "center" }} key={feature}>
                       <input
                         type="checkbox"
                         id={feature}
@@ -622,28 +569,25 @@ function MakeBooking() {
                 </div>
               </div>
             </div>
-          </form>
+          </Form>
         )}
       </div>
       {selectedTests.length > 0 && (
         <div className="section booking-summary">
           <h2>Bookings Summary</h2>
-          <div className="summary-details">
-            <div className="form-row">
-              <div className="form-group">
-                <label htmlFor="totalTests">Total Tests</label>
-                <input
-                  type="text"
+          <Row gutter={[16, 16]}>
+            <Col xs={24} sm={12} md={8}>
+              <Form.Item label="Total Tests">
+                <Input
                   id="totalTests"
                   value={selectedTests.length}
                   readOnly
                 />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="totalPrice">Total Price</label>
-                <input
-                  type="text"
+              </Form.Item>
+            </Col>
+            <Col xs={24} sm={12} md={8}>
+              <Form.Item label="Total Price">
+                <Input
                   id="totalPrice"
                   value={`${selectedTests
                     .reduce(
@@ -653,25 +597,20 @@ function MakeBooking() {
                     .toFixed(2)}`}
                   readOnly
                 />
-              </div>
-              <button
+              </Form.Item>
+            </Col>
+            <Col xs={24} md={8}>
+              <Button
+                type="primary"
+                block
+                title={!selectedDay || !selectedTimeSlot ? "Please select a day and time slot first" : ""}
                 disabled={!selectedDay || !selectedTimeSlot}
-                type="button"
-                className="primary-button"
                 onClick={handleProceedToPayment}
               >
                 Proceed to Payment
-              </button>
-            </div>
-            <button
-              disabled={!selectedDay || !selectedTimeSlot}
-              type="button"
-              className="primary-button"
-              onClick={handleProceedToPayment}
-            >
-              Proceed to Payment
-            </button>
-          </div>
+              </Button>
+            </Col>
+          </Row>
         </div>
       )}
     </div>
