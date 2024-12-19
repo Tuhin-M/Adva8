@@ -5,6 +5,8 @@ body {
 }
 .details{
   margin-top: 10vh;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 /* .labs-details {
   margin-left: 10rem;

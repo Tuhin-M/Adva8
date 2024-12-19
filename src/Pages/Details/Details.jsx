@@ -25,6 +25,8 @@ import {
   TimePicker,
   Select,
   message,
+  Space,
+  Divider,
 } from "antd";
 import dayjs from "dayjs";
 
@@ -35,6 +37,7 @@ function Details() {
   const [error, setError] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [editedListing, setEditedListing] = useState(null);
+  const [isFieldChanged, setIsFieldChanged] = useState(false);
   const params = useParams();
   const isLabOwner = localStorage.getItem("userRole");
   const { Title, Text } = Typography;
@@ -79,13 +82,21 @@ function Details() {
       }
       setListing(editedListing);
       setIsEditing(false);
+      setIsFieldChanged(false);
       message.success("Lab details updated successfully");
     } catch (error) {
       message.error("Something went wrong while updating");
     }
   };
 
+  const handleCancel = () => {
+    setEditedListing(listing);
+    setIsEditing(false);
+    setIsFieldChanged(false);
+  };
+
   const handleInputChange = (field, value) => {
+    setIsFieldChanged(true);
     setEditedListing((prev) => ({
       ...prev,
       [field]: value,
@@ -107,9 +118,9 @@ function Details() {
         </div>
       )}
       {listing && !loading && !error && (
-        <Row gutter={[16, 16]}>
+        <Row gutter={[24, 24]}>
           <Col xs={24}>
-            <Swiper navigation>
+            <Swiper navigation className="details-swiper">
               {listing?.labImageUrls.map((url) => (
                 <SwiperSlide key={url}>
                   <div
@@ -117,6 +128,7 @@ function Details() {
                     style={{
                       background: `url(${url}) center no-repeat`,
                       backgroundSize: "cover",
+                      borderRadius: "8px",
                     }}
                   ></div>
                 </SwiperSlide>
@@ -124,101 +136,116 @@ function Details() {
             </Swiper>
           </Col>
           <Col xs={24}>
-            <Card className="labs-details">
-              <Row justify="space-between" align="middle">
-                <Col xs={24} sm={18}>
-                  {isEditing ? (
-                    <Input
-                      value={editedListing.labName}
-                      onChange={(e) =>
-                        handleInputChange("labName", e.target.value)
-                      }
-                      style={{ marginBottom: "10px" }}
-                    />
-                  ) : (
-                    <Title level={2} style={{ color: "#0d9488" }}>
-                      {listing.labName}
-                    </Title>
-                  )}
-                  {isEditing ? (
-                    <Input
-                      value={`${editedListing.labAddress}, ${editedListing.labCity}, ${editedListing.labState}, ${editedListing.labPin}`}
-                      onChange={(e) => {
-                        const [address, city, state, pin] = e.target.value
-                          .split(",")
-                          .map((item) => item.trim());
-                        handleInputChange("labAddress", address);
-                        handleInputChange("labCity", city);
-                        handleInputChange("labState", state);
-                        handleInputChange("labPin", pin);
-                      }}
-                    />
-                  ) : (
-                    <Text
-                      type="secondary"
-                      style={{ display: "flex", alignItems: "center" }}
-                    >
-                      <FaMapMarkerAlt style={{ marginRight: "8px" }} />
-                      {listing.labAddress}, {listing.labCity},{" "}
-                      {listing.labState}, {listing.labPin}
-                    </Text>
-                  )}
+            <Card className="labs-details" bordered={false}>
+              <Row gutter={[16, 16]} justify="space-between" align="middle">
+                <Col xs={24} md={18}>
+                  <Space direction="vertical" size="large" style={{ width: '100%' }}>
+                    {isEditing ? (
+                      <Input
+                        size="large"
+                        value={editedListing.labName}
+                        onChange={(e) =>
+                          handleInputChange("labName", e.target.value)
+                        }
+                      />
+                    ) : (
+                      <Title level={2} style={{ color: "#0d9488", margin: 0 }}>
+                        {listing.labName}
+                      </Title>
+                    )}
+                    {isEditing ? (
+                      <Input
+                        size="large"
+                        value={`${editedListing.labAddress}, ${editedListing.labCity}, ${editedListing.labState}, ${editedListing.labPin}`}
+                        onChange={(e) => {
+                          const [address, city, state, pin] = e.target.value
+                            .split(",")
+                            .map((item) => item.trim());
+                          handleInputChange("labAddress", address);
+                          handleInputChange("labCity", city);
+                          handleInputChange("labState", state);
+                          handleInputChange("labPin", pin);
+                        }}
+                      />
+                    ) : (
+                      <Text
+                        type="secondary"
+                        style={{ display: "flex", alignItems: "center" }}
+                      >
+                        <FaMapMarkerAlt style={{ marginRight: "8px" }} />
+                        {listing.labAddress}, {listing.labCity},{" "}
+                        {listing.labState}, {listing.labPin}
+                      </Text>
+                    )}
+                  </Space>
                 </Col>
-                <Col xs={24} sm={6} style={{ textAlign: "right" }}>
+                <Col xs={24} md={6} style={{ textAlign: "right" }}>
                   {isLabOwner == 0 && (
                     <Button
                       type="primary"
+                      size="large"
                       style={{ backgroundColor: "#0d9488" }}
                       href={"/make-booking/" + params?.listingId}
+                      block
                     >
                       Make Booking
                     </Button>
                   )}
                   {isLabOwner == 1 && (
-                    <>
-                      {isEditing ? (
+
+
+
+
+
+
+
+
+
+                    <Space direction="vertical" style={{ width: '100%' }}>
+                      <Button
+                        type="primary"
+                        size="large"
+                        onClick={isEditing ? handleSave : () => setIsEditing(true)}
+                        style={{ backgroundColor: "#0d9488" }}
+                        block
+                      >
+                        {isEditing ? "Save" : "Edit"}
+                      </Button>
+                      {isEditing && !isFieldChanged && (
                         <Button
-                          type="primary"
-                          onClick={handleSave}
-                          style={{
-                            marginRight: "8px",
-                            backgroundColor: "#0d9488",
-                          }}
+                          size="large"
+                          onClick={handleCancel}
+                          block
                         >
-                          Save
-                        </Button>
-                      ) : (
-                        <Button
-                          type="primary"
-                          onClick={() => setIsEditing(true)}
-                          style={{ backgroundColor: "#0d9488" }}
-                        >
-                          Edit
+                          Cancel
                         </Button>
                       )}
-                    </>
+                    </Space>
                   )}
                 </Col>
               </Row>
 
-              <div style={{ marginTop: "24px" }}>
-                {isEditing ? (
+              <Divider />
+
+              <Space direction="vertical" size="large" style={{ width: '100%' }}>
+                {/* {isEditing ? (
                   <TextArea
                     value={editedListing.description}
                     onChange={(e) =>
                       handleInputChange("description", e.target.value)
                     }
                     rows={4}
+                    size="large"
                   />
                 ) : (
                   <Text>{listing.description}</Text>
-                )}
+                )} */}
 
-                <List style={{ marginTop: "16px" }}>
+                <List size="large" split={false}>
                   <List.Item>
-                    <Text style={{ display: "flex", alignItems: "center" }}>
-                      <FaPhone style={{ marginRight: "8px" }} />
-                      Phone:{" "}
+                    <Space>
+                      <FaPhone />
+                      <Text strong>Phone:</Text>
                       {isEditing ? (
                         <Input
                           value={editedListing.labPhoneNumber}
@@ -229,12 +256,12 @@ function Details() {
                       ) : (
                         listing.labPhoneNumber
                       )}
-                    </Text>
+                    </Space>
                   </List.Item>
                   <List.Item>
-                    <Text style={{ display: "flex", alignItems: "center" }}>
-                      <FaEnvelope style={{ marginRight: "8px" }} />
-                      Email:{" "}
+                    <Space>
+                      <FaEnvelope />
+                      <Text strong>Email:</Text>
                       {isEditing ? (
                         <Input
                           value={editedListing.labEmail}
@@ -245,12 +272,12 @@ function Details() {
                       ) : (
                         listing.labEmail
                       )}
-                    </Text>
+                    </Space>
                   </List.Item>
                   <List.Item>
-                    <Text style={{ display: "flex", alignItems: "center" }}>
-                      <FaGlobe style={{ marginRight: "8px" }} />
-                      Website:{" "}
+                    <Space>
+                      <FaGlobe />
+                      <Text strong>Website:</Text>
                       {isEditing ? (
                         <Input
                           value={editedListing.labWebsite}
@@ -261,14 +288,14 @@ function Details() {
                       ) : (
                         listing.labWebsite
                       )}
-                    </Text>
+                    </Space>
                   </List.Item>
                   <List.Item>
-                    <Text style={{ display: "flex", alignItems: "center" }}>
-                      <FaClock style={{ marginRight: "8px" }} />
-                      Operating Hours:{" "}
+                    <Space>
+                      <FaClock />
+                      <Text strong>Operating Hours:</Text>
                       {isEditing ? (
-                        <>
+                        <Space>
                           <TimePicker
                             value={dayjs(editedListing.labOpeningTime, "HH:mm")}
                             onChange={(time) =>
@@ -278,8 +305,9 @@ function Details() {
                               )
                             }
                             format="HH:mm"
+                            size="large"
                           />
-                          {" - "}
+                          <Text>to</Text>
                           <TimePicker
                             value={dayjs(editedListing.labClosingTime, "HH:mm")}
                             onChange={(time) =>
@@ -289,18 +317,18 @@ function Details() {
                               )
                             }
                             format="HH:mm"
+                            size="large"
                           />
-                        </>
+                        </Space>
                       ) : (
                         `${listing.labOpeningTime} - ${listing.labClosingTime}`
                       )}
-                    </Text>
+                    </Space>
                   </List.Item>
                 </List>
 
-                <div style={{ marginTop: "16px" }}>
+                <div>
                   <Title level={5}>Operating Days:</Title>
-
                   {isEditing ? (
                     <Select
                       mode="multiple"
@@ -318,18 +346,29 @@ function Details() {
                         { value: "Saturday", label: "Saturday" },
                         { value: "Sunday", label: "Sunday" },
                       ]}
+                      size="large"
                     />
                   ) : (
                     <List
-                      grid={{ gutter: 16, xs: 2, sm: 3, md: 4 }}
+                      grid={{
+                        gutter: 16,
+                        xs: 1,
+                        sm: 2,
+                        md: 3,
+                        lg: 4,
+                        xl: 4,
+                        xxl: 4,
+                      }}
                       dataSource={listing.labOperatingDays}
-                      renderItem={(day, index) => (
-                        <List.Item key={index}>{day}</List.Item>
+                      renderItem={(day) => (
+                        <List.Item>
+                          <Card size="small">{day}</Card>
+                        </List.Item>
                       )}
                     />
                   )}
                 </div>
-              </div>
+              </Space>
             </Card>
           </Col>
           {isLabOwner == 1 && isLabOwner != undefined && (
