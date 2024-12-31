@@ -184,8 +184,8 @@ const UserProfile = () => {
         </Row>
       </Card>
 
-      <Row gutter={24} style={{ marginTop: '20px' }}>
-        <Col span={6}>
+      <Row gutter={[24, 24]} style={{ marginTop: '20px' }}>
+        <Col xs={24} sm={12} lg={6}>
           <Card title="Latest Health Report">
             <Statistic title="Total Tests" value={healthStats?.latestHealthReport?.totalTests} />
             <Statistic title="Attended" value={healthStats?.latestHealthReport?.attended} />
@@ -193,7 +193,7 @@ const UserProfile = () => {
             <Button icon={<DownloadOutlined />}>Download Report</Button>
           </Card>
         </Col>
-        <Col span={6}>
+        <Col xs={24} sm={12} lg={6}>
           <Card title="Monthly Statistics">
             <Statistic title="Total Points" value={healthStats?.monthlyStats?.totalPoint} />
             <Statistic title="Average" value={healthStats?.monthlyStats?.average} />
@@ -202,7 +202,7 @@ const UserProfile = () => {
             <Button>View Details</Button>
           </Card>
         </Col>
-        <Col span={6}>
+        <Col xs={24} sm={12} lg={6}>
           <Card title="Latest Test Report">
             <Statistic title="Total Exams" value={healthStats?.latestTestReport?.totalExams} />
             <Statistic title="Attempted" value={healthStats?.latestTestReport?.attempted} />
@@ -211,7 +211,7 @@ const UserProfile = () => {
             <Button icon={<DownloadOutlined />}>Download Report</Button>
           </Card>
         </Col>
-        <Col span={6}>
+        <Col xs={24} sm={12} lg={6}>
           <Card title="Assignment">
             <Statistic title="Total" value={healthStats?.assignment?.total} />
             <Statistic title="Attempted" value={healthStats?.assignment?.attempted} />
@@ -220,8 +220,7 @@ const UserProfile = () => {
             <Button>View Details</Button>
           </Card>
         </Col>
-      </Row>
-    </div>
+      </Row>    </div>
   );
 
   const renderBookings = () => (
@@ -290,7 +289,7 @@ const UserProfile = () => {
   return (
     <Layout className="user-profile">
       <Header style={{ background: '#fff', padding: '0 20px', marginTop: '50px', display: 'flow' }}>
-        <Row style={{justifyContent: 'space-between'}} align="middle">
+        <Row style={{ justifyContent: 'space-between' }} align="middle">
           <Col>
             <Button icon={<ArrowLeftOutlined />} onClick={() => navigate(-1)} style={{ marginRight: '1.5vw' }} />
           </Col>

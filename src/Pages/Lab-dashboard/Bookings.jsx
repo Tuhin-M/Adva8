@@ -125,8 +125,8 @@ const Bookings = () => {
           status === "Confirmed"
             ? "green"
             : status === "Waiting"
-            ? "gold"
-            : "red";
+              ? "gold"
+              : "red";
         return <Tag color={color}>{status}</Tag>;
       },
       responsive: ["xs", "sm", "md", "lg", "xl"],
@@ -198,7 +198,7 @@ const Bookings = () => {
       <Content
         style={{
           padding: "0.75rem",
-          marginLeft: "16%",
+          marginLeft: "80px",
           backgroundColor: "#f0f2f5",
           marginTop: "4rem",
         }}

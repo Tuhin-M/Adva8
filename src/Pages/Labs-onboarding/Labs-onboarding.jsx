@@ -98,6 +98,18 @@ function LabsOnboarding() {
           </Row>
 
           <Row gutter={16}>
+            <Col xs={24}>
+              <Form.Item
+                label="Description"
+                name="labDescription"
+                rules={[{ required: true, message: 'Please enter lab description' }]}
+              >
+                <Input.TextArea rows={4} placeholder="Enter Lab Description" />
+              </Form.Item>
+            </Col>
+          </Row>
+
+          <Row gutter={16}>
             <Col xs={24} sm={12}>
               <Form.Item
                 label="Phone Number"

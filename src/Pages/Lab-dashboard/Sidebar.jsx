@@ -7,12 +7,12 @@ import "../../Sidebar/Sidebar.css";
 const { Sider } = Layout;
 
 const Sidebar = () => {
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
 
   return (
     <Sider
-    className="sidebar-container"
-      breakpoint="md"
+      className="sidebar-container"
+      breakpoint="xxl"
       collapsible
       collapsed={collapsed}
       onCollapse={(value) => setCollapsed(value)}

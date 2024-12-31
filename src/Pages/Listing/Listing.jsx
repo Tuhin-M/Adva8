@@ -53,7 +53,6 @@ function Listing() {
   const result = filteredProducts.map(
     ({ id, img, name, star, reviews, prevPrice, newPrice }) => (
       <Row key={id || name} xs={24} sm={12} md={8} lg={6} xl={4}>
-        {/* <Col xs={24} sm={12} md={15} lg={20}> */}
         <Card
           img={img}
           name={name}
@@ -62,7 +61,6 @@ function Listing() {
           prevPrice={prevPrice}
           newPrice={newPrice}
         />
-        {/* </Col> */}
       </Row>
     )
   );

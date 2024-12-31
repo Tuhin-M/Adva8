@@ -1,9 +1,9 @@
-import { IconBase } from "react-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLocationArrow } from "@fortawesome/free-solid-svg-icons";
 import React, { useState, useEffect } from "react";
 import "./Slider/Slider.css";
 import { Link } from "react-router-dom";
+import { Col } from "antd";
 
 function Card() {
   const [defaultImage, setDefaultImage] = useState({});
@@ -29,8 +29,9 @@ function Card() {
     <>
       {data && data.length
         ? data.map((item, index) => (
+          <Col xs={24} sm={12} lg={6} className="card-column">
             <Link
-              className="card"
+              className="card-body"
               id="RouterNavLink"
               to={`/details/${item._id}`}
               key={index}
@@ -60,7 +61,8 @@ function Card() {
                 </div>
               </section>
             </Link>
-          ))
+          </Col>
+        ))
         : null}
     </>
   );

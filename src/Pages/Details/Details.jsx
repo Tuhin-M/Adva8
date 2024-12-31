@@ -192,15 +192,6 @@ function Details() {
                     </Button>
                   )}
                   {isLabOwner == 1 && (
-
-
-
-
-
-
-
-
-
                     <Space direction="vertical" style={{ width: '100%' }}>
                       <Button
                         type="primary"
