@@ -51,14 +51,14 @@ function Sp({ data }) {
         {data && data.length
           ? data.map((item, index) => (
               <Link to={`/details/${item._id}`} key={index}>
-                <section className="slider-card" style={{ height: '400px', display: 'flex', flexDirection: 'column' }}>
+                <section className="slider-card">
                   <div className="card-top">
-                    <img src={item.labImageUrls} height={200} style={{ width: '100%', objectFit: 'cover' }} />
+                    <img src={item.labImageUrls} height={10} />
                     <div className="lab-info-listing">
                       <span>{item.labName}</span>
                     </div>
                   </div>
-                  <div className="card-bottom" style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                  <div className="card-bottom">
                     <section className="location">
                       <div className="location-icon">
                         <FontAwesomeIcon icon={faLocationArrow} />
@@ -68,7 +68,9 @@ function Sp({ data }) {
                         {item.labPin}
                       </p>
                     </section>
+                    {/* <a href="details"> */}
                     <button className="tests">View Tests and Packages</button>
+                    {/* </a> */}
                   </div>
                 </section>
               </Link>
