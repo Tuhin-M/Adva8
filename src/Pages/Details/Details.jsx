@@ -120,23 +120,33 @@ function Details() {
       {listing && !loading && !error && (
         <Row gutter={[24, 24]}>
           <Col xs={24}>
-            <Swiper navigation className="details-swiper">
-              {listing?.labImageUrls.map((url) => (
-                <SwiperSlide key={url}>
-                  <div
-                    className="h-[550px]"
-                    style={{
-                      background: `url(${url}) center no-repeat`,
-                      backgroundSize: "cover",
-                      borderRadius: "8px",
-                    }}
-                  ></div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
+            <Card className="image-card" bordered={false}>
+              <Swiper navigation className="details-swiper">
+                {listing?.labImageUrls.map((url) => (
+                  <SwiperSlide key={url}>
+                    <div
+                      className="h-[550px]"
+                      style={{
+                        background: `url(${url}) center no-repeat`,
+                        backgroundSize: "cover",
+                        borderRadius: "12px",
+                        boxShadow: "0 4px 12px rgba(0,0,0,0.1)"
+                      }}
+                    ></div>
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </Card>
           </Col>
           <Col xs={24}>
-            <Card className="labs-details" bordered={false}>
+            <Card 
+              className="labs-details" 
+              bordered={false}
+              style={{
+                borderRadius: "12px",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.05)"
+              }}
+            >
               <Row gutter={[16, 16]} justify="space-between" align="middle">
                 <Col xs={24} md={18}>
                   <Space direction="vertical" size="large" style={{ width: '100%' }}>
@@ -147,9 +157,10 @@ function Details() {
                         onChange={(e) =>
                           handleInputChange("labName", e.target.value)
                         }
+                        style={{ borderRadius: "8px" }}
                       />
                     ) : (
-                      <Title level={2} style={{ color: "#0d9488", margin: 0 }}>
+                      <Title level={2} style={{ color: "#56BBB3", margin: 0, fontSize: "32px" }}>
                         {listing.labName}
                       </Title>
                     )}
@@ -166,13 +177,19 @@ function Details() {
                           handleInputChange("labState", state);
                           handleInputChange("labPin", pin);
                         }}
+                        style={{ borderRadius: "8px" }}
                       />
                     ) : (
                       <Text
                         type="secondary"
-                        style={{ display: "flex", alignItems: "center" }}
+                        style={{ 
+                          display: "flex", 
+                          alignItems: "center",
+                          fontSize: "16px",
+                          color: "#666"
+                        }}
                       >
-                        <FaMapMarkerAlt style={{ marginRight: "8px" }} />
+                        <FaMapMarkerAlt className="mr-8" style={{ color: "#56BBB3" }}/>
                         {listing.labAddress}, {listing.labCity},{" "}
                         {listing.labState}, {listing.labPin}
                       </Text>
@@ -184,9 +201,15 @@ function Details() {
                     <Button
                       type="primary"
                       size="large"
-                      style={{ backgroundColor: "#0d9488" }}
+                      style={{ 
+                        backgroundColor: "#56BBB3",
+                        borderRadius: "8px",
+                        height: "48px",
+                        fontSize: "16px",
+                        boxShadow: "0 2px 8px rgba(86,187,179,0.2)"
+                      }}
                       href={"/make-booking/" + params?.listingId}
-                      block
+                      className="details-button"
                     >
                       Make Booking
                     </Button>
@@ -197,8 +220,14 @@ function Details() {
                         type="primary"
                         size="large"
                         onClick={isEditing ? handleSave : () => setIsEditing(true)}
-                        style={{ backgroundColor: "#0d9488" }}
-                        block
+                        style={{ 
+                          backgroundColor: "#56BBB3",
+                          borderRadius: "8px",
+                          height: "48px",
+                          fontSize: "16px",
+                          boxShadow: "0 2px 8px rgba(86,187,179,0.2)"
+                        }}
+                        className="details-button"
                       >
                         {isEditing ? "Save" : "Edit"}
                       </Button>
@@ -206,7 +235,12 @@ function Details() {
                         <Button
                           size="large"
                           onClick={handleCancel}
-                          block
+                          className="details-button"
+                          style={{ 
+                            borderRadius: "8px",
+                            height: "48px",
+                            fontSize: "16px"
+                          }}
                         >
                           Cancel
                         </Button>
@@ -216,26 +250,13 @@ function Details() {
                 </Col>
               </Row>
 
-              <Divider />
+              <Divider style={{ margin: "24px 0" }}/>
 
               <Space direction="vertical" size="large" style={{ width: '100%' }}>
-                {/* {isEditing ? (
-                  <TextArea
-                    value={editedListing.description}
-                    onChange={(e) =>
-                      handleInputChange("description", e.target.value)
-                    }
-                    rows={4}
-                    size="large"
-                  />
-                ) : (
-                  <Text>{listing.description}</Text>
-                )} */}
-
                 <List size="large" split={false}>
                   <List.Item>
                     <Space>
-                      <FaPhone />
+                      <FaPhone className="mr-3" style={{ color: "#56BBB3" }}/>
                       <Text strong>Phone:</Text>
                       {isEditing ? (
                         <Input
@@ -243,15 +264,16 @@ function Details() {
                           onChange={(e) =>
                             handleInputChange("labPhoneNumber", e.target.value)
                           }
+                          style={{ borderRadius: "8px" }}
                         />
                       ) : (
-                        listing.labPhoneNumber
+                        <Text style={{ color: "#666" }}>{listing.labPhoneNumber}</Text>
                       )}
                     </Space>
                   </List.Item>
                   <List.Item>
                     <Space>
-                      <FaEnvelope />
+                      <FaEnvelope className="mr-3" style={{ color: "#56BBB3" }}/>
                       <Text strong>Email:</Text>
                       {isEditing ? (
                         <Input
@@ -259,15 +281,16 @@ function Details() {
                           onChange={(e) =>
                             handleInputChange("labEmail", e.target.value)
                           }
+                          style={{ borderRadius: "8px" }}
                         />
                       ) : (
-                        listing.labEmail
+                        <Text style={{ color: "#666" }}>{listing.labEmail}</Text>
                       )}
                     </Space>
                   </List.Item>
                   <List.Item>
                     <Space>
-                      <FaGlobe />
+                      <FaGlobe className="mr-3" style={{ color: "#56BBB3" }}/>
                       <Text strong>Website:</Text>
                       {isEditing ? (
                         <Input
@@ -275,15 +298,16 @@ function Details() {
                           onChange={(e) =>
                             handleInputChange("labWebsite", e.target.value)
                           }
+                          style={{ borderRadius: "8px" }}
                         />
                       ) : (
-                        listing.labWebsite
+                        <Text style={{ color: "#666" }}>{listing.labWebsite}</Text>
                       )}
                     </Space>
                   </List.Item>
                   <List.Item>
                     <Space>
-                      <FaClock />
+                      <FaClock className="mr-3" style={{ color: "#56BBB3" }}/>
                       <Text strong>Operating Hours:</Text>
                       {isEditing ? (
                         <Space>
@@ -297,6 +321,7 @@ function Details() {
                             }
                             format="HH:mm"
                             size="large"
+                            style={{ borderRadius: "8px" }}
                           />
                           <Text>to</Text>
                           <TimePicker
@@ -309,21 +334,22 @@ function Details() {
                             }
                             format="HH:mm"
                             size="large"
+                            style={{ borderRadius: "8px" }}
                           />
                         </Space>
                       ) : (
-                        `${listing.labOpeningTime} - ${listing.labClosingTime}`
+                        <Text style={{ color: "#666" }}>{`${listing.labOpeningTime} - ${listing.labClosingTime}`}</Text>
                       )}
                     </Space>
                   </List.Item>
                 </List>
 
                 <div>
-                  <Title level={5}>Operating Days:</Title>
+                  <Title level={5} style={{ marginBottom: "16px" }}>Operating Days:</Title>
                   {isEditing ? (
                     <Select
                       mode="multiple"
-                      style={{ width: "100%" }}
+                      style={{ width: "100%", borderRadius: "8px" }}
                       value={editedListing.labOperatingDays}
                       onChange={(value) =>
                         handleInputChange("labOperatingDays", value)
@@ -353,7 +379,16 @@ function Details() {
                       dataSource={listing.labOperatingDays}
                       renderItem={(day) => (
                         <List.Item>
-                          <Card size="small">{day}</Card>
+                          <Card 
+                            size="small"
+                            style={{
+                              borderRadius: "8px",
+                              backgroundColor: "#f5f5f5",
+                              textAlign: "center"
+                            }}
+                          >
+                            {day}
+                          </Card>
                         </List.Item>
                       )}
                     />
